@@ -16,6 +16,7 @@
 	<modules>
 		<module>knowrad-backend</module>
 		<module>knowrad-importer</module>
+		<module>knowrad-web</module>
   	</modules>
 	
 	<dependencies>
