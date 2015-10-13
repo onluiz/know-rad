@@ -15,6 +15,7 @@
 
 	<modules>
 		<module>knowrad-backend</module>
+		<module>knowrad-importer</module>
   	</modules>
 	
 	<dependencies>
