@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workingSetManager>
+<workingSet editPageId="org.eclipse.ui.resourceWorkingSetPage" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1444778052252_0" label="knowrad" name="knowrad">
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/knowrad" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/knowrad-backend" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/knowrad-importer" type="4"/>
+<item factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/knowrad-web" type="4"/>
+</workingSet>
+<workingSet aggregate="true" factoryID="org.eclipse.ui.internal.WorkingSetFactory" id="1444778209196_1" label="Window Working Set" name="Aggregate for window 1444778209196"/>
+</workingSetManager>

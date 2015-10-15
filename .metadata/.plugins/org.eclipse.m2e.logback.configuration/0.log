@@ -1,0 +1,83 @@
+2015-10-13 20:14:12,858 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using NULL lifecycle mapping for MavenProject: org.knowrad:knowrad:1.0.0 @ /home/luiz/Documents/development/workspace-know-rad/knowrad/pom.xml.
+2015-10-13 20:14:15,266 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/junit/junit/4.12/junit-4.12.pom
+2015-10-13 20:14:15,560 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/junit/junit/4.12/junit-4.12.pom
+2015-10-13 20:14:15,870 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/junit/junit/4.12/junit-4.12.jar
+2015-10-13 20:14:17,086 [Worker-9] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/junit/junit/4.12/junit-4.12.jar
+2015-10-13 20:14:17,820 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: org.knowrad:knowrad-backend:1.0.0 @ /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-backend/pom.xml.
+2015-10-13 20:14:17,878 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: org.knowrad:knowrad-importer:1.0.0 @ /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/pom.xml.
+2015-10-13 20:14:18,098 [Worker-9] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: org.knowrad:knowrad-web:1.0.0 @ /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-web/pom.xml.
+2015-10-13 20:14:18,911 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-backend/src/main/java
+2015-10-13 20:14:18,912 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-backend/src/test/java
+2015-10-13 20:14:19,653 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-web/src/main/java
+2015-10-13 20:14:19,653 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-web/src/test/java
+2015-10-13 20:14:19,714 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-importer/src/main/java
+2015-10-13 20:14:19,716 [Worker-9] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /knowrad-importer/src/test/java
+2015-10-13 20:14:20,598 [Worker-9] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Imported and configured 4 project(s) in 8 sec
+2015-10-13 20:14:21,587 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:21,587 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-backend/src/main/resources
+2015-10-13 20:14:21,591 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:21,591 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-backend/src/test/resources
+2015-10-13 20:14:22,012 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:22,012 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:14:22,014 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:22,014 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:14:22,068 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:22,068 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-web/src/main/resources
+2015-10-13 20:14:22,070 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:14:22,070 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-web/src/test/resources
+2015-10-13 20:15:27,042 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:15:27,042 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:15:27,045 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:15:27,045 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:15:58,561 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:15:58,561 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:15:58,567 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:15:58,567 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:16:16,181 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:16,182 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:16:16,184 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:16,185 [Worker-2] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:16:21,575 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:21,575 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:16:21,577 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:21,577 [Worker-9] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:16:28,477 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:28,478 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:16:28,482 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:28,482 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:16:36,060 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:36,061 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:16:36,062 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:36,062 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:16:38,283 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:38,284 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:16:38,287 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:16:38,287 [Worker-8] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:08,428 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:08,429 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:08,434 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:08,434 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:13,147 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:13,148 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:13,150 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:13,150 [Worker-4] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:20,857 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:20,857 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:20,860 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:20,860 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:26,941 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:26,942 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:26,944 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:26,944 [Worker-1] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:33,364 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:33,364 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:33,365 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:33,365 [Worker-0] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:17:42,152 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:42,153 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:17:42,157 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:17:42,158 [Worker-7] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources
+2015-10-13 20:18:01,859 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:18:01,859 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/main/resources
+2015-10-13 20:18:01,861 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2015-10-13 20:18:01,861 [Worker-11] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory /home/luiz/Documents/development/workspace-know-rad/knowrad/knowrad-importer/src/test/resources

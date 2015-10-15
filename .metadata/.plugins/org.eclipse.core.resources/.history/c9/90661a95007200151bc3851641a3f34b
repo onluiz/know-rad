@@ -1,0 +1,9 @@
+package org.knowrad;
+
+import org.junit.Test;
+
+public class MainTest {
+
+	@Test
+	
+}
