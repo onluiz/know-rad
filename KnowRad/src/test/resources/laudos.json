@@ -1,0 +1,28 @@
+{
+
+	"listLaudos": [
+	
+		{
+			"titulo": "<h2>RADIOGRAFIA DO CRÂNIO PA/PERFIL</h2>",
+			"texto": "ASPECTOS OBSERVADOS:<br><br>Estruturas ósseas visualizadas anatômicas. <br><br>Sela túrsica de dimensões normais e configuração anatômica.<br><br>Ausência de calcificações patológicas intracranianas.<br><br>Partes moles sem alterações radiológicas significativas.<br><br>IMPRESSÃO DIAGNÓSTICA: Exame de aspecto normal.",
+			"nomePaciente": "PACIENTE DE TESTE1",
+			"idPaciente": 1
+		},
+
+		{
+			"titulo": "<h2>RADIOGRAFIA DOS SEIOS DA FACE</h2>",
+			"texto": "ASPECTOS OBSERVADOS:<br><br>Seios maxilares simétricos, de paredes íntegras e finas e de transparência normal.<br><br>Etmóides transparentes, com septos intercelulares conservados.<br><br>Seios frontais de transparência normal e contornos regulares.<br><br>IMPRESSÃO DIAGNÓSTICA: Exame de aspecto normal.",
+			"nomePaciente": "PACIENTE DE TESTE1",
+			"idPaciente": 1
+		},
+
+		{
+			"titulo": "<h2>RADIOGRAFIA DA COLUNA VERTEBRAL TOTAL </h2>",
+			"texto": "ASPECTOS OBSERVADOS:<br><br>Eixo longitudinal normal da coluna vertebral.<br><br>Cristas ilíacas niveladas.<br><br>Corpos vertebrais íntegros e alinhados.<br><br>Espaços discais preservados.<br><br>Elementos do arco posterior normais.<br><br>Articulações interapofisárias normais. ",
+			"nomePaciente": "PACIENTE DE TESTE1",
+			"idPaciente": 1
+		}
+
+	]
+
+}
