@@ -23,6 +23,71 @@ import com.google.gson.JsonParser;
 public class IndexingTest {
 
 	@Test
+	public void readAndIndexJson() {
+		
+		/**
+		 * Realiza a leitura de um arquivo JSON com os modelos de laudo
+		 */
+		ClassLoader classLoader = getClass().getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream("laudos.json");
+		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
+		
+		try {
+			
+			String content = IOUtils.toString(inputStream);
+			
+			JsonElement jelement = new JsonParser().parse(content);
+			JsonObject jobject = jelement.getAsJsonObject();
+			JsonArray jarray = jobject.getAsJsonArray("listLaudos");
+			
+			for(int i = 0; i < jarray.size(); i++) {
+				
+				JsonObject item = jarray.get(i).getAsJsonObject();
+
+				LaudoDTO dto = new LaudoDTO();
+				dto.setIdPaciente(item.get("idPaciente").getAsLong());
+				dto.setNomePaciente(item.get("nomePaciente").getAsString());
+				dto.setTitulo(item.get("titulo").getAsString());
+				dto.setTexto(item.get("texto").getAsString());
+				listLaudo.add(dto);
+
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		/**
+		 * Indexa laudos coletados do arquivo json
+		 */
+		/**
+		 * TODO VERIFICAR COMO CRIAR CORE LAUDOS NO SOLR
+		 */
+		String urlString = "http://localhost:8983/solr/techproducts";
+		SolrClient solr = new HttpSolrClient(urlString);
+		
+		try {
+			
+			for(LaudoDTO laudoDTO : listLaudo) {
+				SolrInputDocument document = new SolrInputDocument();
+				document.addField("idPaciente", laudoDTO.getIdPaciente());
+				document.addField("nomePaciente", laudoDTO.getNomePaciente());
+				document.addField("titulo", laudoDTO.getTitulo());
+				document.addField("texto", laudoDTO.getTexto());
+				solr.add(document);
+			}
+			solr.commit();
+			solr.close();
+			
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	@Test
 	public void indexDataTest() {
 		
 		String urlString = "http://localhost:8983/solr/techproducts";
