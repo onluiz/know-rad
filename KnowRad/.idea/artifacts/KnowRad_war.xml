@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="KnowRad:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="KnowRad.war">
+      <element id="artifact" artifact-name="KnowRad:war exploded" />
+    </root>
+  </artifact>
+</component>

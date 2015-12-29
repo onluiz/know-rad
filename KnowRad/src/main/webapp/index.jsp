@@ -11,12 +11,12 @@
 
         <script>
             function search() {
-                var text = document.getElementById("search-text").value;
+                var search = document.getElementById("search-text").value;
                 $.ajax({
                     type: "GET",
-                    url: '<c:url value="/search/" />',
+                    url: '<c:url value="/searchLaudos/search" />',
                     cache: false,
-                    data: ({text: text})
+                    data: ({search: search})
                 }).done(function (data) {
 
                     if(data == null || data.length == 0)
@@ -31,17 +31,12 @@
                         var item = data[i];
 
                         result += "<div>";
-
-                        result += "Pk: " + item.pk + "<br>";
-
-                        result += "AN: " + item.accessionNo + "<br>";
-
-                        result += "Paciente: " + item.patName + "<br>";
-
+                        result += "ID PACIENTE: " + item.idPaciente + "<br>";
+                        result += "Paciente: " + item.nomePaciente + "<br>";
+                        result += "Modalidade: " + item.modalidade + "<br>";
+                        result += "Título: " + item.titulo + "<br>";
                         result += "Laudo: " + item.texto + "<br>";
-
                         result += "<div />";
-
                         result += "<br>";
 
                     }
@@ -60,14 +55,6 @@
 
     <body>
         <div>
-            <label>Últimas pesquisas:</label>
-            <div>littleanx123</div>
-            <div>JACI LEMOS CORREA^^^^</div>
-        </div>
-
-        <br>
-
-        <div>
             <label for="search-text">Digite o que deseja buscar:</label>
             <input id="search-text" onkeypress="enterSearchEvt(event);" style="width: 500px">
             <button onclick="search();">Buscar</button>
@@ -77,5 +64,6 @@
 
         <label>Resultados:</label>
         <div id="resultados"></div>
+
     </body>
 </html>
