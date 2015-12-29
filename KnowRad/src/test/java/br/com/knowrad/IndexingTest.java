@@ -10,9 +10,11 @@ import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.impl.HttpSolrClient.RemoteSolrException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.gson.JsonArray;
@@ -22,7 +24,20 @@ import com.google.gson.JsonParser;
 
 public class IndexingTest {
 
+	//solr start
+	//solr create -c laudos
+	//solr status
+	//solr stop -all
+	/*
+	 * Após indexar, ir até o diretório solr-5.4.0\server\solr\laudos\conf e abrir o arquivo managed-schema
+	 * localizar os campos indexados (ctrl + F idPaciente, por exemplo) 
+	 * e ajustar o tipo de cada um para o singular (longs para log, strings para string, etc)
+	 * parar o solr (solr stop -all) e iniciar (solr start).
+	 * Realizar nova query e verificar se o JSON retornado está no formato correto.
+	 */
+	
 	@Test
+	@Ignore
 	public void readAndIndexJson() {
 		
 		/**
@@ -44,12 +59,15 @@ public class IndexingTest {
 				
 				JsonObject item = jarray.get(i).getAsJsonObject();
 
-				LaudoDTO dto = new LaudoDTO();
-				dto.setIdPaciente(item.get("idPaciente").getAsLong());
-				dto.setNomePaciente(item.get("nomePaciente").getAsString());
-				dto.setTitulo(item.get("titulo").getAsString());
-				dto.setTexto(item.get("texto").getAsString());
-				listLaudo.add(dto);
+				if(item != null) {
+					LaudoDTO dto = new LaudoDTO();
+					dto.setIdPaciente(verifyLong(item.get("idpaciente")));
+					dto.setNomePaciente(verifyString(item.get("nomepaciente")));
+					dto.setTitulo(verifyString(item.get("titulo")));
+					dto.setTexto(verifyString(item.get("texto")));
+					dto.setModalidade(verifyString(item.get("modalidade")));
+					listLaudo.add(dto);
+				}
 
 			}
 			
@@ -74,10 +92,17 @@ public class IndexingTest {
 				document.addField("nomePaciente", laudoDTO.getNomePaciente());
 				document.addField("titulo", laudoDTO.getTitulo());
 				document.addField("texto", laudoDTO.getTexto());
-				solr.add(document);
+				document.addField("modalidade", laudoDTO.getModalidade());
+				try {
+					solr.add(document);
+				} catch(RemoteSolrException e) {
+				}
+				
+				System.out.println("NOVO LAUDO INDEXADO: " + laudoDTO.getIdPaciente());
 			}
 			solr.commit();
 			solr.close();
+			System.out.println("FIM DA INDEXAÇÃO");
 			
 		} catch (SolrServerException e) {
 			e.printStackTrace();
@@ -88,6 +113,7 @@ public class IndexingTest {
 	}
 	
 	@Test
+	@Ignore
 	public void indexDataTest() {
 		
 		String urlString = "http://localhost:8983/solr/techproducts";
@@ -114,6 +140,7 @@ public class IndexingTest {
 	}
 	
 	@Test
+	@Ignore
 	public void queryDataTest() {
 		
 		String urlString = "http://localhost:8983/solr/techproducts";
@@ -137,6 +164,7 @@ public class IndexingTest {
 	}
 	
 	@Test
+	@Ignore
 	public void readJsonFile() {
 		
 		ClassLoader classLoader = getClass().getClassLoader();
@@ -156,12 +184,15 @@ public class IndexingTest {
 				
 				JsonObject item = jarray.get(i).getAsJsonObject();
 
-				LaudoDTO dto = new LaudoDTO();
-				dto.setIdPaciente(item.get("idPaciente").getAsLong());
-				dto.setNomePaciente(item.get("nomePaciente").getAsString());
-				dto.setTitulo(item.get("titulo").getAsString());
-				dto.setTexto(item.get("texto").getAsString());
-				listLaudo.add(dto);
+				if(item != null) {
+					LaudoDTO dto = new LaudoDTO();
+					dto.setIdPaciente(verifyLong(item.get("idpaciente")));
+					dto.setNomePaciente(verifyString(item.get("nomepaciente")));
+					dto.setTitulo(verifyString(item.get("titulo")));
+					dto.setTexto(verifyString(item.get("texto")));
+					dto.setModalidade(verifyString(item.get("modalidade")));
+					listLaudo.add(dto);
+				}
 
 			}
 			
@@ -171,11 +202,34 @@ public class IndexingTest {
 		
 	}
 	
+	private Long verifyLong(JsonElement jelement) {
+		if(jelement == null)
+			return new Long(0);
+		
+		try {
+			return jelement.getAsLong();
+		} catch(UnsupportedOperationException e) {
+			return new Long(0);
+		}
+	}
+	
+	private String verifyString(JsonElement jelement) {
+		if(jelement == null)
+			return "";
+
+		try {
+			return jelement.getAsString();
+		} catch(UnsupportedOperationException e) {
+			return "";
+		}
+	}
+	
 	class LaudoDTO {
 		
 		private String titulo;
 		private String texto;
 		private String nomePaciente;
+		private String modalidade;
 		private Long idPaciente;
 		
 		public String getTitulo() {
@@ -202,7 +256,12 @@ public class IndexingTest {
 		public void setIdPaciente(Long idPaciente) {
 			this.idPaciente = idPaciente;
 		}
-		
+		public String getModalidade() {
+			return modalidade;
+		}
+		public void setModalidade(String modalidade) {
+			this.modalidade = modalidade;
+		}
 	}
 	
 }
