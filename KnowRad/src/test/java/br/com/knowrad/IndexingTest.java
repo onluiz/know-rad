@@ -63,7 +63,7 @@ public class IndexingTest {
 		/**
 		 * TODO VERIFICAR COMO CRIAR CORE LAUDOS NO SOLR
 		 */
-		String urlString = "http://localhost:8983/solr/techproducts";
+		String urlString = "http://localhost:8983/solr/laudos";
 		SolrClient solr = new HttpSolrClient(urlString);
 		
 		try {
