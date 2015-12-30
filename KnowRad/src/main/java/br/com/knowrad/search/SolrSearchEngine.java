@@ -1,19 +1,18 @@
 package br.com.knowrad.search;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import br.com.knowrad.dto.LaudoDTO;
+import br.com.knowrad.util.SolrConnection;
+import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
 
-import br.com.knowrad.dto.LaudoDTO;
-import br.com.knowrad.util.SolrConnection;
-import br.com.knowrad.util.Util;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class SolrSearchEngine {
 
@@ -38,15 +37,20 @@ public class SolrSearchEngine {
 			
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
+			Long idLaudo = new Long(0);
 			
 			for(Map solrMap : list) {
+
 				LaudoDTO dto = new LaudoDTO();
+				dto.setIdLaudo("laudo" + idLaudo);
 				dto.setIdPaciente(Util.verifyLong(solrMap.get("idPaciente")));
 				dto.setNomePaciente(Util.verifyString(solrMap.get("nomePaciente")));
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
 				listLaudo.add(dto);
+
+				idLaudo++;
 			}
 			
 		} catch (SolrServerException e) {

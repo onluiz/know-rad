@@ -7,6 +7,7 @@ public class LaudoDTO {
 	private String nomePaciente;
 	private String modalidade;
 	private Long idPaciente;
+	private String idLaudo;
 	
 	public String getTitulo() {
 		return titulo;
@@ -38,5 +39,12 @@ public class LaudoDTO {
 	public void setModalidade(String modalidade) {
 		this.modalidade = modalidade;
 	}
-	
+
+	public String getIdLaudo() {
+		return idLaudo;
+	}
+
+	public void setIdLaudo(String idLaudo) {
+		this.idLaudo = idLaudo;
+	}
 }
