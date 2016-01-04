@@ -9,10 +9,11 @@ solr create -c laudos (create a new core)
 solr status
 solr stop -all
 
-/*
-* Após indexar, ir até o diretório solr-5.4.0\server\solr\laudos\conf e abrir o arquivo managed-schema
-* localizar os campos indexados (ctrl + F idPaciente, por exemplo) 
-* e ajustar o tipo de cada um para o singular (longs para long, strings para string, etc)
-* parar o solr (solr stop -all) e iniciar (solr start).
-* Realizar nova query e verificar se o JSON retornado está no formato correto.
-*/
+Obs:
+
+Após indexar, ir até o diretório solr-5.4.0\server\solr\laudos\conf e abrir o arquivo managed-schema
+localizar os campos indexados (ctrl + F idPaciente, por exemplo) 
+e ajustar o tipo de cada um para o singular (longs para long, strings para string, etc)
+parar o solr (solr stop -all) e iniciar (solr start).
+Realizar nova query e verificar se o JSON retornado está no formato correto.
+
