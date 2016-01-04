@@ -4,12 +4,12 @@ A project for apply knowledge discovery in radiologic notes.
 
 # Solr
 Commands (walk to solr-5.4.0\bin with your terminal/command line):
-solr start
-solr create -c laudos (create a new core)
-solr status
-solr stop -all
+solr start </br>
+solr create -c laudos (create a new core)</br>
+solr status</br>
+solr stop -all</br>
 
-Obs:
+Obs:</br>
 
 Após indexar, ir até o diretório solr-5.4.0\server\solr\laudos\conf e abrir o arquivo managed-schema
 localizar os campos indexados (ctrl + F idPaciente, por exemplo) 
