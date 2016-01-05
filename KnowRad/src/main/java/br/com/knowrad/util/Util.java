@@ -14,7 +14,7 @@ public class Util {
 		try {
 			return String.valueOf(val);
 		} catch(Exception e) {
-			return String.valueOf(val);
+			return "";
 		}
 	}
 	
