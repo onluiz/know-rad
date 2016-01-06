@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.knowrad.dto.PatologiaCaseDTO;
+import br.com.knowrad.dto.PatologiaDTO;
+import br.com.knowrad.util.Util;
 import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -35,7 +38,73 @@ public class IndexingTest {
 	 * parar o solr (solr stop -all) e iniciar (solr start).
 	 * Realizar nova query e verificar se o JSON retornado está no formato correto.
 	 */
-	
+
+	@Test
+	@Ignore
+	public void readAndIndexPatologies() {
+
+		ClassLoader classLoader = getClass().getClassLoader();
+		InputStream inputStream = classLoader.getResourceAsStream("casos-patologia.txt");
+		List<PatologiaCaseDTO> list = new ArrayList<PatologiaCaseDTO>();
+
+		try {
+
+			String content = IOUtils.toString(inputStream);
+			String contents[] = content.split("####INICIOLAUDO####");
+
+			for(int i = 0; i < contents.length; i++) {
+
+				String itens[] = contents[i].split("####SEPARADOR####");
+
+				PatologiaDTO patologia = new PatologiaDTO(Util.verifyString(itens[0]));
+				List<PatologiaDTO> listPatologias = new ArrayList<PatologiaDTO>();
+				listPatologias.add(patologia);
+
+				PatologiaCaseDTO casoPatologia = new PatologiaCaseDTO();
+				casoPatologia.setListPatologiaDTO(listPatologias);
+				casoPatologia.setTituloLaudo(Util.verifyString(itens[1]));
+				casoPatologia.setModalidadeLaudo("CT");
+				casoPatologia.setTextoLaudo(Util.verifyString(itens[2]).replaceAll("\\n", "<br>"));
+				list.add(casoPatologia);
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		/**
+		 * Indexa casos de patologias coletados do arquivo txt
+		 */
+		String urlString = "http://localhost:8983/solr/patologias";
+		SolrClient solr = new HttpSolrClient(urlString);
+
+		try {
+
+			for(PatologiaCaseDTO patologiaCaseDTO : list) {
+				SolrInputDocument document = new SolrInputDocument();
+				document.addField("patologias", patologiaCaseDTO.getListPatologiaDTO().get(0).toString());
+				document.addField("tituloLaudo", patologiaCaseDTO.getTituloLaudo());
+				document.addField("modalidadeLaudo", patologiaCaseDTO.getModalidadeLaudo());
+				document.addField("textoLaudo", patologiaCaseDTO.getTextoLaudo());
+				try {
+					solr.add(document);
+				} catch(RemoteSolrException e) {
+				}
+
+				System.out.println("NOVA PATOLOGIA INDEXADA: " + patologiaCaseDTO.getTituloLaudo());
+			}
+			solr.commit();
+			solr.close();
+			System.out.println("FIM DA INDEXAÇÃO");
+
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 	@Test
 	@Ignore
 	public void readAndIndexJson() {
@@ -77,9 +146,6 @@ public class IndexingTest {
 		
 		/**
 		 * Indexa laudos coletados do arquivo json
-		 */
-		/**
-		 * TODO VERIFICAR COMO CRIAR CORE LAUDOS NO SOLR
 		 */
 		String urlString = "http://localhost:8983/solr/laudos";
 		SolrClient solr = new HttpSolrClient(urlString);
