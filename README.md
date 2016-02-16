@@ -1,4 +1,11 @@
-﻿# know-rad
+- Preparar tela para cadastrar patologias e papear patologias, indexando todas;
+- Verificar estrutura dos laudos importados;
+- Preparar tela para indexação de Laudos;
+- Preparar tela de buscas;
+- Adicionar filtro por modalidades na tela de buscas;
+- Preparar tela de buscas em formato de gráfos;
+
+# know-rad
 
 A project for apply knowledge discovery in radiologic notes.
 
