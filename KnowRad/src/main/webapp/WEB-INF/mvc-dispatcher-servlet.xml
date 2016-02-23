@@ -17,6 +17,12 @@
 	<mvc:resources mapping="/assets/**" location="/assets/" />
 	<mvc:annotation-driven />
 
+	<!-- ASPECTS -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+
+	<!-- PERSISTENSE CONTEXT -->
+	<import resource="classpath*:coreContext.xml" />
+
 	<!-- SPRING MVC CONFIG -->
 	<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
