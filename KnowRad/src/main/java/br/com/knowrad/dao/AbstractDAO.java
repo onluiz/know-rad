@@ -1,4 +1,4 @@
-package br.com.knowrad.entity;
+package br.com.knowrad.dao;
 
 import org.springframework.transaction.annotation.Transactional;
 

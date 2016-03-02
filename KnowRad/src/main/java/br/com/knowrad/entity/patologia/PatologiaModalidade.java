@@ -1,5 +1,7 @@
 package br.com.knowrad.entity.patologia;
 
+import br.com.knowrad.entity.study.Modalidade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 

@@ -1,4 +1,4 @@
-package br.com.knowrad.entity.patologia;
+package br.com.knowrad.entity.study;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +13,10 @@ public class Modalidade implements Serializable {
     private String modalidade;
 
     public Modalidade() {
+    }
+
+    public Modalidade(String modalidade) {
+        this.modalidade = modalidade;
     }
 
     public Modalidade(String modalidade, Long idModalidade) {
