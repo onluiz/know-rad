@@ -23,6 +23,11 @@
 	<!-- PERSISTENSE CONTEXT -->
 	<import resource="classpath*:coreContext.xml" />
 
+	<!-- I18N CONFIG -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+		<property name="defaultLocale" value="pt_BR" />
+	</bean>
+
 	<!-- SPRING MVC CONFIG -->
 	<bean id="defaultViewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
