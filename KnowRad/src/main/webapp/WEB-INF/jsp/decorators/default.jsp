@@ -18,6 +18,12 @@
         <script type="text/javascript" src="<c:url value='/assets/js/jquery-2.1.4.min.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/bootstrap/js/bootstrap.min.js' />"></script>
 
+        <!-- Service -->
+        <script type="text/javascript" src="<c:url value='/assets/js/knowrad/abstract-service.js' />"></script>
+
+        <script>
+            var URL_BASE = "<c:url value='/' />";
+        </script>
         <title>KnowRad</title>
         <decorator:head />
     </head>
@@ -48,9 +54,9 @@
                                     <li><a href="http://getbootstrap.com/examples/theme/#">Dados estátisticos, relatórios, estudar por pentaho aqui</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Cadastros Gerais</li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Patologias</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Casos</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Palavras-chave</a></li>
+                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista de Patologias</a></li>
+                                    <li><a href="<c:url value='/caso/' />">Cadastro/Lista de Casos</a></li>
+                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista de Palavras-chave</a></li>
                                     <li><a href="http://getbootstrap.com/examples/theme/#">Lista de Modalidades</a></li>
                                 </ul>
                             </li>
@@ -68,7 +74,7 @@
             </div>
         </div>
 
-        <div id="main-content" class="clearfix">
+        <div id="main-content" class="clearfix container">
             <div id="page-content" class="clearfix">
                 <decorator:body />
             </div>
