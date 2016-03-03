@@ -31,9 +31,26 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="http://getbootstrap.com/examples/jumbotron/#">KnowRad</a>
+                    <a class="navbar-brand" href="<c:url value='/' />">KnowRad</a>
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="http://getbootstrap.com/examples/theme/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opções <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-header">Principal</li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Busca</a></li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Busca C/ Gráfos</a></li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Dados estátisticos, relatórios, estudar por pentaho aqui</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li class="dropdown-header">Cadastros Gerais</li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Patologias</a></li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Casos</a></li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista Palavras-chave</a></li>
+                            <li><a href="http://getbootstrap.com/examples/theme/#">Lista de Modalidades</a></li>
+                        </ul>
+                    </li>
+                    </ul>
                     <form class="navbar-form navbar-right">
                         <div class="form-group">
                             <input type="text" placeholder="buscar..." class="form-control">
@@ -43,6 +60,10 @@
                 </div><!--/.navbar-collapse -->
             </div>
         </nav>
+
+        <br>
+        <br>
+
     </body>
 
 </html>
