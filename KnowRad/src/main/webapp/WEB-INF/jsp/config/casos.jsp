@@ -10,27 +10,35 @@
 
     <!-- Service -->
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/study/modalidade-service.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/caso-service.js' />"></script>
 
     <script>
         "use strict";
 
         var UICasosController = {
 
-            initModalidades: function() {
-                ModalidadeService.findAllDTO({
-                    done: function(data) {
-                        var listDTO = data;
-                        var modalidadesElement = $("#modalidades");
+            save: function() {
 
-                        listDTO.forEach(function(dto) {
-                            $(modalidadesElement).append(new Option(dto.modalidade, dto.idModalidade));
-                        });
+                var casoSaveResponseDTO = {
+                    titulo: $("#titulo").val(),
+                    laudo: $("#laudo").val(),
+                    listIdModalidades: $("#modalidades").val()
+                };
+
+                console.log(casoSaveResponseDTO);
+
+                CasoService.save(casoSaveResponseDTO, {
+
+                    done: function(data) {
+                        alert("Operação realizada com sucesso.");
                     },
 
-                    fail: function(err) {
+                    err: function(err) {
                         console.log(err);
                     }
+
                 });
+
             },
 
             initChose: function() {
@@ -38,7 +46,6 @@
             },
 
             init: function() {
-                this.initModalidades();
                 this.initChose();
             }
 
@@ -50,9 +57,6 @@
     </script>
 </head>
 <body>
-
-    <h1>Cadastro/Lista de Casos</h1>
-
     <div class="row">
         <div class="col-md-6">
             <h3>Casos Cadastrados</h3>
@@ -66,25 +70,34 @@
             </table>
         </div>
         <div class="col-md-6">
+            <input type="hidden" id="id-caso-edicao" name="id-caso-edicao">
+
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo" class="form-control">
 
             <br>
 
             <label for="modalidades">Modalidades:</label>
+
+            <br>
+
             <select id="modalidades" name="modalidades"
                     data-placeholder="Seleciona as modalidades do caso..."
                     style="width:350px;" multiple class="chosen-select">
+                <c:forEach items="${listModalidadesDTO}" var="modalidadeDTO">
+                    <option value="${modalidadeDTO.idModalidade}">${modalidadeDTO.modalidade}</option>
+                </c:forEach>
             </select>
 
             <br>
+            <br>
 
             <label for="laudo">Laudo:</label>
-            <textarea id="laudo" name="laudo" class="form-control" rows="18"></textarea>
+            <textarea id="laudo" name="laudo" class="form-control" rows="15"></textarea>
 
             <br>
 
-            <a class="btn btn-success">Salvar</a>
+            <a class="btn btn-success" onclick="UICasosController.save();">Salvar</a>
             <a class="btn btn-info">Limpar</a>
         </div>
     </div>

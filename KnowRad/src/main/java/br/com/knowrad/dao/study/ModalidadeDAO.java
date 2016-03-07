@@ -9,4 +9,6 @@ public interface ModalidadeDAO {
     void persist(Modalidade m);
 
     List<Modalidade> findAll();
+
+    Modalidade findById(Long id);
 }

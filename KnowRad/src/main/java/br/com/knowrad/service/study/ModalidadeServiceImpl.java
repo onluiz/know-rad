@@ -29,4 +29,8 @@ public class ModalidadeServiceImpl implements ModalidadeService {
         }};
     }
 
+    public Modalidade findById(Long id) {
+        return modalidadeDAO.findById(id);
+    }
+
 }

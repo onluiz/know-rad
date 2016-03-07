@@ -6,6 +6,10 @@ import br.com.knowrad.entity.study.Modalidade;
 import java.util.List;
 
 public interface ModalidadeService {
+
     List<Modalidade> findAll();
+
     List<ModalidadeDTO> findAllDTO();
+
+    Modalidade findById(Long id);
 }
