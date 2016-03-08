@@ -1,4 +1,4 @@
-- Preparar tela para cadastrar patologias e papear patologias, indexando todas;
+﻿- Preparar tela para cadastrar patologias e papear patologias, indexando todas;
 - Verificar estrutura dos laudos importados;
 - Preparar tela para indexação de Laudos;
 - Preparar tela de buscas;
@@ -24,3 +24,4 @@ e ajustar o tipo de cada um para o singular (longs para long, strings para strin
 parar o solr (solr stop -all) e iniciar (solr start).
 Realizar nova query e verificar se o JSON retornado está no formato correto.
 
+...
