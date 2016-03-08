@@ -4,6 +4,7 @@
 - Preparar tela de buscas;
 - Adicionar filtro por modalidades na tela de buscas;
 - Preparar tela de buscas em formato de gráfos;
+- Usar isso: http://www.graphdracula.net/ ;
 
 # know-rad
 
