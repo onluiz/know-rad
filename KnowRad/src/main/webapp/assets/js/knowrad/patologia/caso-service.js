@@ -10,4 +10,8 @@ var CasoService = {
 
     },
 
+    remove: function(idCaso, callback) {
+        this.service.doGET("remove", ({"idCaso": idCaso}), callback);
+    }
+
 };

@@ -1,10 +1,7 @@
 package br.com.knowrad;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import br.com.knowrad.dto.LaudoDTO;
+import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -14,8 +11,10 @@ import org.apache.solr.common.SolrDocumentList;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.knowrad.dto.LaudoDTO;
-import br.com.knowrad.util.Util;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class WebServiceTest {
 

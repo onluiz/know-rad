@@ -3,6 +3,7 @@
 <head>
     <!-- CSS -->
     <link rel="stylesheet" href="<c:url value='/assets/css/chosen.min.css' />" />
+    <link rel="stylesheet" href="<c:url value='/assets/css/jquery.dataTables.min.css' />" />
 
     <!-- JS -->
     <script type="text/javascript" src="<c:url value='/assets/js/jquery.dataTables.min.js' />"></script>
@@ -25,8 +26,6 @@
                     listIdModalidades: $("#modalidades").val()
                 };
 
-                console.log(casoSaveResponseDTO);
-
                 CasoService.save(casoSaveResponseDTO, {
 
                     done: function(data) {
@@ -41,12 +40,30 @@
 
             },
 
+            remove: function(idCaso) {
+                CasoService.remove(idCaso, {
+
+                    done: function(data) {
+                        alert("Operação realizada com sucesso.");
+                    },
+
+                    err: function(err) {
+                        console.log(err);
+                    }
+
+                });
+            },
+
             initChose: function() {
                 $(".chosen-select").chosen();
             },
 
+            initTable: function() {
+                $("#table").dataTable();
+            },
+
             init: function() {
-                this.initChose();
+                this.initTable();
             }
 
         };
@@ -58,48 +75,33 @@
 </head>
 <body>
     <div class="row">
-        <div class="col-md-6">
-            <h3>Casos Cadastrados</h3>
-            <table class="table">
-                <thead>
+        <h3>Casos Cadastrados</h3>
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                    <th>Título</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>titulo</td>
+                    <td>ações</td>
+                </tr>
+                <c:forEach items="${listCasosDTO}" var="casoDTO">
                     <tr>
-                        <th>Título</th>
-                        <th>Ações</th>
+                        <td>${casoDTO.titulo}</td>
+                        <td>
+                            <a href="#void" class="btn btn-xs btn-info" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Patologias"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Modalidades"><span class="glyphicon glyphicon-queen" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Palavras-chave"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-danger" title="Remover"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                        </td>
                     </tr>
-                </thead>
-            </table>
-        </div>
-        <div class="col-md-6">
-            <input type="hidden" id="id-caso-edicao" name="id-caso-edicao">
-
-            <label for="titulo">Título:</label>
-            <input type="text" id="titulo" name="titulo" class="form-control">
-
-            <br>
-
-            <label for="modalidades">Modalidades:</label>
-
-            <br>
-
-            <select id="modalidades" name="modalidades"
-                    data-placeholder="Seleciona as modalidades do caso..."
-                    style="width:350px;" multiple class="chosen-select">
-                <c:forEach items="${listModalidadesDTO}" var="modalidadeDTO">
-                    <option value="${modalidadeDTO.idModalidade}">${modalidadeDTO.modalidade}</option>
                 </c:forEach>
-            </select>
-
-            <br>
-            <br>
-
-            <label for="laudo">Laudo:</label>
-            <textarea id="laudo" name="laudo" class="form-control" rows="15"></textarea>
-
-            <br>
-
-            <a class="btn btn-success" onclick="UICasosController.save();">Salvar</a>
-            <a class="btn btn-info">Limpar</a>
-        </div>
+            </tbody>
+        </table>
     </div>
 
 </body>

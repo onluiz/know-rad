@@ -1,13 +1,12 @@
 package br.com.knowrad;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import br.com.knowrad.dto.PatologiaCaseDTO;
 import br.com.knowrad.dto.PatologiaDTO;
 import br.com.knowrad.util.Util;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.commons.io.IOUtils;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -20,10 +19,10 @@ import org.apache.solr.common.SolrInputDocument;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class IndexingTest {
 
