@@ -6,6 +6,11 @@
     <strike><b>1 - </b>Adicionar menu no sistema</strike>
     <br>
     <b>2 - </b>Criar  tela de  cadastro de PatologiaCaso
+    <br>Transformar lista pra ajax
+    <br>fazer outras associações
+    <br>refatorar código da tela
+    <br>implementar botão de remover
+    <br>implementar new caso (salvar somente laudo e titulo. Associações podem ser feitas poteriormente).
     <br>
     <b>3 - </b>Criar tela de cadastro de PatologiaPalavraChave
     <br>
