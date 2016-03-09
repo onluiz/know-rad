@@ -14,6 +14,12 @@ var CasoService = {
 
     findAllByidCaso: function(idCaso, callback) {
         this.service.doGET("findAllByidCaso", ({"idCaso": idCaso}), callback);
+    },
+
+    saveCasoModalidade: function(idCaso, idModalidade, callback) {
+
+        this.service.doGET("saveCasoModalidade", ({idCaso: idCaso, idModalidade: idModalidade}), callback);
+
     }
 
 };

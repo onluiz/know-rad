@@ -12,4 +12,6 @@ public interface ModalidadeService {
     List<ModalidadeDTO> findAllDTO();
 
     Modalidade findById(Long id);
+
+    List<ModalidadeDTO> search(String searchText, Integer limit);
 }

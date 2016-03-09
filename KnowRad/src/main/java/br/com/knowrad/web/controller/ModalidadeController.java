@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -15,12 +16,18 @@ import java.util.List;
 public class ModalidadeController {
 
     @Autowired
-    private ModalidadeService modalidadeService;
+    private ModalidadeService service;
 
     @RequestMapping(value = "/findAllDTO", method = { RequestMethod.GET })
     @ResponseBody
     public List<ModalidadeDTO> findAllDTO() {
-        return modalidadeService.findAllDTO();
+        return service.findAllDTO();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/search", method = { RequestMethod.GET })
+    public List<ModalidadeDTO> search(@RequestParam String searchText, @RequestParam Integer limit) {
+        return service.search(searchText, limit);
     }
 
 }

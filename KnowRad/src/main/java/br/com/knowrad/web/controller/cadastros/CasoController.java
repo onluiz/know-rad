@@ -2,7 +2,9 @@ package br.com.knowrad.web.controller.cadastros;
 
 import br.com.knowrad.dto.CasoDTO;
 import br.com.knowrad.dto.study.ModalidadeDTO;
+import br.com.knowrad.entity.patologia.Caso;
 import br.com.knowrad.entity.patologia.CasoModalidade;
+import br.com.knowrad.entity.study.Modalidade;
 import br.com.knowrad.service.patologia.CasoModalidadeService;
 import br.com.knowrad.service.patologia.CasoService;
 import br.com.knowrad.service.study.ModalidadeService;
@@ -67,6 +69,24 @@ public class CasoController {
             listModalidadeDTO.add(dto);
         }
         return listModalidadeDTO;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/saveCasoModalidade", method = { RequestMethod.GET })
+    public void saveCasoModalidade(@RequestParam Long idCaso, @RequestParam Long idModalidade) {
+
+        CasoModalidade casoModalidade = casoModalidadeService.findByIds(idCaso, idModalidade);
+        if(casoModalidade != null && casoModalidade.getIdCasoModalidade() > 0)
+            return;
+
+        Modalidade modalidade = modalidadeService.findById(idModalidade);
+        Caso caso = casoService.findById(idCaso);
+
+        casoModalidade = new CasoModalidade();
+        casoModalidade.setModalidade(modalidade);
+        casoModalidade.setCaso(caso);
+
+        casoModalidadeService.persist(casoModalidade);
     }
 
 }

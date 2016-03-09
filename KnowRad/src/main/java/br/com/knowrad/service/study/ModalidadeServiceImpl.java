@@ -16,10 +16,10 @@ import java.util.List;
 public class ModalidadeServiceImpl implements ModalidadeService {
 
     @Autowired
-    private ModalidadeDAO modalidadeDAO;
+    private ModalidadeDAO dao;
 
     public List<Modalidade> findAll() {
-        return modalidadeDAO.findAll();
+        return dao.findAll();
     }
 
     public List<ModalidadeDTO> findAllDTO() {
@@ -30,7 +30,11 @@ public class ModalidadeServiceImpl implements ModalidadeService {
     }
 
     public Modalidade findById(Long id) {
-        return modalidadeDAO.findById(id);
+        return dao.findById(id);
+    }
+
+    public List<ModalidadeDTO> search(String searchText, Integer limit) {
+        return dao.search(searchText, limit);
     }
 
 }

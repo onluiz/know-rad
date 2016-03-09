@@ -14,4 +14,10 @@ var ModalidadeService = {
 
     },
 
+    search: function(searchText, limit, callback) {
+
+        this.service.doGET("search", ({searchText: searchText, limit: limit}), callback);
+
+    }
+
 };
