@@ -141,13 +141,14 @@
 
             save: function() {
 
-                var casoSaveResponseDTO = {
-                    titulo: $("#titulo").val(),
-                    laudo: $("#laudo").val(),
-                    listIdModalidades: $("#modalidades").val()
+                $("#modal-caso").modal("hide");
+
+                var casoDTO = {
+                    titulo: $("#caso-titulo").val(),
+                    laudo: $("#caso-laudo").html()
                 };
 
-                CasoService.save(casoSaveResponseDTO, {
+                CasoService.save(casoDTO, {
 
                     done: function(data) {
                         alert("Operação realizada com sucesso.");
@@ -199,6 +200,12 @@
 <body>
     <div class="row">
         <h3>Casos Cadastrados</h3>
+
+        <a href="#void" class="btn btn-info" onclick="$('#modal-caso').modal();">Novo Caso</a>
+
+        <br>
+        <br>
+
         <table class="table" id="table">
             <thead>
                 <tr>
@@ -269,6 +276,32 @@
                     </table>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de novo Caso -->
+    <div class="modal fade" id="modal-caso" tabindex="-1" role="dialog" aria-labelledby="modal-caso">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span>Novo Caso</span></h4>
+                </div>
+                <div class="modal-body">
+                    <label for="caso-titulo">Título</label>
+                    <input id="caso-titulo" name="caso-titulo" type="text">
+
+                    <br>
+                    <br>
+
+                    <label for="caso-laudo">Laudo</label>
+                    <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 410px; border:1px solid black;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="UICasosController.save();">Salvar</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>

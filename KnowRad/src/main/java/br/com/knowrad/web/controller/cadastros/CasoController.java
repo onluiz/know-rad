@@ -42,6 +42,10 @@ public class CasoController {
     @ResponseBody
     @RequestMapping(value = "/save", method = { RequestMethod.POST })
     public void save(@RequestBody CasoDTO casoDTO){
+        Caso caso = new Caso();
+        caso.setTitulo(casoDTO.getTitulo());
+        caso.setLaudo(casoDTO.getLaudo());
+        casoService.persist(caso);
     }
 
     @ResponseBody

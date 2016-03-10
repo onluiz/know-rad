@@ -4,8 +4,8 @@ var CasoService = {
 
     service: new AbstractService("caso/"),
 
-    save: function(casoSaveResponseDTO, callback) {
-        this.service.doPOST("save", JSON.stringify(casoSaveResponseDTO), callback);
+    save: function(casoDTO, callback) {
+        this.service.doPOST("save", JSON.stringify(casoDTO), callback);
     },
 
     remove: function(idCaso, callback) {
