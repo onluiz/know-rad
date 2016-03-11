@@ -1,7 +1,10 @@
 package br.com.knowrad.web.controller.cadastros;
 
-import br.com.knowrad.dto.CasoDTO;
-import br.com.knowrad.dto.PatologiaDTO;
+import br.com.knowrad.dto.datatable.DatatableRequest;
+import br.com.knowrad.dto.datatable.DatatableResponse;
+import br.com.knowrad.dto.patologia.CasoDTO;
+import br.com.knowrad.dto.patologia.CasoFilterDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.dto.study.ModalidadeDTO;
 import br.com.knowrad.entity.patologia.Caso;
 import br.com.knowrad.entity.patologia.CasoModalidade;
@@ -18,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +46,34 @@ public class CasoController {
 
     @Autowired
     private PatologiaCasoService patologiaCasoService;
+
+    @RequestMapping(value = "/listCasoAjax", method = { RequestMethod.GET })
+    @ResponseBody
+    public DatatableResponse<CasoDTO> listCasoAjax (
+            HttpServletRequest request,
+            HttpServletResponse response,
+            // datatable
+            @RequestParam Integer iDisplayStart,
+            @RequestParam Integer iDisplayLength,
+            @RequestParam Integer sColumns,
+            @RequestParam Integer iColumns,
+            @RequestParam String sSearch,
+            @RequestParam Boolean bRegex,
+            @RequestParam Integer iSortingCols,
+            @RequestParam Integer iSortCol_0,
+            @RequestParam String sSortDir_0,
+            @RequestParam Integer sEcho
+    ) {
+
+        //data table resquest - dados da table
+        DatatableRequest datatableRequest = new DatatableRequest(sEcho, iDisplayLength, iDisplayStart, sColumns, iColumns, sSearch, bRegex, iSortingCols, iSortCol_0, sSortDir_0);
+
+        CasoFilterDTO filter = new CasoFilterDTO();
+
+        DatatableResponse<CasoDTO> datatableResponse = casoService.findListDatatableByFilter(datatableRequest, filter);
+
+        return datatableResponse;
+    }
 
     @RequestMapping(value = "/")
     public ModelAndView roadmap() {

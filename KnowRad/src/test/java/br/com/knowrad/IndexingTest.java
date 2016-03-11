@@ -1,7 +1,7 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.PatologiaCaseDTO;
-import br.com.knowrad.dto.PatologiaDTO;
+import br.com.knowrad.dto.patologia.PatologiaCaseDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

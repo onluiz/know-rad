@@ -1,6 +1,6 @@
 package br.com.knowrad.web.controller;
 
-import br.com.knowrad.dto.LaudoDTO;
+import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.search.SolrSearchEngine;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

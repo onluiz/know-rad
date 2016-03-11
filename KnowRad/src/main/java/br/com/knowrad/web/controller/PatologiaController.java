@@ -1,6 +1,6 @@
 package br.com.knowrad.web.controller;
 
-import br.com.knowrad.dto.PatologiaDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.service.patologia.PatologiaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

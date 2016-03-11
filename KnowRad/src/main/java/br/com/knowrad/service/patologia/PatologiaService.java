@@ -1,6 +1,6 @@
 package br.com.knowrad.service.patologia;
 
-import br.com.knowrad.dto.PatologiaDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.entity.patologia.Patologia;
 
 import java.util.List;

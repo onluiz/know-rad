@@ -12,6 +12,7 @@
 
     <!-- JS -->
     <script type="text/javascript" src="<c:url value='/assets/js/jquery.dataTables.min.js' />"></script>
+    <script type="text/javascript" src="<c:url value='/assets/js/jquery.dataTables.bootstrap.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/chosen.jquery.min.js' />"></script>
 
     <!-- Service -->
@@ -20,9 +21,63 @@
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/caso-service.js' />"></script>
 
     <script>
-        "use strict";
+        //"use strict";
 
         var UICasosController = {
+
+            /**
+             * DATATABLE
+             **/
+
+            refreshDatatable: function() {
+                $('#table_report').dataTable().fnDraw(false);
+            },
+
+            initCasosDataTable: function() {
+
+                var table_list = $('#table_report').dataTable( {
+                    "bServerSide":true,
+                    "sAjaxSource": "listCasoAjax",
+                    "fnServerData": function ( sSource, aoData, fnCallback ) {
+
+                        $.getJSON( sSource, aoData, function (json) {
+                            fnCallback(json);
+                        });
+
+                    },
+                    "aoColumns": [
+                        {
+                            "mDataProp": "titulo", "bSortable": false
+                        },
+
+                        {
+                            "mDataProp": "",
+                            "sDefaultContent": "",
+                            "bSortable": false,
+                            "fnRender": function (oObj, sVal) {
+                                var html = "";
+                                html += "<div class=\"btn-group\">";
+                                html += "<a href=\"#void\" class=\"btn btn-xs btn-info\" title=\"Editar\" onclick=\"UICasosController.edit('" + oObj.aData.idCaso + "');\"><span class=\"glyphicon glyphicon-pencil\" aria-hidden=\"true\"></span></a>";
+                                html += "<a href=\"#void\" class=\"btn btn-xs btn-info\" title=\"Patologias\" onclick=\"UICasosController.openModalPatologias('" + oObj.aData.idCaso + "');\"><span class=\"glyphicon glyphicon-book\" aria-hidden=\"true\"></span></a>";
+                                html += "<a href=\"#void\" class=\"btn btn-xs btn-info\" title=\"Modalidades\" onclick=\"UICasosController.openModalModalidades('" + oObj.aData.idCaso + "');\"><span class=\"glyphicon glyphicon-queen\" aria-hidden=\"true\"></span></a>";
+                                html += "<a href=\"#void\" class=\"btn btn-xs btn-danger\" title=\"Remover\" onclick=\"UICasosController.remove('" + oObj.aData.idCaso + "');\"><span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></a>";
+                                html += "</div>"
+                                return html;
+                            }
+                        }
+
+                    ]
+
+                });
+
+                $("#table_report_filter input").unbind();
+                $("#table_report_filter input").bind('keyup', function(e) {
+                    if(e.keyCode == 13) {
+                        table_list.fnFilter(this.value);
+                    }
+                });
+
+            },
 
             /**
              * EDITS
@@ -66,6 +121,7 @@
                     $("#id-caso-edicao").val("");
                     $("#caso-titulo").val("");
                     $("#caso-laudo").html("");
+                    UICasosController.refreshDatatable();
                     alert("Operação realizada com sucesso.");
                 }
 
@@ -372,7 +428,8 @@
             },
 
             init: function() {
-                this.initTable();
+                //this.initTable();
+                this.initCasosDataTable();
                 this.initChose();
                 this.initSelectModalidades();
                 this.initSelectPatologias();
@@ -394,7 +451,7 @@
         <br>
         <br>
 
-        <table class="table" id="table">
+        <table class="table table-striped table-bordered table-hover" id="table_report">
             <thead>
                 <tr>
                     <th>Título</th>
@@ -402,18 +459,9 @@
                 </tr>
             </thead>
             <tbody>
-                <c:forEach items="${listCasosDTO}" var="casoDTO">
-                    <tr>
-                        <td>${casoDTO.titulo}</td>
-                        <td>
-                            <a href="#void" class="btn btn-xs btn-info" title="Editar" onclick="UICasosController.edit(${casoDTO.idCaso});"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-info" title="Patologias" onclick="UICasosController.openModalPatologias(${casoDTO.idCaso});"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-info" title="Modalidades" onclick="UICasosController.openModalModalidades(${casoDTO.idCaso});"><span class="glyphicon glyphicon-queen" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-info" title="Palavras-chave"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-danger" title="Remover" onclick="UICasosController.remove(${casoDTO.idCaso});"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td colspan="11" style="text-align: center;">Nenhum registro encontrado ...</td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -531,7 +579,7 @@
                     <br>
 
                     <label for="caso-laudo">Laudo:</label>
-                    <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 410px; border:1px solid black; overflow-y: auto;" class="form-control"></div>
+                    <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 350px; border:1px solid black; overflow-y: auto;" class="form-control"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="UICasosController.saveOrUpdate();">Salvar</button>

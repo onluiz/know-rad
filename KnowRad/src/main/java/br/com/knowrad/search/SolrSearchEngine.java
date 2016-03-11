@@ -1,6 +1,6 @@
 package br.com.knowrad.search;
 
-import br.com.knowrad.dto.LaudoDTO;
+import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;

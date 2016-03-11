@@ -1,5 +1,7 @@
 package br.com.knowrad.entity.patologia;
 
+import org.hibernate.annotations.Index;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -34,6 +36,8 @@ public class Caso implements Serializable {
         this.idCaso = idCaso;
     }
 
+    @Column(name = "titulo")
+    @Index(name="index_caso_titulo")
     public String getTitulo() {
         return titulo;
     }
@@ -43,6 +47,7 @@ public class Caso implements Serializable {
     }
 
     @Column(name = "laudo")
+    @Index(name="index_caso_laudo")
     public String getLaudo() {
         return laudo;
     }

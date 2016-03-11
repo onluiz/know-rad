@@ -1,7 +1,10 @@
 package br.com.knowrad.service.patologia;
 
 import br.com.knowrad.dao.patologia.CasoDAO;
-import br.com.knowrad.dto.CasoDTO;
+import br.com.knowrad.dto.datatable.DatatableRequest;
+import br.com.knowrad.dto.datatable.DatatableResponse;
+import br.com.knowrad.dto.patologia.CasoDTO;
+import br.com.knowrad.dto.patologia.CasoFilterDTO;
 import br.com.knowrad.entity.patologia.Caso;
 import br.com.knowrad.entity.patologia.CasoModalidade;
 import br.com.knowrad.entity.patologia.PatologiaCaso;
@@ -69,6 +72,10 @@ public class CasoServiceImpl implements CasoService {
         for(Caso caso : findAll())
             listCasoDTO.add(entityToDto(caso));
         return listCasoDTO;
+    }
+
+    public DatatableResponse<CasoDTO> findListDatatableByFilter(DatatableRequest datatableRequest, CasoFilterDTO filter) {
+        return dao.findListDatatableByFilter(datatableRequest, filter);
     }
 
     CasoDTO entityToDto(Caso caso) {

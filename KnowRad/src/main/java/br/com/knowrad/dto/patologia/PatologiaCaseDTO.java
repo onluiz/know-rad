@@ -1,4 +1,4 @@
-package br.com.knowrad.dto;
+package br.com.knowrad.dto.patologia;
 
 import java.util.List;
 
