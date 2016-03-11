@@ -25,24 +25,70 @@
         var UICasosController = {
 
             /**
+             * EDITS
+            **/
+
+            edit: function(idCaso) {
+
+                CasoService.findDTOById(idCaso, {
+
+                    done: function(data) {
+                        var casoDTO = data;
+                        $("#id-caso-edicao").val(casoDTO.idCaso);
+                        $("#caso-titulo").val(casoDTO.titulo);
+                        $("#caso-laudo").html(casoDTO.laudo);
+                        $("#modal-caso").modal();
+                    },
+
+                    fail: function(err) {
+                        console.log(err);
+                    }
+
+                });
+
+            },
+
+            /**
              * SAVES
             **/
 
-            save: function() {
+            saveOrUpdate: function() {
 
                 $("#modal-caso").modal("hide");
 
                 var casoDTO = {
+                    idCaso: $("#id-caso-edicao").val(),
                     titulo: $("#caso-titulo").val(),
                     laudo: $("#caso-laudo").html()
                 };
 
+                var done = function() {
+                    $("#id-caso-edicao").val("");
+                    $("#caso-titulo").val("");
+                    $("#caso-laudo").html("");
+                    alert("Operação realizada com sucesso.");
+                }
+
+                if(casoDTO.idCaso > 0) {
+                    CasoService.update(casoDTO, {
+
+                        done: function(data) {
+                            done();
+                        },
+
+                        err: function(err) {
+                            console.log(err);
+                        }
+
+                    });
+
+                    return;
+                }
+
                 CasoService.save(casoDTO, {
 
                     done: function(data) {
-                        $("#caso-titulo").val("");
-                        $("#caso-laudo").html("");
-                        alert("Operação realizada com sucesso.");
+                        done();
                     },
 
                     err: function(err) {
@@ -289,6 +335,20 @@
                 this.updateTablePatologia(idCaso);
             },
 
+            openModalCaso: function() {
+                $("#id-caso-edicao").val('');
+                $("#caso-titulo").val('');
+                $("#caso-laudo").html('');
+                $("#modal-caso").modal();
+            },
+
+            closeModalCaso: function () {
+                $("#id-caso-edicao").val('');
+                $("#caso-titulo").val('');
+                $("#caso-laudo").html('');
+                $("#modal-caso").modal('hide');
+            },
+
             remove: function(idCaso) {
                 CasoService.remove(idCaso, {
 
@@ -329,7 +389,7 @@
     <div class="row">
         <h3>Casos Cadastrados</h3>
 
-        <a href="#void" class="btn btn-info" onclick="$('#modal-caso').modal();">Novo Caso</a>
+        <a href="#void" class="btn btn-info" onclick="UICasosController.openModalCaso();">Novo Caso</a>
 
         <br>
         <br>
@@ -346,7 +406,7 @@
                     <tr>
                         <td>${casoDTO.titulo}</td>
                         <td>
-                            <a href="#void" class="btn btn-xs btn-info" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Editar" onclick="UICasosController.edit(${casoDTO.idCaso});"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
                             <a href="#void" class="btn btn-xs btn-info" title="Patologias" onclick="UICasosController.openModalPatologias(${casoDTO.idCaso});"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
                             <a href="#void" class="btn btn-xs btn-info" title="Modalidades" onclick="UICasosController.openModalModalidades(${casoDTO.idCaso});"><span class="glyphicon glyphicon-queen" aria-hidden="true"></span></a>
                             <a href="#void" class="btn btn-xs btn-info" title="Palavras-chave"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></a>
@@ -462,6 +522,8 @@
                     <h4 class="modal-title"><span>Novo Caso</span></h4>
                 </div>
                 <div class="modal-body">
+                    <input type="hidden" id="id-caso-edicao" name="id-caso-edicao">
+
                     <label for="caso-titulo">Título:</label>
                     <input id="caso-titulo" name="caso-titulo" type="text" class="form-control">
 
@@ -472,8 +534,8 @@
                     <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 410px; border:1px solid black; overflow-y: auto;" class="form-control"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="UICasosController.save();">Salvar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" onclick="UICasosController.saveOrUpdate();">Salvar</button>
+                    <button type="button" class="btn btn-default" onclick="UICasosController.closeModalCaso();">Cancelar</button>
                 </div>
             </div>
         </div>

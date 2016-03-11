@@ -12,6 +12,7 @@ public interface CasoService {
     void remove(final Long id);
     void removeFull(Long idCaso);
     Caso findById(final Long id);
+    CasoDTO findDTOById(Long id);
     List<Caso> findAll();
     List<CasoDTO> findAllDTO();
 }

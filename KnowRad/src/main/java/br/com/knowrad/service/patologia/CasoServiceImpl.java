@@ -56,6 +56,10 @@ public class CasoServiceImpl implements CasoService {
         return dao.findById(id);
     }
 
+    public CasoDTO findDTOById(Long id) {
+        return entityToDto(findById(id));
+    }
+
     public List<Caso> findAll() {
         return dao.findAll();
     }
@@ -63,11 +67,11 @@ public class CasoServiceImpl implements CasoService {
     public List<CasoDTO> findAllDTO() {
         List<CasoDTO> listCasoDTO = new ArrayList<CasoDTO>();
         for(Caso caso : findAll())
-            listCasoDTO.add(dtoToEntity(caso));
+            listCasoDTO.add(entityToDto(caso));
         return listCasoDTO;
     }
 
-    CasoDTO dtoToEntity(Caso caso) {
+    CasoDTO entityToDto(Caso caso) {
         CasoDTO dto = new CasoDTO();
         dto.setIdCaso(caso.getIdCaso());
         dto.setLaudo(caso.getLaudo());

@@ -12,6 +12,10 @@ var CasoService = {
      * FINDS
      */
 
+    findDTOById: function(idCaso, callback) {
+        this.service.doGET("findDTOById", ({"idCaso": idCaso}), callback);
+    },
+
     findAllModalidadesDTOByidCaso: function(idCaso, callback) {
         this.service.doGET("findAllModalidadesDTOByidCaso", ({"idCaso": idCaso}), callback);
     },
@@ -21,11 +25,15 @@ var CasoService = {
     },
 
     /**
-     * SAVES
+     * SAVES AND UPDATES
      */
 
     save: function(casoDTO, callback) {
         this.service.doPOST("save", JSON.stringify(casoDTO), callback);
+    },
+
+    update: function(casoDTO, callback) {
+        this.service.doPOST("update", JSON.stringify(casoDTO), callback);
     },
 
     saveCasoModalidade: function(idCaso, idModalidade, callback) {

@@ -60,6 +60,24 @@ public class CasoController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/update", method = { RequestMethod.POST })
+    public void update(@RequestBody CasoDTO casoDTO){
+        if(casoDTO.getIdCaso() == null || casoDTO.getIdCaso() == 0)
+            return;
+
+        Caso caso = casoService.findById(casoDTO.getIdCaso());
+        caso.setTitulo(casoDTO.getTitulo());
+        caso.setLaudo(casoDTO.getLaudo());
+        casoService.merge(caso);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/findDTOById", method = { RequestMethod.GET })
+    public CasoDTO findDTOById(@RequestParam Long idCaso){
+        return casoService.findDTOById(idCaso);
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/remove", method = { RequestMethod.GET })
     public void remove(@RequestParam Long idCaso){
         casoService.removeFull(idCaso);
