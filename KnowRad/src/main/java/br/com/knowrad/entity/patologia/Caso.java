@@ -1,7 +1,5 @@
 package br.com.knowrad.entity.patologia;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -45,7 +43,6 @@ public class Caso implements Serializable {
     }
 
     @Column(name = "laudo")
-    @Type(type="text")
     public String getLaudo() {
         return laudo;
     }

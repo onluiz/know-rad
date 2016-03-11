@@ -15,6 +15,7 @@
     <script type="text/javascript" src="<c:url value='/assets/js/chosen.jquery.min.js' />"></script>
 
     <!-- Service -->
+    <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/patologia-service.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/study/modalidade-service.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/caso-service.js' />"></script>
 
@@ -22,6 +23,35 @@
         "use strict";
 
         var UICasosController = {
+
+            /**
+             * SAVES
+            **/
+
+            save: function() {
+
+                $("#modal-caso").modal("hide");
+
+                var casoDTO = {
+                    titulo: $("#caso-titulo").val(),
+                    laudo: $("#caso-laudo").html()
+                };
+
+                CasoService.save(casoDTO, {
+
+                    done: function(data) {
+                        $("#caso-titulo").val("");
+                        $("#caso-laudo").html("");
+                        alert("Operação realizada com sucesso.");
+                    },
+
+                    err: function(err) {
+                        console.log(err);
+                    }
+
+                });
+
+            },
 
             saveCasoModalidade: function() {
 
@@ -38,6 +68,26 @@
                 });
 
             },
+
+            savePatologiaCaso: function() {
+
+                var idCaso = $("#id-caso-modal-patologia").val();
+                var idPatologia = $("#search-patologias").val();
+
+                CasoService.savePatologiaCaso(idCaso, idPatologia, {
+                    done: function(data) {
+                        UICasosController.updateTablePatologia(idCaso);
+                    },
+                    fail: function(err) {
+                        console.log(err);
+                    }
+                });
+
+            },
+
+            /**
+             * SEARCH
+             **/
 
             initSelectModalidades: function() {
 
@@ -100,13 +150,78 @@
 
             },
 
+            initSelectPatologias: function() {
+
+                var slPatologiasChzn = $("#search_patologias_chosen");
+                var slPatologiasInput = $(slPatologiasChzn).find(".chosen-search").find("input");
+                var idTimeOut = 0;
+
+                $(slPatologiasInput).on('keyup', function(e) {
+
+                    /**
+                     * 13 SE FOR TECLA ENTER NAO FAZ BUSCA
+                     * 16 SE FOR TECLA SHIFT NAO FAZ BUSCA
+                     * 17 SE FOR TECLA CTRL NAO FAZ BUSCA
+                     * 37 SE FOR SETA PARA ESQUERDA NAO FAZ BUSCA
+                     * 38 SE FOR SETA PARA CIMA NAO FAZ BUSCA
+                     * 39 SE FOR SETA PARA DIREITA NAO FAZ BUSCA
+                     * 40 SE FOR SETA PARA BAIXO NAO FAZ BUSCA
+                     */
+                    if (e.which == 13 || e.which == 16 || e.which == 17  || e.which == 37 ||
+                            e.which == 38 || e.which == 39 || e.which == 40)
+                        return;
+
+                    $(slPatologiasInput).parent().addClass("chzn-search-netpacs");
+                    var searchText = $(this).val();
+                    if(searchText.trim().length == 0) return $(slPatologiasInput).parent().removeClass("chzn-search-netpacs");
+                    if(idTimeOut > 0) clearTimeout(idTimeOut);
+
+                    idTimeOut = setTimeout(function(){
+
+                        PatologiaService.search(searchText, 100, {
+
+                            done: function(data) {
+
+                                if(searchText != $(slPatologiasInput).val())
+                                    return;
+
+                                var list = data;
+                                var slPatologia = $("#search-patologias");
+                                $(slPatologia).empty();
+
+                                list.forEach(function(patologiaDTO) {
+                                    $(slPatologia).append(new Option(patologiaDTO.descricao, patologiaDTO.idPatologia));
+                                });
+
+                                if($(slPatologia).html() == "")
+                                    $(slPatologia).append(new Option("Nenhum registro filtrado.", 0));
+
+                                $(slPatologia).trigger("chosen:updated");
+                                $(slPatologiasInput).val(searchText);
+                                $(slPatologia).trigger("change");
+                            },
+
+                            fail: function(err) { console.log(err); }
+
+                        });
+
+                    }, 500);
+
+                });
+
+            },
+
+            /**
+             * TABLES
+             * */
+
             updateTableModalidade: function(idCaso) {
                 var slModalidade = $("#search-modalidades");
                 $(slModalidade).empty();
                 $(slModalidade).append(new Option("Nenhum registro filtrado.", 0));
                 $(slModalidade).trigger("chosen:updated");
 
-                CasoService.findAllByidCaso(idCaso, {
+                CasoService.findAllModalidadesDTOByidCaso(idCaso, {
 
                     done: function(data) {
                         var html = "Nenhuma associação encontrada.";
@@ -131,35 +246,47 @@
                 });
             },
 
-            editModalidades: function(idCaso) {
-                this.updateTableModalidade(idCaso);
+            updateTablePatologia: function(idCaso) {
+                var slPatologia = $("#search-patologias");
+                $(slPatologia).empty();
+                $(slPatologia).append(new Option("Nenhum registro filtrado.", 0));
+                $(slPatologia).trigger("chosen:updated");
 
-                //$("#id-caso-modal-modalidade").val(idCaso);
-                //$("#table-modalidades-body").html(html);
-                //$("#modal-modalidade").modal();
-            },
-
-            save: function() {
-
-                $("#modal-caso").modal("hide");
-
-                var casoDTO = {
-                    titulo: $("#caso-titulo").val(),
-                    laudo: $("#caso-laudo").html()
-                };
-
-                CasoService.save(casoDTO, {
+                CasoService.findAllPatologiasDTOByidCaso(idCaso, {
 
                     done: function(data) {
-                        alert("Operação realizada com sucesso.");
+                        var html = "Nenhuma associação encontrada.";
+
+                        if(data.length > 0)
+                            data.forEach(function(patologiaDTO) {
+                                html += "<tr>";
+                                html += "<td>" + patologiaDTO.descricao + "</td>";
+                                html += "<td><a href=\"#void\" class=\"btn btn-xs btn-danger\" title=\"Remover\"><span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></a></td>";
+                                html += "</tr>";
+                            });
+
+                        $("#id-caso-modal-patologia").val(idCaso);
+                        $("#table-patologias-body").html(html);
+                        $("#modal-patologia").modal();
                     },
 
-                    err: function(err) {
+                    fail: function(err) {
                         console.log(err);
                     }
 
                 });
+            },
 
+            /**
+             * MODAIS
+             */
+
+            openModalModalidades: function(idCaso) {
+                this.updateTableModalidade(idCaso);
+            },
+
+            openModalPatologias: function(idCaso) {
+                this.updateTablePatologia(idCaso);
             },
 
             remove: function(idCaso) {
@@ -188,6 +315,7 @@
                 this.initTable();
                 this.initChose();
                 this.initSelectModalidades();
+                this.initSelectPatologias();
             }
 
         };
@@ -214,19 +342,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>titulo</td>
-                    <td>ações</td>
-                </tr>
                 <c:forEach items="${listCasosDTO}" var="casoDTO">
                     <tr>
                         <td>${casoDTO.titulo}</td>
                         <td>
                             <a href="#void" class="btn btn-xs btn-info" title="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-info" title="Patologias"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-info" title="Modalidades" onclick="UICasosController.editModalidades(${casoDTO.idCaso});"><span class="glyphicon glyphicon-queen" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Patologias" onclick="UICasosController.openModalPatologias(${casoDTO.idCaso});"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-info" title="Modalidades" onclick="UICasosController.openModalModalidades(${casoDTO.idCaso});"><span class="glyphicon glyphicon-queen" aria-hidden="true"></span></a>
                             <a href="#void" class="btn btn-xs btn-info" title="Palavras-chave"><span class="glyphicon glyphicon-education" aria-hidden="true"></span></a>
-                            <a href="#void" class="btn btn-xs btn-danger" title="Remover"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            <a href="#void" class="btn btn-xs btn-danger" title="Remover" onclick="UICasosController.remove(${casoDTO.idCaso});"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -282,6 +406,53 @@
         </div>
     </div>
 
+    <!-- Modal das Patologias -->
+    <div class="modal fade" id="modal-patologia" tabindex="-1" role="dialog" aria-labelledby="modal-patologia">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title"><span>Patologias</span></h4>
+                </div>
+                <div class="modal-body">
+                    <input id="id-caso-modal-patologia" name="id-caso-modal-patologia" type="hidden">
+                    Adicionar Modalidades:
+                    <select id="search-patologias" name="search-patologias" class="chzn-select chosen-select" style="width: 100px;">
+                        <option value="0">Nenhum registro filtrado.</option>
+                    </select>
+
+                    <br>
+                    <br>
+
+                    <a href="#void" class="btn btn-info" onclick="UICasosController.savePatologiaCaso();">Adicionar</a>
+
+                    <br>
+                    <br>
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Descrição</th>
+                            <th>Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody id="table-patologias-body">
+                        <tr>
+                            <td>CT</td>
+                            <td>
+                                <a href="#void" class="btn btn-xs btn-danger" title="Remover"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal de novo Caso -->
     <div class="modal fade" id="modal-caso" tabindex="-1" role="dialog" aria-labelledby="modal-caso">
         <div class="modal-dialog" role="document">
@@ -291,14 +462,14 @@
                     <h4 class="modal-title"><span>Novo Caso</span></h4>
                 </div>
                 <div class="modal-body">
-                    <label for="caso-titulo">Título</label>
-                    <input id="caso-titulo" name="caso-titulo" type="text">
+                    <label for="caso-titulo">Título:</label>
+                    <input id="caso-titulo" name="caso-titulo" type="text" class="form-control">
 
                     <br>
                     <br>
 
-                    <label for="caso-laudo">Laudo</label>
-                    <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 410px; border:1px solid black;"></div>
+                    <label for="caso-laudo">Laudo:</label>
+                    <div id="caso-laudo" name="caso-laudo" contenteditable="true" style="height: 410px; border:1px solid black; overflow-y: auto;" class="form-control"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-success" onclick="UICasosController.save();">Salvar</button>

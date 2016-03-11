@@ -1,8 +1,8 @@
 "use strict"
 
-var ModalidadeService = {
+var PatologiaService = {
 
-    service: new AbstractService("modalidade/"),
+    service: new AbstractService("patologia/"),
 
     search: function(searchText, limit, callback) {
 

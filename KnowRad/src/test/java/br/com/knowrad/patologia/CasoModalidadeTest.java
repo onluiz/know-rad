@@ -38,7 +38,7 @@ public class CasoModalidadeTest {
     @Test
     @Ignore
     public void persistTest() throws Exception {
-        Caso caso = casoDAO.findById(new Long(2));
+        Caso caso = casoDAO.findById(new Long(102));
         Modalidade modalidade = modalidadeDAO.findById(new Long(8));
 
         CasoModalidade c = new CasoModalidade();

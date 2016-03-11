@@ -1,10 +1,28 @@
 package br.com.knowrad.dto;
 
-public class PatologiaDTO {
+import java.io.Serializable;
 
+public class PatologiaDTO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private Long idPatologia;
     private String descricao;
 
     public PatologiaDTO() {
+    }
+
+    public PatologiaDTO(Long idPatologia, String descricao) {
+        this.idPatologia = idPatologia;
+        this.descricao = descricao;
+    }
+
+    public Long getIdPatologia() {
+        return idPatologia;
+    }
+
+    public void setIdPatologia(Long idPatologia) {
+        this.idPatologia = idPatologia;
     }
 
     public PatologiaDTO(String descricao) {

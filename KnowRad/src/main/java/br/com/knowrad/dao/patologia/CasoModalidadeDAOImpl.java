@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class CasoModalidadeDAOImpl extends AbstractDAO<CasoModalidade> implements CasoModalidadeDAO{
+public class CasoModalidadeDAOImpl extends AbstractDAO<CasoModalidade> implements CasoModalidadeDAO {
 
     public CasoModalidade findByIds(Long idCaso, Long idModalidade) {
 

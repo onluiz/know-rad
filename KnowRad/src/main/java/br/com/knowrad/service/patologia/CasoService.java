@@ -10,6 +10,7 @@ public interface CasoService {
     void persist(Caso c);
     void merge(Caso c);
     void remove(final Long id);
+    void removeFull(Long idCaso);
     Caso findById(final Long id);
     List<Caso> findAll();
     List<CasoDTO> findAllDTO();
