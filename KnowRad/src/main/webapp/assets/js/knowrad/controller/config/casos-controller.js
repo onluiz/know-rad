@@ -185,9 +185,8 @@ var UICasosController = {
                 e.which == 38 || e.which == 39 || e.which == 40)
                 return;
 
-            $(slModalidadesInput).parent().addClass("chzn-search-netpacs");
             var searchText = $(this).val();
-            if(searchText.trim().length == 0) return $(slModalidadesInput).parent().removeClass("chzn-search-netpacs");
+            if(searchText.trim().length == 0) return;
             if(idTimeOut > 0) clearTimeout(idTimeOut);
 
             idTimeOut = setTimeout(function(){
@@ -246,9 +245,8 @@ var UICasosController = {
                 e.which == 38 || e.which == 39 || e.which == 40)
                 return;
 
-            $(slPatologiasInput).parent().addClass("chzn-search-netpacs");
             var searchText = $(this).val();
-            if(searchText.trim().length == 0) return $(slPatologiasInput).parent().removeClass("chzn-search-netpacs");
+            if(searchText.trim().length == 0) return;
             if(idTimeOut > 0) clearTimeout(idTimeOut);
 
             idTimeOut = setTimeout(function(){
