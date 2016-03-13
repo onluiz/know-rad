@@ -128,6 +128,17 @@ public class CasoController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/removePatologiaCaso", method = { RequestMethod.GET })
+    public void removePatologiaCaso(@RequestParam Long idCaso, @RequestParam Long idPatologia){
+
+        PatologiaCaso patologiaCaso = patologiaCasoService.findByIds(idCaso, idPatologia);
+        if(patologiaCaso == null)
+            return;
+
+        patologiaCasoService.remove(patologiaCaso.getIdPatologiaCaso());
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/findAllModalidadesDTOByidCaso", method = { RequestMethod.GET })
     public List<ModalidadeDTO> findAllModalidadesDTOByidCaso(@RequestParam Long idCaso){
         List<CasoModalidade> listCasoModalidade = casoModalidadeService.findAllByIdCaso(idCaso);

@@ -15,6 +15,10 @@ var CasoService = {
         this.service.doGET("removeCasoModalidade", ({idCaso: idCaso, idModalidade: idModalidade}), callback);
     },
 
+    removePatologiaCaso: function(idCaso, idPatologia, callback) {
+        this.service.doGET("removePatologiaCaso", ({idCaso: idCaso, idPatologia: idPatologia}), callback);
+    },
+
     /**
      * FINDS
      */
