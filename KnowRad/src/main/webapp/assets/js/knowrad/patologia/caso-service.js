@@ -4,8 +4,15 @@ var CasoService = {
 
     service: new AbstractService("caso/"),
 
+    /**
+     * REMOVES
+     */
     remove: function(idCaso, callback) {
         this.service.doGET("remove", ({"idCaso": idCaso}), callback);
+    },
+
+    removeCasoModalidade: function(idCaso, idModalidade, callback) {
+        this.service.doGET("removeCasoModalidade", ({idCaso: idCaso, idModalidade: idModalidade}), callback);
     },
 
     /**

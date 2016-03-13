@@ -332,7 +332,7 @@
                             data.forEach(function(modalidadeDTO) {
                                 html += "<tr>";
                                 html += "<td>" + modalidadeDTO.modalidade + "</td>";
-                                html += "<td><a href=\"#void\" class=\"btn btn-xs btn-danger\" title=\"Remover\"><span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></a></td>";
+                                html += "<td><a href=\"#void\" class=\"btn btn-xs btn-danger\" title=\"Remover\" onclick=\"UICasosController.removeCasoModalidade('" + idCaso + "', '" + modalidadeDTO.idModalidade + "');\"><span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\"></span></a></td>";
                                 html += "</tr>";
                             });
 
@@ -407,6 +407,20 @@
 
             remove: function(idCaso) {
                 CasoService.remove(idCaso, {
+
+                    done: function(data) {
+                        alert("Operação realizada com sucesso.");
+                    },
+
+                    err: function(err) {
+                        console.log(err);
+                    }
+
+                });
+            },
+
+            removeCasoModalidade: function(idCaso, idModalidade) {
+                CasoService.removeCasoModalidade(idCaso, idModalidade, {
 
                     done: function(data) {
                         alert("Operação realizada com sucesso.");
