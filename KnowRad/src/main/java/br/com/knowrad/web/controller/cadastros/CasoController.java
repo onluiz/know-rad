@@ -47,6 +47,12 @@ public class CasoController {
     @Autowired
     private PatologiaCasoService patologiaCasoService;
 
+    @RequestMapping(value = "/")
+    public ModelAndView roadmap() {
+        ModelAndView modelAndView = new ModelAndView(CASOS);
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/listCasoAjax", method = { RequestMethod.GET })
     @ResponseBody
     public DatatableResponse<CasoDTO> listCasoAjax (
@@ -73,14 +79,6 @@ public class CasoController {
         DatatableResponse<CasoDTO> datatableResponse = casoService.findListDatatableByFilter(datatableRequest, filter);
 
         return datatableResponse;
-    }
-
-    @RequestMapping(value = "/")
-    public ModelAndView roadmap() {
-        ModelAndView modelAndView = new ModelAndView(CASOS);
-        modelAndView.addObject("listModalidadesDTO", modalidadeService.findAllDTO());
-        modelAndView.addObject("listCasosDTO", casoService.findAllDTO());
-        return modelAndView;
     }
 
     @ResponseBody

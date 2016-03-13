@@ -381,7 +381,6 @@ var UICasosController = {
         $("#caso-titulo").val('');
         $("#caso-laudo").html('');
         $("#modal-caso").modal();
-        $("#modal-caso").modal();
     },
 
     closeModalCaso: function () {

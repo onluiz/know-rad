@@ -1,8 +1,10 @@
 package br.com.knowrad.patologia;
 
 import br.com.knowrad.dto.patologia.PatologiaDTO;
-import br.com.knowrad.entity.patologia.Patologia;
-import br.com.knowrad.service.patologia.PatologiaService;
+import br.com.knowrad.entity.patologia.*;
+import br.com.knowrad.entity.study.Modalidade;
+import br.com.knowrad.service.patologia.*;
+import br.com.knowrad.service.study.ModalidadeService;
 import junit.framework.TestCase;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,6 +24,24 @@ public class PatologiaTest {
     @Autowired
     private PatologiaService service;
 
+    @Autowired
+    private ModalidadeService modalidadeService;
+
+    @Autowired
+    private PalavraChaveService palavraChaveService;
+
+    @Autowired
+    private PatologiaModalidadeService patologiaModalidadeService;
+
+    @Autowired
+    private PatologiaCasoService patologiaCasoService;
+
+    @Autowired
+    private PatologiaPalavraChaveService patologiaPalavraChaveService;
+
+    @Autowired
+    private CasoService casoService;
+
     @Test
     @Ignore
     public void persistTest() throws Exception {
@@ -31,6 +51,31 @@ public class PatologiaTest {
 
         TestCase.assertNotNull(p);
         TestCase.assertTrue(p.getIdPatologia() > 0);
+    }
+
+    @Test
+    @Ignore
+    public void persistWithRelations() {
+        Patologia p = service.findById(new Long(5));
+        Modalidade m = modalidadeService.findById(new Long(2));
+        Caso c = casoService.findById(new Long(114));
+        PalavraChave pc = palavraChaveService.findById(new Long(1));
+
+        PatologiaModalidade pm = new PatologiaModalidade();
+        pm.setPatologia(p);
+        pm.setModalidade(m);
+        patologiaModalidadeService.persist(pm);
+
+        PatologiaCaso patologiaCaso = new PatologiaCaso();
+        patologiaCaso.setPatologia(p);
+        patologiaCaso.setCaso(c);
+        patologiaCasoService.persist(patologiaCaso);
+
+        PatologiaPalavraChave patologiaPalavraChave = new PatologiaPalavraChave();
+        patologiaPalavraChave.setPatologia(p);
+        patologiaPalavraChave.setPalavraChave(pc);
+        patologiaPalavraChaveService.persist(patologiaPalavraChave);
+
     }
 
     @Test

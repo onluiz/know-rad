@@ -18,5 +18,5 @@ public interface CasoService {
     CasoDTO findDTOById(Long id);
     List<Caso> findAll();
     List<CasoDTO> findAllDTO();
-    public DatatableResponse<CasoDTO> findListDatatableByFilter(DatatableRequest datatableRequest, CasoFilterDTO filter);
+    DatatableResponse<CasoDTO> findListDatatableByFilter(DatatableRequest datatableRequest, CasoFilterDTO filter);
 }

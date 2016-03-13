@@ -54,7 +54,7 @@
                                     <li><a href="http://getbootstrap.com/examples/theme/#">Dados estátisticos, relatórios, estudar por pentaho aqui</a></li>
                                     <li role="separator" class="divider"></li>
                                     <li class="dropdown-header">Cadastros Gerais</li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista de Patologias</a></li>
+                                    <li><a href="<c:url value='/patologia/' />">Cadastro/Lista de Patologias</a></li>
                                     <li><a href="<c:url value='/caso/' />">Cadastro/Lista de Casos</a></li>
                                     <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista de Palavras-chave</a></li>
                                     <li><a href="http://getbootstrap.com/examples/theme/#">Lista de Modalidades</a></li>
