@@ -21,4 +21,7 @@
     <b>3 - </b>Criar tela de cadastro de PatologiaPalavraChave
     <br>
     <b>4 - </b>Criar tela de cadastro de Patologia (nessa mesma tela deve ser possivel de cadastrar Casos e Palavras Chaves)
+
+    <img src="<c:url value='/assets/images/kdt.jpg' />"/>
+
 </div>
