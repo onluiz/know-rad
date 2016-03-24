@@ -7,7 +7,7 @@ public class LaudoDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private String idIndex;
+	private String id;
 	private String titulo;
 	private String texto;
 	private String textoLimpo;
@@ -16,15 +16,24 @@ public class LaudoDTO implements Serializable {
 	private Long idPaciente;
 	private List<Long> doencas;
 
-	public String getIdIndex() {
-		return idIndex;
-	}
+    //atributos utilizados pela tela
+    private Boolean selected;
+    private String[] cytoscape_alias_list;
+    private String canonicalName;
+    private String SUID;
+    private String NodeType;
+    private String name;
+    private String shared_name;
 
-	public void setIdIndex(String idIndex) {
-		this.idIndex = idIndex;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getTitulo() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitulo() {
 		return titulo;
 	}
 	public void setTitulo(String titulo) {
@@ -71,4 +80,60 @@ public class LaudoDTO implements Serializable {
 	public void setDoencas(List<Long> doencas) {
 		this.doencas = doencas;
 	}
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
+    }
+
+    public String[] getCytoscape_alias_list() {
+        return cytoscape_alias_list;
+    }
+
+    public void setCytoscape_alias_list(String[] cytoscape_alias_list) {
+        this.cytoscape_alias_list = cytoscape_alias_list;
+    }
+
+    public String getCanonicalName() {
+        return canonicalName;
+    }
+
+    public void setCanonicalName(String canonicalName) {
+        this.canonicalName = canonicalName;
+    }
+
+    public String getSUID() {
+        return SUID;
+    }
+
+    public void setSUID(String SUID) {
+        this.SUID = SUID;
+    }
+
+    public String getNodeType() {
+        return NodeType;
+    }
+
+    public void setNodeType(String nodeType) {
+        NodeType = nodeType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getShared_name() {
+        return shared_name;
+    }
+
+    public void setShared_name(String shared_name) {
+        this.shared_name = shared_name;
+    }
 }

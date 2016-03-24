@@ -1,8 +1,6 @@
 package br.com.knowrad.search;
 
-import br.com.knowrad.dto.DoencaDTO;
-import br.com.knowrad.dto.EdgeDTO;
-import br.com.knowrad.dto.SearchResponse;
+import br.com.knowrad.dto.*;
 import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
@@ -114,7 +112,7 @@ public class SolrSearchEngine {
 
 	public SearchResponse searchLaudos2(String search) {
 
-		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
+		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
 		List<DoencaDTO> listDoenca = new ArrayList<DoencaDTO>();
 		List<EdgeDTO> listEdge = new ArrayList<EdgeDTO>();
 
@@ -133,9 +131,12 @@ public class SolrSearchEngine {
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
 
+            Double x = 4491.77880859375;
+            Double y = 4647.23974609375;
+
 			for(Map solrMap : list) {
 				LaudoDTO dto = new LaudoDTO();
-				dto.setIdIndex(Util.verifyString(solrMap.get("id")));
+				dto.setId(Util.verifyString(solrMap.get("id")));
 				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
 				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
@@ -144,17 +145,37 @@ public class SolrSearchEngine {
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
 				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
 
+                //referentes a tela
+                String idPaciente = String.valueOf(dto.getIdPaciente());
+                dto.setSelected(Boolean.FALSE);
+                dto.setCytoscape_alias_list(new String[]{idPaciente});
+                dto.setCanonicalName(idPaciente);
+                dto.setSUID(dto.getId());
+                dto.setNodeType("Cheese"); //kkkkk
+                dto.setName(idPaciente);
+                dto.setShared_name(idPaciente);
+
+                /**
+                 * FAZ ASSIAÇÃO DAS DOENÇAS
+                 */
 				if(dto.getDoencas().size() > 0) {
 					for(Long id : dto.getDoencas()) {
 						DoencaDTO doencaDTO = findDoencaById(id);
 						if(!listDoenca.contains(doencaDTO)) {
 							listDoenca.add(doencaDTO);
 						}
-						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getIdIndex()));
+						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
 					}
 				}
 
-				listLaudo.add(dto);
+                x += 100.0;
+                y += 100.0;
+
+                LaudoResponse laudoResponse = new LaudoResponse();
+                laudoResponse.setData(dto);
+                laudoResponse.setPosition(new Position(x, y));
+                laudoResponse.setSelected(Boolean.FALSE);
+				listLaudo.add(laudoResponse);
 			}
 
 			SearchResponse searchResponse = new SearchResponse();

@@ -45,7 +45,6 @@
             }).done(function (data) {
 
                 var graphP = {
-
                     format_version: "1.0",
                     generated_by: "cytoscape-3.2.0",
                     target_cytoscapejs_version: "~2.1",
@@ -58,92 +57,21 @@
 
                     },
 
-                    "elements" : {
-                        "nodes" : [
+                    elements : {
 
-                            {
-                                "data" : {
-                                    "id" : "430",
-                                    "Strength" : 5,
-                                    "selected" : false,
-                                    "cytoscape_alias_list" : [ "Aarauer Bierdeckel" ],
-                                    "canonicalName" : "Aarauer Bierdeckel",
-                                    "Milk" : "Raw cow's milk",
-                                    "Synonym" : "Kuentener",
-                                    "Quality" : 90,
-                                    "Type" : "Semi-soft",
-                                    "SUID" : 430,
-                                    "NodeType" : "Cheese",
-                                    "name" : "Aarauer Bierdeckel",
-                                    "Country" : "Switzerland",
-                                    "shared_name" : "Aarauer Bierdeckel"
-                                },
-                                "position" : {
-                                    "x" : 4491.9853515625,
-                                    "y" : 4520.1904296875
-                                },
-                                "selected" : false
-                            },
+                        nodes: [],
+                        edges: []
 
-                            {
-                                "data" : {
-                                    "id" : "429",
-                                    "selected" : false,
-                                    "cytoscape_alias_list" : [ "Bergues" ],
-                                    "canonicalName" : "Bergues",
-                                    "SUID" : 429,
-                                    "NodeType" : "Cheese",
-                                    "name" : "Bergues",
-                                    "shared_name" : "Bergues"
-                                },
-                                "position" : {
-                                    "x" : 4491.77880859375,
-                                    "y" : 4647.23974609375
-                                },
-                                "selected" : false
-                            },
-
-                            {
-                                "data" : {
-                                    "id" : "426",
-                                    "selected" : false,
-                                    "cytoscape_alias_list" : [ "Beaujolais" ],
-                                    "canonicalName" : "Beaujolais",
-                                    "SUID" : 426,
-                                    "NodeType" : "RedWine",
-                                    "name" : "Beaujolais",
-                                    "shared_name" : "Beaujolais"
-                                },
-                                "position" : {
-                                    "x" : 1391.1080322265625,
-                                    "y" : 4324.1015625
-                                },
-                                "selected" : false
-                            }
-
-                        ],
-
-                        "edges" : [
-
-                            {
-                                "data" : {
-                                    "id" : "1763",
-                                    "source" : "430",
-                                    "target" : "429",
-                                    "selected" : false,
-                                    "canonicalName" : "Aarauer Bierdeckel (cc) Bergues",
-                                    "SUID" : 1763,
-                                    "name" : "Aarauer Bierdeckel (cc) Bergues",
-                                    "interaction" : "cc",
-                                    "shared_interaction" : "cc",
-                                    "shared_name" : "Aarauer Bierdeckel (cc) Bergues"
-                                },
-                                "selected" : false
-                            }
-
-                        ]
                     }
                 };
+
+                console.log(graphP);
+
+                data.listLaudos.forEach(function(laudoResponse) {
+
+                    graphP.elements.nodes.push(laudoResponse);
+
+                });
 
                 initGraphs(graphP);
 

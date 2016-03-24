@@ -10,7 +10,7 @@ public class SearchResponse implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<DoencaDTO> listDoencas;
-    private List<LaudoDTO> listLaudos;
+    private List<LaudoResponse> listLaudos; //cada item desse representa um NODE de laudo
     private List<EdgeDTO> listEdges;
 
     public List<DoencaDTO> getListDoencas() {
@@ -21,11 +21,11 @@ public class SearchResponse implements Serializable {
         this.listDoencas = listDoencas;
     }
 
-    public List<LaudoDTO> getListLaudos() {
+    public List<LaudoResponse> getListLaudos() {
         return listLaudos;
     }
 
-    public void setListLaudos(List<LaudoDTO> listLaudos) {
+    public void setListLaudos(List<LaudoResponse> listLaudos) {
         this.listLaudos = listLaudos;
     }
 

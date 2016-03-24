@@ -172,9 +172,9 @@ public class IndexingTest {
 		
 		try {
 			
-			String content = IOUtils.toString(inputStream);
-			
-			JsonElement jelement = new JsonParser().parse(content);
+			String content = IOUtils.toString(inputStream, "UTF-8");
+
+            JsonElement jelement = new JsonParser().parse(content);
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("listLaudos");
 			

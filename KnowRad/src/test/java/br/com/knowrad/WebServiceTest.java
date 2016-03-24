@@ -98,7 +98,7 @@ public class WebServiceTest {
 			
 			for(Map solrMap : list) {
 				LaudoDTO dto = new LaudoDTO();
-				dto.setIdIndex(Util.verifyString(solrMap.get("id")));
+				dto.setId(Util.verifyString(solrMap.get("id")));
 				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
 				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
@@ -113,7 +113,7 @@ public class WebServiceTest {
 						if(!listDoenca.contains(doencaDTO)) {
 							listDoenca.add(doencaDTO);
 						}
-						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getIdIndex()));
+						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
 					}
 				}
 
@@ -123,7 +123,7 @@ public class WebServiceTest {
 			SearchResponse searchResponse = new SearchResponse();
 			searchResponse.setListDoencas(listDoenca);
 			searchResponse.setListEdges(listEdge);
-			searchResponse.setListLaudos(listLaudo);
+//			searchResponse.setListLaudos(listLaudo);
 
 		} catch (SolrServerException e) {
 			e.printStackTrace();
