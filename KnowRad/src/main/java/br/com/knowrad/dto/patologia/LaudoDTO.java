@@ -1,14 +1,29 @@
 package br.com.knowrad.dto.patologia;
 
-public class LaudoDTO {
+import java.io.Serializable;
+import java.util.List;
 
+public class LaudoDTO implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
+	private String idIndex;
 	private String titulo;
 	private String texto;
+	private String textoLimpo;
 	private String nomePaciente;
 	private String modalidade;
 	private Long idPaciente;
-	private String idLaudo;
-	
+	private List<Long> doencas;
+
+	public String getIdIndex() {
+		return idIndex;
+	}
+
+	public void setIdIndex(String idIndex) {
+		this.idIndex = idIndex;
+	}
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -21,6 +36,15 @@ public class LaudoDTO {
 	public void setTexto(String texto) {
 		this.texto = texto;
 	}
+
+	public String getTextoLimpo() {
+		return textoLimpo;
+	}
+
+	public void setTextoLimpo(String textoLimpo) {
+		this.textoLimpo = textoLimpo;
+	}
+
 	public String getNomePaciente() {
 		return nomePaciente;
 	}
@@ -40,11 +64,11 @@ public class LaudoDTO {
 		this.modalidade = modalidade;
 	}
 
-	public String getIdLaudo() {
-		return idLaudo;
+	public List<Long> getDoencas() {
+		return doencas;
 	}
 
-	public void setIdLaudo(String idLaudo) {
-		this.idLaudo = idLaudo;
+	public void setDoencas(List<Long> doencas) {
+		this.doencas = doencas;
 	}
 }

@@ -1,5 +1,6 @@
 package br.com.knowrad;
 
+import br.com.knowrad.dto.DoencaDTO;
 import br.com.knowrad.dto.patologia.PatologiaCaseDTO;
 import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.util.Util;
@@ -25,6 +26,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class IndexingTest {
+
+    List<DoencaDTO> doencas = new ArrayList<DoencaDTO>() {{
+        add(new DoencaDTO() {{
+            setId(1);
+            setNome("tuberculose");
+            setPalavras(new String[] {
+                    "escavação",
+                    "escavada",
+                    "nodulos",
+                    "intersticiais",
+                    "intersticial"
+            });
+        }});
+
+        add(new DoencaDTO(){{
+            setId(2);
+            setNome("asma bronquiectasias");
+            setPalavras(new String[] {
+                    "mosaico"
+            });
+        }});
+
+        add(new DoencaDTO(){{
+            setId(3);
+            setNome("PH");
+            setPalavras(new String[] {
+                    "mosaico",
+                    "consolidações"
+            });
+        }});
+
+    }};
 
 	//solr start
 	//solr create -c laudos
@@ -104,8 +137,30 @@ public class IndexingTest {
 
 	}
 
+    List<Long> procurarDoencas(String texto) {
+
+        texto = Util.cleanText(texto);
+
+        List<Long> list = new ArrayList<Long>();
+
+        for(DoencaDTO doenca : doencas) {
+
+            for(String palavra : doenca.getPalavras()) {
+
+                if(texto.indexOf(Util.cleanText(palavra)) > -1) {
+                    System.out.println("ACHOU: " + doenca.getNome());
+                    list.add(doenca.getId());
+                }
+
+            }
+
+        }
+
+        return list;
+    }
+
 	@Test
-	@Ignore
+    @Ignore
 	public void readAndIndexJson() {
 		
 		/**
@@ -133,7 +188,9 @@ public class IndexingTest {
 					dto.setNomePaciente(verifyString(item.get("nomepaciente")));
 					dto.setTitulo(verifyString(item.get("titulo")));
 					dto.setTexto(verifyString(item.get("texto")));
+                    dto.setTextoLimpo(Util.cleanText(verifyString(item.get("texto"))));
 					dto.setModalidade(verifyString(item.get("modalidade")));
+                    dto.setDoencas(procurarDoencas(dto.getTextoLimpo()));
 					listLaudo.add(dto);
 				}
 
@@ -153,11 +210,13 @@ public class IndexingTest {
 			
 			for(LaudoDTO laudoDTO : listLaudo) {
 				SolrInputDocument document = new SolrInputDocument();
-				document.addField("idPaciente", laudoDTO.getIdPaciente());
-				document.addField("nomePaciente", laudoDTO.getNomePaciente());
+				document.addField("id_paciente", laudoDTO.getIdPaciente());
+				document.addField("nome_paciente", laudoDTO.getNomePaciente());
 				document.addField("titulo", laudoDTO.getTitulo());
 				document.addField("texto", laudoDTO.getTexto());
+                document.addField("texto_limpo", laudoDTO.getTextoLimpo());
 				document.addField("modalidade", laudoDTO.getModalidade());
+                document.addField("doencas", laudoDTO.getDoencas());
 				try {
 					solr.add(document);
 				} catch(RemoteSolrException e) {
@@ -293,9 +352,11 @@ public class IndexingTest {
 		
 		private String titulo;
 		private String texto;
+        private String textoLimpo;
 		private String nomePaciente;
 		private String modalidade;
 		private Long idPaciente;
+        private List<Long> doencas;
 		
 		public String getTitulo() {
 			return titulo;
@@ -309,7 +370,16 @@ public class IndexingTest {
 		public void setTexto(String texto) {
 			this.texto = texto;
 		}
-		public String getNomePaciente() {
+
+        public String getTextoLimpo() {
+            return textoLimpo;
+        }
+
+        public void setTextoLimpo(String textoLimpo) {
+            this.textoLimpo = textoLimpo;
+        }
+
+        public String getNomePaciente() {
 			return nomePaciente;
 		}
 		public void setNomePaciente(String nomePaciente) {
@@ -327,6 +397,14 @@ public class IndexingTest {
 		public void setModalidade(String modalidade) {
 			this.modalidade = modalidade;
 		}
-	}
+
+        public List<Long> getDoencas() {
+            return doencas;
+        }
+
+        public void setDoencas(List<Long> doencas) {
+            this.doencas = doencas;
+        }
+    }
 	
 }
