@@ -16,6 +16,7 @@ solr start </br>
 solr create -c laudos (create a new core)</br>
 solr status</br>
 solr stop -all</br>
+solr delete -c laudos para deletar
 
 Obs:</br>
 
