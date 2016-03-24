@@ -23,13 +23,20 @@ public class SolrSearchEngine {
 		add(new DoencaDTO() {{
 			setId(1);
 			setNome("tuberculose");
-			setPalavras(new String[] {
-					"escavação",
-					"escavada",
-					"nodulos",
-					"intersticiais",
-					"intersticial"
-			});
+			setPalavras(new String[]{
+                    "escavação",
+                    "escavada",
+                    "nodulos",
+                    "intersticiais",
+                    "intersticial"
+            });
+            setSelected(Boolean.FALSE);
+            setCytoscape_alias_list(new String[]{"tuberculose"});
+            setCanonicalName("tuberculose");
+            setSUID("1");
+            setNodeType("RedWine");
+            setName("tuberculose");
+            setShared_name("tuberculose");
 		}});
 
 		add(new DoencaDTO(){{
@@ -38,6 +45,13 @@ public class SolrSearchEngine {
 			setPalavras(new String[] {
 					"mosaico"
 			});
+            setSelected(Boolean.FALSE);
+            setCytoscape_alias_list(new String[]{"asma bronquiectasias"});
+            setCanonicalName("asma bronquiectasias");
+            setSUID("2");
+            setNodeType("RedWine");
+            setName("asma bronquiectasias");
+            setShared_name("asma bronquiectasias");
 		}});
 
 		add(new DoencaDTO(){{
@@ -47,6 +61,13 @@ public class SolrSearchEngine {
 					"mosaico",
 					"consolidações"
 			});
+            setSelected(Boolean.FALSE);
+            setCytoscape_alias_list(new String[]{"PH"});
+            setCanonicalName("PH");
+            setSUID("2");
+            setNodeType("RedWine");
+            setName("PH");
+            setShared_name("PH");
 		}});
 
 	}};
