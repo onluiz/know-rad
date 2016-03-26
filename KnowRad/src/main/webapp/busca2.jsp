@@ -75,20 +75,25 @@
 
                 data.listLaudos.forEach(function(laudoResponse) {
 
-                    laudoResponse.position.x = getRandomArbitrary(0, 50000);
-                    laudoResponse.position.y = getRandomArbitrary(0, 50000);
+                    laudoResponse.position.x = getRandomArbitrary(6000, 100000);
+                    laudoResponse.position.y = getRandomArbitrary(6000, 100000);
+//                    laudoResponse.data.NodeType = "Cheese";
+
 
                     graphP.elements.nodes.push(laudoResponse);
 
                 });
 
-                var y = 4000.0;
+                var xDoenca = 4000.0;
 
                 data.listDoencas.forEach(function(doencaResponse) {
 
-                    doencaResponse.position.x = getRandomArbitrary(0, 50000);
-                    doencaResponse.position.y = y + 100;
+                    doencaResponse.position.x = getRandomArbitrary(0, 110000);
+                    doencaResponse.position.y = getRandomArbitrary(0, 110000);
                     doencaResponse.data.NodeType = "RedWine";
+                    doencaResponse.data.NodeTypeFormatted = doencaResponse.canonicalName;
+                    doencaResponse.data.Strength = "5";
+                    doencaResponse.data.Quality = "100";
 
                     graphP.elements.nodes.push(doencaResponse);
 

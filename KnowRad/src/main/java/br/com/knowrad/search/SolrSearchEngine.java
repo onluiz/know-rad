@@ -226,6 +226,7 @@ public class SolrSearchEngine {
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
 		List<DoencaResponse> listDoenca = new ArrayList<DoencaResponse>();
 		List<EdgeResponse> listEdge = new ArrayList<EdgeResponse>();
+//		List<PatientResponse> listPatient = new ArrayList<PatientResponse>();
 
 		if(solr == null)
 			return null;
@@ -260,15 +261,63 @@ public class SolrSearchEngine {
 				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
 
                 //referentes a tela
-                String idPaciente = String.valueOf(dto.getIdPaciente());
+                String titulo = dto.getTitulo();
                 dto.setSelected(Boolean.FALSE);
-                dto.setCytoscape_alias_list(new String[]{idPaciente});
-                dto.setCanonicalName(idPaciente);
+                dto.setCytoscape_alias_list(new String[]{titulo});
+                dto.setCanonicalName(titulo);
                 dto.setSUID(dto.getId());
                 dto.setNodeType("Cheese"); //kkkkk
-                dto.setName(idPaciente);
-                dto.setShared_name(idPaciente);
+                dto.setName(titulo);
+                dto.setShared_name(titulo);
 				dto.setNodeTypeFormatted("Cheese");
+//
+//				if(dto.getIdPaciente() > 0) {
+//
+//					PatientResponse patientResponse = null;
+//
+//					for(PatientResponse p : listPatient) {
+//						if(String.valueOf(dto.getIdPaciente()).equals(p.getData().getId())) {
+//							patientResponse = p;
+//							break;
+//						}
+//					}
+//
+////					if(patientResponse == null) {
+////						PatientDTO patientDTO = new PatientDTO();
+////						String idPaciente = String.valueOf(dto.getIdPaciente());
+////						patientDTO.setId(idPaciente);
+////						patientDTO.setSelected(Boolean.FALSE);
+////						patientDTO.setCytoscape_alias_list(new String[]{idPaciente});
+////						patientDTO.setCanonicalName("Pat: " + idPaciente);
+////						patientDTO.setSUID(idPaciente);
+////						patientDTO.setNodeType("Cheese"); //kkkkk
+////						patientDTO.setName(idPaciente);
+////						patientDTO.setShared_name(idPaciente);
+////						patientDTO.setNodeTypeFormatted("Cheese");
+////
+////						patientResponse = new PatientResponse();
+////						patientResponse.setData(patientDTO);
+////						patientResponse.setPosition(new Position(0.0, 0.0));
+////						listPatient.add(patientResponse);
+////					}
+//
+//					EdgeDTO edgeDTO = new EdgeDTO();
+//					edgeDTO.setSelected(Boolean.FALSE);
+//					edgeDTO.setSource(dto.getId());
+//					edgeDTO.setTarget(String.valueOf(dto.getIdPaciente()));
+//					edgeDTO.setCanonicalName(dto.getCanonicalName() + " " + dto.getIdPaciente());
+//					edgeDTO.setSUID(edgeDTO.getId());
+//					edgeDTO.setName(edgeDTO.getCanonicalName());
+//					edgeDTO.setInteraction("cc");
+//					edgeDTO.setShared_interaction("cc");
+//					edgeDTO.setShared_name(edgeDTO.getCanonicalName());
+//
+//					EdgeResponse edgeResponse = new EdgeResponse();
+//					edgeResponse.setData(edgeDTO);
+//					edgeResponse.setSelected(Boolean.FALSE);
+//
+//					listEdge.add(edgeResponse);
+//				}
 
 				/**
                  * FAZ ASSOCIAÇÃO DAS DOENÇAS
@@ -329,6 +378,7 @@ public class SolrSearchEngine {
 			searchResponse.setListDoencas(listDoenca);
 			searchResponse.setListEdges(listEdge);
 			searchResponse.setListLaudos(listLaudo);
+//			searchResponse.setListPatient(listPatient);
 
 			return searchResponse;
 

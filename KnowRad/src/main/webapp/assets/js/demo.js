@@ -19,9 +19,9 @@ function initGraphs(graphP){
   var infoTemplate = Handlebars.compile([
     '<p class="ac-name">{{name}}</p>',
     '<p class="ac-node-type"><i class="fa fa-info-circle"></i> {{NodeTypeFormatted}} {{#if Type}}({{Type}}){{/if}}</p>',
-    '{{#if Milk}}<p class="ac-milk"><i class="fa fa-angle-double-right"></i> {{Milk}}</p>{{/if}}',
-    '{{#if Country}}<p class="ac-country"><i class="fa fa-map-marker"></i> {{Country}}</p>{{/if}}',
-    '<p class="ac-more"><i class="fa fa-external-link"></i> <a target="_blank" href="https://duckduckgo.com/?q={{name}}">More information</a></p>'
+    //'{{#if Milk}}<p class="ac-milk"><i class="fa fa-angle-double-right"></i> {{Milk}}</p>{{/if}}',
+    //'{{#if Country}}<p class="ac-country"><i class="fa fa-map-marker"></i> {{Country}}</p>{{/if}}'
+    //'<p class="ac-more"><i class="fa fa-external-link"></i> <a target="_blank" href="https://duckduckgo.com/?q={{name}}">More information</a></p>'
   ].join(''));
 
   // when both graph export json and style loaded, init cy
@@ -107,11 +107,11 @@ function initGraphs(graphP){
       
       data.NodeTypeFormatted = data.NodeType;
       
-      if( data.NodeTypeFormatted === 'RedWine' ){
-        data.NodeTypeFormatted = 'Red Wine';
-      } else if( data.NodeTypeFormatted === 'WhiteWine' ){
-        data.NodeTypeFormatted = 'White Wine';
-      }
+      //if( data.NodeTypeFormatted === 'RedWine' ){
+      //  data.NodeTypeFormatted = 'Red Wine';
+      //} else if( data.NodeTypeFormatted === 'WhiteWine' ){
+      //  data.NodeTypeFormatted = 'White Wine';
+      //}
       
       n.data.orgPos = {
         x: n.position.x,

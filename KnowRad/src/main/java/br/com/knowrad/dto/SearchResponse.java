@@ -36,4 +36,5 @@ public class SearchResponse implements Serializable {
     public void setListEdges(List<EdgeResponse> listEdges) {
         this.listEdges = listEdges;
     }
+
 }
