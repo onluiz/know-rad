@@ -15,7 +15,7 @@ function initGraphs(graphP){
     type: 'GET',
     dataType: 'text'
   });
-  
+
   var infoTemplate = Handlebars.compile([
     '<p class="ac-name">{{name}}</p>',
     '<p class="ac-node-type"><i class="fa fa-info-circle"></i> {{NodeTypeFormatted}} {{#if Type}}({{Type}}){{/if}}</p>',
@@ -99,6 +99,8 @@ function initGraphs(graphP){
     var expJson = then[0];
     var styleJson = then[1];
     var elements = expJson.elements;
+
+    console.log("init");
 
     elements.nodes.forEach(function(n){
       var data = n.data;
@@ -250,9 +252,10 @@ function initGraphs(graphP){
         var filter = function(){
           n.addClass('filtered');
         };
-        
+
         if( type === 'Cheese' ){
-          
+
+
           var cType = n.data('Type');
           
           if( 

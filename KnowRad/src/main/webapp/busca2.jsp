@@ -9,7 +9,7 @@
     <meta charset=utf-8 />
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
 
-    <title>Wine and cheese</title>
+    <title>busca2</title>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
@@ -44,6 +44,8 @@
                 data: ({search: search})
             }).done(function (data) {
 
+                console.log(data);
+
                 var graphP = {
                     format_version: "1.0",
                     generated_by: "cytoscape-3.2.0",
@@ -67,9 +69,34 @@
 
                 console.log(graphP);
 
+                var getRandomArbitrary = function(min, max) {
+                    return Math.random() * (max - min) + min;
+                };
+
                 data.listLaudos.forEach(function(laudoResponse) {
 
+                    laudoResponse.position.x = getRandomArbitrary(0, 50000);
+                    laudoResponse.position.y = getRandomArbitrary(0, 50000);
+
                     graphP.elements.nodes.push(laudoResponse);
+
+                });
+
+                var y = 4000.0;
+
+                data.listDoencas.forEach(function(doencaResponse) {
+
+                    doencaResponse.position.x = getRandomArbitrary(0, 50000);
+                    doencaResponse.position.y = y + 100;
+                    doencaResponse.data.NodeType = "RedWine";
+
+                    graphP.elements.nodes.push(doencaResponse);
+
+                });
+
+                data.listEdges.forEach(function(edgeResponse) {
+
+                    graphP.elements.edges.push(edgeResponse);
 
                 });
 
@@ -77,6 +104,10 @@
 
             });
         }
+
+        $(function() {
+            search2();
+        });
 
     </script>
 </head>
@@ -88,7 +119,6 @@
 
 <div id="search-wrapper">
     <input type="text" class="form-control" id="search" autofocus placeholder="Search">
-    <a href="#void" onclick="search2();">BUSCAR</a>
 </div>
 
 <div id="info">
@@ -100,21 +130,21 @@
 <button id="filter" class="btn btn-default"><i class="fa fa-filter"></i></button>
 
 <div id="filters">
-    <strong>Cheese</strong>
-    <input id="soft" type="checkbox" checked></input><label for="soft">Soft</label><br />
-    <input id="semi-soft" type="checkbox" checked></input><label for="semi-soft">Semi-soft</label><br />
-    <input id="na" type="checkbox" checked></input><label for="na">N/A</label><br />
-    <input id="semi-hard" type="checkbox" checked></input><label for="semi-hard">Semi-hard</label><br />
-    <input id="hard" type="checkbox" checked></input><label for="hard">Hard</label>
+    <%--<strong>Cheese</strong>--%>
+    <%--<input id="soft" type="checkbox" checked></input><label for="soft">Soft</label><br />--%>
+    <%--<input id="semi-soft" type="checkbox" checked></input><label for="semi-soft">Semi-soft</label><br />--%>
+    <%--<input id="na" type="checkbox" checked></input><label for="na">N/A</label><br />--%>
+    <%--<input id="semi-hard" type="checkbox" checked></input><label for="semi-hard">Semi-hard</label><br />--%>
+    <%--<input id="hard" type="checkbox" checked></input><label for="hard">Hard</label>--%>
 
     <hr />
 
-    <strong>Drink</strong>
-    <input id="white" type="checkbox" checked></input><label for="white">White wine</label><br />
-    <input id="red" type="checkbox" checked></input><label for="red">Red wine</label><br />
-    <input id="cider" type="checkbox" checked></input><label for="cider">Cider</label>
+    <strong>Relacionamentos</strong>
+    <%--<input id="white" type="checkbox" checked></input><label for="white">White wine</label><br />--%>
+    <input id="red" type="checkbox" checked></input><label for="red">Doenças</label><br />
+    <%--<input id="cider" type="checkbox" checked></input><label for="cider">Cider</label>--%>
 </div>
 
-<a target="_blank" id="linkout" href="http://www.amazon.ca/Cheese-Connoisseurs-Guide-Worlds-Best/dp/1400050340/ref=sr_1_3?s=books&ie=UTF8&qid=1416109370&sr=1-3">Reference <i class="fa fa-external-link"></i></a>
+<%--<a target="_blank" id="linkout" href="http://www.amazon.ca/Cheese-Connoisseurs-Guide-Worlds-Best/dp/1400050340/ref=sr_1_3?s=books&ie=UTF8&qid=1416109370&sr=1-3">Reference <i class="fa fa-external-link"></i></a>--%>
 </body>
 </html>

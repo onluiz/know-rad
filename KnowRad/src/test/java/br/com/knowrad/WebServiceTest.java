@@ -113,7 +113,7 @@ public class WebServiceTest {
 						if(!listDoenca.contains(doencaDTO)) {
 							listDoenca.add(doencaDTO);
 						}
-						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
+//						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
 					}
 				}
 
@@ -121,8 +121,8 @@ public class WebServiceTest {
 			}
 
 			SearchResponse searchResponse = new SearchResponse();
-			searchResponse.setListDoencas(listDoenca);
-			searchResponse.setListEdges(listEdge);
+//			searchResponse.setListDoencas(listDoenca);
+//			searchResponse.setListEdges(listEdge);
 //			searchResponse.setListLaudos(listLaudo);
 
 		} catch (SolrServerException e) {

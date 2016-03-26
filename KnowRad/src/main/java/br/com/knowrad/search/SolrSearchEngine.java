@@ -4,6 +4,7 @@ import br.com.knowrad.dto.*;
 import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
+import org.apache.commons.collections.comparators.BooleanComparator;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -28,7 +29,8 @@ public class SolrSearchEngine {
                     "escavada",
                     "nodulos",
                     "intersticiais",
-                    "intersticial"
+                    "intersticial",
+					"sequelas atelectasias"
             });
             setSelected(Boolean.FALSE);
             setCytoscape_alias_list(new String[]{"tuberculose"});
@@ -37,6 +39,7 @@ public class SolrSearchEngine {
             setNodeType("RedWine");
             setName("tuberculose");
             setShared_name("tuberculose");
+			setNodeTypeFormatted("RedWine");
 		}});
 
 		add(new DoencaDTO(){{
@@ -52,6 +55,7 @@ public class SolrSearchEngine {
             setNodeType("RedWine");
             setName("asma bronquiectasias");
             setShared_name("asma bronquiectasias");
+			setNodeTypeFormatted("RedWine");
 		}});
 
 		add(new DoencaDTO(){{
@@ -59,15 +63,101 @@ public class SolrSearchEngine {
 			setNome("PH");
 			setPalavras(new String[] {
 					"mosaico",
-					"consolidações"
+					"consolidações",
+					"nods",
+					"CL"
+			});
+			setSelected(Boolean.FALSE);
+			setCytoscape_alias_list(new String[]{"asma bronquiectasias"});
+			setCanonicalName("asma bronquiectasias");
+			setSUID("2");
+			setNodeType("RedWine");
+			setName("asma bronquiectasias");
+			setShared_name("asma bronquiectasias");
+			setNodeTypeFormatted("RedWine");
+		}});
+
+		add(new DoencaDTO(){{
+			setId(4);
+			setNome("silicose");
+			setPalavras(new String[] {
+					"nods",
+					"nodulos",
+					"intersticiais",
+					"bandas parenquimatosas"
 			});
             setSelected(Boolean.FALSE);
-            setCytoscape_alias_list(new String[]{"PH"});
-            setCanonicalName("PH");
+            setCytoscape_alias_list(new String[]{"silicose"});
+            setCanonicalName("silicose");
             setSUID("2");
             setNodeType("RedWine");
-            setName("PH");
-            setShared_name("PH");
+            setName("silicose");
+            setShared_name("silicose");
+			setNodeTypeFormatted("RedWine");
+		}});
+
+		add(new DoencaDTO(){{
+			setId(5);
+			setNome("pneumocistose");
+			setPalavras(new String[] {
+					"cistos "
+			});
+			setSelected(Boolean.FALSE);
+			setCytoscape_alias_list(new String[]{"pneumocistose"});
+			setCanonicalName("pneumocistose");
+			setSUID("2");
+			setNodeType("RedWine");
+			setName("pneumocistose");
+			setShared_name("pneumocistose");
+			setNodeTypeFormatted("RedWine");
+		}});
+
+		add(new DoencaDTO(){{
+			setId(6);
+			setNome("cancer");
+			setPalavras(new String[] {
+					"nodulo semisolido"
+			});
+			setSelected(Boolean.FALSE);
+			setCytoscape_alias_list(new String[]{"cancer"});
+			setCanonicalName("cancer");
+			setSUID("2");
+			setNodeType("RedWine");
+			setName("cancer");
+			setShared_name("cancer");
+			setNodeTypeFormatted("RedWine");
+		}});
+
+		add(new DoencaDTO(){{
+			setId(7);
+			setNome("pneumonite actínica");
+			setPalavras(new String[] {
+					"micronodulos"
+			});
+			setSelected(Boolean.FALSE);
+			setCytoscape_alias_list(new String[]{"pneumonite actínica"});
+			setCanonicalName("pneumonite actínica");
+			setSUID("2");
+			setNodeType("RedWine");
+			setName("pneumonite actínica");
+			setShared_name("pneumonite actínica");
+			setNodeTypeFormatted("RedWine");
+		}});
+
+		add(new DoencaDTO(){{
+			setId(8);
+			setNome("esclerodermia");
+			setPalavras(new String[] {
+					"vidro fosco"
+			});
+			setSelected(Boolean.FALSE);
+			setCytoscape_alias_list(new String[]{"esclerodermia"});
+			setCanonicalName("esclerodermia");
+			setSUID("2");
+			setNodeType("RedWine");
+			setName("esclerodermia");
+			setShared_name("esclerodermia");
+			setNodeTypeFormatted("RedWine");
 		}});
 
 	}};
@@ -134,8 +224,8 @@ public class SolrSearchEngine {
 	public SearchResponse searchLaudos2(String search) {
 
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
-		List<DoencaDTO> listDoenca = new ArrayList<DoencaDTO>();
-		List<EdgeDTO> listEdge = new ArrayList<EdgeDTO>();
+		List<DoencaResponse> listDoenca = new ArrayList<DoencaResponse>();
+		List<EdgeResponse> listEdge = new ArrayList<EdgeResponse>();
 
 		if(solr == null)
 			return null;
@@ -143,7 +233,7 @@ public class SolrSearchEngine {
 		try {
 
 			SolrQuery query = new SolrQuery();
-
+			query.setRows(100000);
 			if(search == null || search.equals(""))
 				query.setQuery("*:*");
 			else
@@ -154,6 +244,9 @@ public class SolrSearchEngine {
 
             Double x = 4491.77880859375;
             Double y = 4647.23974609375;
+
+			Double xDoenca = 1391.1080322265625;
+			Double yDoenca = 4324.1015625;
 
 			for(Map solrMap : list) {
 				LaudoDTO dto = new LaudoDTO();
@@ -175,17 +268,50 @@ public class SolrSearchEngine {
                 dto.setNodeType("Cheese"); //kkkkk
                 dto.setName(idPaciente);
                 dto.setShared_name(idPaciente);
+				dto.setNodeTypeFormatted("Cheese");
 
-                /**
-                 * FAZ ASSIAÇÃO DAS DOENÇAS
+				/**
+                 * FAZ ASSOCIAÇÃO DAS DOENÇAS
                  */
 				if(dto.getDoencas().size() > 0) {
 					for(Long id : dto.getDoencas()) {
 						DoencaDTO doencaDTO = findDoencaById(id);
-						if(!listDoenca.contains(doencaDTO)) {
-							listDoenca.add(doencaDTO);
+
+						boolean contains = Boolean.FALSE;
+						for(DoencaResponse d : listDoenca) {
+							if(d.getData().getId() == doencaDTO.getId()) {
+								contains = Boolean.TRUE;
+								break;
+							}
 						}
-						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
+
+						if(!contains) {
+							xDoenca += 100.0;
+							yDoenca += 100.0;
+
+							DoencaResponse doencaResponse = new DoencaResponse();
+							doencaResponse.setData(doencaDTO);
+							doencaResponse.setPosition(new Position(xDoenca, yDoenca));
+							doencaResponse.setSelected(Boolean.FALSE);
+							listDoenca.add(doencaResponse);
+						}
+
+						EdgeDTO edgeDTO = new EdgeDTO();
+						edgeDTO.setSelected(Boolean.FALSE);
+						edgeDTO.setSource(dto.getId());
+						edgeDTO.setTarget(String.valueOf(doencaDTO.getId()));
+						edgeDTO.setCanonicalName(dto.getCanonicalName() + " " + doencaDTO.getCanonicalName());
+						edgeDTO.setSUID(edgeDTO.getId());
+						edgeDTO.setName(edgeDTO.getCanonicalName());
+						edgeDTO.setInteraction("cc");
+						edgeDTO.setShared_interaction("cc");
+						edgeDTO.setShared_name(edgeDTO.getCanonicalName());
+
+						EdgeResponse edgeResponse = new EdgeResponse();
+						edgeResponse.setData(edgeDTO);
+						edgeResponse.setSelected(Boolean.FALSE);
+
+						listEdge.add(edgeResponse);
 					}
 				}
 

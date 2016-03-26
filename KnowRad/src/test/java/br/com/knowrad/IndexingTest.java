@@ -36,7 +36,8 @@ public class IndexingTest {
                     "escavada",
                     "nodulos",
                     "intersticiais",
-                    "intersticial"
+                    "intersticial",
+					"sequelas atelectasias"
             });
         }});
 
@@ -53,10 +54,54 @@ public class IndexingTest {
             setNome("PH");
             setPalavras(new String[] {
                     "mosaico",
-                    "consolidações"
+                    "consolidações",
+					"nods",
+					"CL"
             });
         }});
 
+		add(new DoencaDTO(){{
+			setId(4);
+			setNome("silicose");
+			setPalavras(new String[] {
+					"nods",
+					"nodulos",
+					"intersticiais",
+					"bandas parenquimatosas"
+			});
+		}});
+
+		add(new DoencaDTO(){{
+			setId(5);
+			setNome("pneumocistose");
+			setPalavras(new String[] {
+					"cistos "
+			});
+		}});
+
+		add(new DoencaDTO(){{
+			setId(6);
+			setNome("cancer");
+			setPalavras(new String[] {
+					"nodulo semisolido"
+			});
+		}});
+
+		add(new DoencaDTO(){{
+			setId(7);
+			setNome("pneumonite actínica");
+			setPalavras(new String[] {
+					"micronodulos"
+			});
+		}});
+
+		add(new DoencaDTO(){{
+			setId(8);
+			setNome("esclerodermia");
+			setPalavras(new String[] {
+					"vidro fosco"
+			});
+		}});
     }};
 
 	//solr start
@@ -160,7 +205,6 @@ public class IndexingTest {
     }
 
 	@Test
-    @Ignore
 	public void readAndIndexJson() {
 		
 		/**

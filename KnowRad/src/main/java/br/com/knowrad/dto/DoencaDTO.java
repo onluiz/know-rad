@@ -18,6 +18,7 @@ public class DoencaDTO implements Serializable {
     private String NodeType;
     private String name;
     private String shared_name;
+    private String NodeTypeFormatted;
 
     public long getId() {
         return id;
@@ -97,5 +98,13 @@ public class DoencaDTO implements Serializable {
 
     public void setShared_name(String shared_name) {
         this.shared_name = shared_name;
+    }
+
+    public String getNodeTypeFormatted() {
+        return NodeTypeFormatted;
+    }
+
+    public void setNodeTypeFormatted(String nodeTypeFormatted) {
+        NodeTypeFormatted = nodeTypeFormatted;
     }
 }
