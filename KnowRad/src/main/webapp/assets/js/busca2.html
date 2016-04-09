@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- saved from url=(0040)http://localhost:8080/KnowRad/busca2.jsp -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+
+
+
+    
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
+
+    <title>busca2</title>
+    <link href="./busca2_files/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./busca2_files/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
+    <link href="./busca2_files/style.css" rel="stylesheet">
+    <link href="./busca2_files/jquery.qtip.min.css" rel="stylesheet" type="text/css">
+    <link href="./busca2_files/jquery.gritter.css" rel="stylesheet" type="text/css">
+
+    <script src="./busca2_files/fastclick.min.js"></script>
+    <script src="./busca2_files/jquery.min.js"></script>
+
+    <script src="./busca2_files/handlebars.min.js"></script>
+
+    <script src="./busca2_files/cytoscape.min.js"></script>
+    <!--<script src="../cytoscape.js/build/cytoscape.js"></script>-->
+
+    <script src="./busca2_files/jquery.qtip.min.js"></script>
+
+    <script src="./busca2_files/cytoscape-qtip.js"></script>
+
+    <script src="./busca2_files/bluebird.min.js"></script>
+    <script src="./busca2_files/bootstrap.min.js"></script>
+    <script src="./busca2_files/typeahead.bundle.js"></script>
+    <script src="./busca2_files/handlebars2.min.js"></script>
+    <script src="./busca2_files/jquery.gritter.min.js"></script>
+    <script src="./busca2_files/demo.js"></script>
+
+    <script>
+
+        function search2() {
+            var search = $("#search").val();
+            $.ajax({
+                type: "GET",
+                url: '/KnowRad/searchLaudos/search',
+                cache: false,
+                data: ({search: search})
+            }).done(function (data) {
+
+                console.log(data);
+
+                var graphP = {
+                    format_version: "1.0",
+                    generated_by: "cytoscape-3.2.0",
+                    target_cytoscapejs_version: "~2.1",
+                    data: {
+                        selected: true,
+                        __Annotations: [],
+                        shared_name: "WineCheeseNetwork",
+                        SUID: 52,
+                        name: "WineCheeseNetwork"
+
+                    },
+
+                    elements : {
+
+                        nodes: [],
+                        edges: []
+
+                    }
+                };
+
+                console.log(graphP);
+
+                var getRandomArbitrary = function(min, max) {
+                    return Math.random() * (max - min) + min;
+                };
+
+                data.listLaudos.forEach(function(laudoResponse) {
+
+                    laudoResponse.position.x = getRandomArbitrary(6000, 100000);
+                    laudoResponse.position.y = getRandomArbitrary(6000, 100000);
+//                    laudoResponse.data.NodeType = "Cheese";
+
+
+                    graphP.elements.nodes.push(laudoResponse);
+
+                });
+
+                var xDoenca = 4000.0;
+
+                data.listDoencas.forEach(function(doencaResponse) {
+
+                    doencaResponse.position.x = getRandomArbitrary(0, 110000);
+                    doencaResponse.position.y = getRandomArbitrary(0, 110000);
+                    doencaResponse.data.NodeType = "RedWine";
+                    doencaResponse.data.NodeTypeFormatted = doencaResponse.canonicalName;
+                    doencaResponse.data.Strength = "5";
+                    doencaResponse.data.Quality = "100";
+
+                    graphP.elements.nodes.push(doencaResponse);
+
+                });
+
+                data.listEdges.forEach(function(edgeResponse) {
+
+                    graphP.elements.edges.push(edgeResponse);
+
+                });
+
+                console.log("Quantidade de laudos:" + data.listLaudos.length);
+                console.log("Quantidade de doenças:" + data.listDoencas.length);
+                console.log("Quantidade de relacionamentos:" + data.listEdges.length);
+
+                initGraphs(graphP);
+
+            });
+        }
+
+        var quantitativeData = null;
+
+        function showQuantitativeData() {
+            $.gritter.add({
+                // (string | mandatory) the heading of the notification
+                title: 'This is a light notification',
+                // (string | mandatory) the text inside the notification
+                text: 'Just add a "gritter-light" class_name to your $.gritter.add or globally to $.gritter.options.class_name',
+                class_name: 'gritter-light'
+            });
+        }
+
+        $(function() {
+            search2();
+        });
+
+    </script>
+</head>
+<body>
+<div id="cy" style="-webkit-tap-highlight-color: rgba(0,0,0,0);"><div style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); position: relative; z-index: 0; overflow: hidden; width: 1349px; height: 255px;"><canvas style="-webkit-user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); outline-style: none; position: absolute; z-index: 3; width: 1349px; height: 255px;" data-id="layer0-selectbox" width="1349" height="255"></canvas><canvas style="-webkit-user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); outline-style: none; position: absolute; z-index: 2; width: 1349px; height: 255px;" data-id="layer1-drag" width="1349" height="255"></canvas><canvas style="-webkit-user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); outline-style: none; position: absolute; z-index: 1; width: 1349px; height: 255px;" data-id="layer2-node" width="1349" height="255"></canvas></div></div>
+<div id="loading" class="loaded">
+    <span class="fa fa-refresh fa-spin"></span>
+</div>
+
+<div id="search-wrapper">
+    <span class="twitter-typeahead" style="position: relative; display: inline-block; direction: ltr;"><input type="text" class="form-control tt-hint" autofocus="" readonly="" autocomplete="off" spellcheck="false" tabindex="-1" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box border-box rgb(255, 255, 255);"><input type="text" class="form-control tt-input" id="search" autofocus="" placeholder="Search" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: &#39;helvetica neue&#39;, helvetica, arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: 400; word-spacing: 0px; letter-spacing: 0px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><span class="tt-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none; right: auto;"><div class="tt-dataset-search-dataset"></div></span></span>
+</div>
+
+<div id="info">
+</div>
+
+
+<button id="reset" class="btn btn-default"><i class="fa fa-arrows-h"></i></button>
+
+<button id="filter" class="btn btn-default" data-hasqtip="0" aria-describedby="qtip-0"><i class="fa fa-filter"></i></button>
+
+
+
+
+
+
+<div style="font-family: &#39;Helvetica Neue&#39;, Helvetica, sans-serif; font-style: normal; font-size: 10px; font-weight: bold; position: absolute; left: -9999px; top: -9999px; z-index: -1; visibility: hidden; pointer-events: none; padding: 0px; line-height: 1; white-space: normal;">cancer</div><div id="qtip-0" class="qtip qtip-default qtip-bootstrap qtip-pos-tc qtip-focus" tracking="false" role="alert" aria-live="polite" aria-atomic="false" aria-describedby="qtip-0-content" aria-hidden="false" data-qtip-id="0" style="z-index: 15001; top: 50px; left: 1192.72px; display: block;"><div class="qtip-tip" style="border: 0px !important; width: 19px; height: 10px; line-height: 10px; left: 50%; margin-left: -10px; top: -10px; background-color: transparent !important;"><canvas width="19" height="10" style="border: 0px !important; width: 19px; height: 10px; background-color: transparent !important;"></canvas></div><div class="qtip-content" id="qtip-0-content" aria-atomic="true"><div id="filters" style="display: block; visibility: visible;">
+    
+    
+    
+    
+    
+    
+
+    <hr>
+
+    <strong>Relacionamentos</strong>
+    
+    <input id="red" type="checkbox" checked=""><label for="red">Doenças</label><br>
+    <a class="btn btn-info" onclick="showQuantitativeData();">Dados</a>
+    
+</div></div></div></body></html>
