@@ -1,6 +1,7 @@
-package br.com.knowrad.dto;
+package br.com.knowrad.dto.doenca;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class DoencaDTO implements Serializable {
 
@@ -8,7 +9,7 @@ public class DoencaDTO implements Serializable {
 
     private long id;
     private String nome;
-    private String[] palavras;
+    private List<String> palavras;
 
     //atributos utilizados pela tela
     private Boolean selected;
@@ -36,11 +37,11 @@ public class DoencaDTO implements Serializable {
         this.nome = nome;
     }
 
-    public String[] getPalavras() {
+    public List<String> getPalavras() {
         return palavras;
     }
 
-    public void setPalavras(String[] palavras) {
+    public void setPalavras(List<String> palavras) {
         this.palavras = palavras;
     }
 

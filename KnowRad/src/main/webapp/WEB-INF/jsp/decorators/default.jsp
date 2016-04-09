@@ -13,10 +13,12 @@
         <!-- CSS -->
         <link rel="stylesheet" href="<c:url value='/assets/bootstrap/css/bootstrap.min.css' />" />
         <link rel="stylesheet" href="<c:url value='/assets/bootstrap/css/bootstrap-theme.min.css' />" />
+        <link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />
 
         <!-- JS -->
         <script type="text/javascript" src="<c:url value='/assets/js/jquery-2.1.4.min.js' />"></script>
         <script type="text/javascript" src="<c:url value='/assets/bootstrap/js/bootstrap.min.js' />"></script>
+        <script src="<c:url value='/assets/js/jquery.gritter.min.js'/>"></script>
 
         <!-- Service -->
         <script type="text/javascript" src="<c:url value='/assets/js/knowrad/abstract-service.js' />"></script>

@@ -106,8 +106,6 @@ function initGraphs(graphP){
     var styleJson = then[1];
     var elements = expJson.elements;
 
-    console.log("init");
-
     elements.nodes.forEach(function(n){
       var data = n.data;
       

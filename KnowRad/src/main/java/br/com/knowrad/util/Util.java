@@ -1,5 +1,7 @@
 package br.com.knowrad.util;
 
+import br.com.knowrad.dto.doenca.DoencaDTO;
+
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +50,109 @@ public class Util {
 		string = string.toLowerCase();
 
 		return string;
+	}
+
+	public static List<DoencaDTO> getDoencas() {
+		return new ArrayList<DoencaDTO>() {{
+			add(new DoencaDTO() {{
+				setId(1);
+				setNome("Tuberculose");
+				setPalavras(new ArrayList<String>() {{
+					add("escavação");
+					add("escavada");
+					add("intersticiais");
+					add("intersticial");
+					add("nodulos intersticiais");
+					add("sequelas atelectasias");
+					add("disseminação canalicular");
+					add("atelectasia");
+					add("obstrução bronq");
+					add("sequelas atelectasias");
+					add("tuberculose");
+				}});
+				setSelected(Boolean.FALSE);
+				setCytoscape_alias_list(new String[]{"Tuberculose"});
+				setCanonicalName("Tuberculose");
+				setSUID("1");
+				setNodeType("RedWine");
+				setName("Tuberculose");
+				setShared_name("Tuberculose");
+				setNodeTypeFormatted("RedWine");
+			}});
+
+//        add(new DoencaDTO(){{
+//            setId(2);
+//            setNome("asma bronquiectasias");
+//            setPalavras(new String[] {
+//                    "mosaico"
+//            });
+//        }});
+//
+			add(new DoencaDTO(){{
+				setId(2);
+				setNome("PH");
+				setPalavras(new ArrayList<String>() {{
+					add("mosaico");
+					add("consolidações");
+					add("mosaico e nods CL");
+					add("aprisionamento lobular");
+					add("PH crônica");
+					add("PH");
+				}});
+
+				setSelected(Boolean.FALSE);
+				setCytoscape_alias_list(new String[]{"PH"});
+				setCanonicalName("PH");
+				setSUID("2");
+				setNodeType("RedWine");
+				setName("PH");
+				setShared_name("PH");
+				setNodeTypeFormatted("RedWine");
+			}});
+//
+//		add(new DoencaDTO(){{
+//			setId(4);
+//			setNome("silicose");
+//			setPalavras(new String[] {
+//					"nods",
+//					"nodulos",
+//					"intersticiais",
+//					"bandas parenquimatosas"
+//			});
+//		}});
+//
+//		add(new DoencaDTO(){{
+//			setId(5);
+//			setNome("pneumocistose");
+//			setPalavras(new String[] {
+//					"cistos "
+//			});
+//		}});
+//
+//		add(new DoencaDTO(){{
+//			setId(6);
+//			setNome("cancer");
+//			setPalavras(new String[] {
+//					"nodulo semisolido"
+//			});
+//		}});
+//
+//		add(new DoencaDTO(){{
+//			setId(7);
+//			setNome("pneumonite actínica");
+//			setPalavras(new String[] {
+//					"micronodulos"
+//			});
+//		}});
+//
+//		add(new DoencaDTO(){{
+//			setId(8);
+//			setNome("esclerodermia");
+//			setPalavras(new String[] {
+//					"vidro fosco"
+//			});
+//		}});
+		}};
 	}
 	
 }

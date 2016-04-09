@@ -1,8 +1,8 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.DoencaDTO;
 import br.com.knowrad.dto.EdgeDTO;
 import br.com.knowrad.dto.SearchResponse;
+import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
@@ -25,31 +25,31 @@ public class WebServiceTest {
 		add(new DoencaDTO() {{
 			setId(1);
 			setNome("tuberculose");
-			setPalavras(new String[] {
-					"escavação",
-					"escavada",
-					"nodulos",
-					"intersticiais",
-					"intersticial"
-			});
+//			setPalavras(new String[] {
+//					"escavação",
+//					"escavada",
+//					"nodulos",
+//					"intersticiais",
+//					"intersticial"
+//			});
 		}});
 
-		add(new DoencaDTO(){{
-			setId(2);
-			setNome("asma bronquiectasias");
-			setPalavras(new String[] {
-					"mosaico"
-			});
-		}});
-
-		add(new DoencaDTO(){{
-			setId(3);
-			setNome("PH");
-			setPalavras(new String[] {
-					"mosaico",
-					"consolidações"
-			});
-		}});
+//		add(new DoencaDTO(){{
+//			setId(2);
+//			setNome("asma bronquiectasias");
+//			setPalavras(new String[] {
+//					"mosaico"
+//			});
+//		}});
+//
+//		add(new DoencaDTO(){{
+//			setId(3);
+//			setNome("PH");
+//			setPalavras(new String[] {
+//					"mosaico",
+//					"consolidações"
+//			});
+//		}});
 
 	}};
 

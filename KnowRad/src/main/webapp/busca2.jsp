@@ -15,7 +15,7 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
     <link href="<c:url value='/assets/css/style.css' />" rel="stylesheet">
     <link href="<c:url value='/assets/css/jquery.qtip.min.css'/>" rel="stylesheet" type="text/css" />
-    <link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />
+    <%--<link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />--%>
 
     <script src="<c:url value='/assets/js/fastclick.min.js' />"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -33,7 +33,7 @@
     <script src="<c:url value='/assets/js/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/assets/js/typeahead.bundle.js'/>"></script>
     <script src="<c:url value='/assets/js/handlebars2.min.js'/>"></script>
-    <script src="<c:url value='/assets/js/jquery.gritter.min.js'/>"></script>
+    <%--<script src="<c:url value='/assets/js/jquery.gritter.min.js'/>"></script>--%>
     <script src="<c:url value='/assets/js/demo.js' />"></script>
 
     <script>
@@ -47,8 +47,6 @@
                 cache: false,
                 data: ({search: search})
             }).done(function (data) {
-
-                console.log(data);
 
                 var graphP = {
                     format_version: "1.0",
@@ -70,8 +68,6 @@
 
                     }
                 };
-
-                console.log(graphP);
 
                 var getRandomArbitrary = function(min, max) {
                     return Math.random() * (max - min) + min;
@@ -108,10 +104,6 @@
                     graphP.elements.edges.push(edgeResponse);
 
                 });
-
-                console.log("Quantidade de laudos:" + data.listLaudos.length);
-                console.log("Quantidade de doenças:" + data.listDoencas.length);
-                console.log("Quantidade de relacionamentos:" + data.listEdges.length);
 
                 quantitativeData = {
                     qtdLaudos: data.listLaudos.length,

@@ -1,10 +1,10 @@
 package br.com.knowrad.search;
 
 import br.com.knowrad.dto.*;
+import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
-import org.apache.commons.collections.comparators.BooleanComparator;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -20,147 +20,7 @@ public class SolrSearchEngine {
 
 	private SolrClient solr = new SolrConnection().getSolrConnection();
 
-	List<DoencaDTO> doencas = new ArrayList<DoencaDTO>() {{
-		add(new DoencaDTO() {{
-			setId(1);
-			setNome("tuberculose");
-			setPalavras(new String[]{
-                    "escavação",
-                    "escavada",
-                    "nodulos",
-                    "intersticiais",
-                    "intersticial",
-					"sequelas atelectasias"
-            });
-            setSelected(Boolean.FALSE);
-            setCytoscape_alias_list(new String[]{"tuberculose"});
-            setCanonicalName("tuberculose");
-            setSUID("1");
-            setNodeType("RedWine");
-            setName("tuberculose");
-            setShared_name("tuberculose");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(2);
-			setNome("asma bronquiectasias");
-			setPalavras(new String[] {
-					"mosaico"
-			});
-            setSelected(Boolean.FALSE);
-            setCytoscape_alias_list(new String[]{"asma bronquiectasias"});
-            setCanonicalName("asma bronquiectasias");
-            setSUID("2");
-            setNodeType("RedWine");
-            setName("asma bronquiectasias");
-            setShared_name("asma bronquiectasias");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(3);
-			setNome("PH");
-			setPalavras(new String[] {
-					"mosaico",
-					"consolidações",
-					"nods",
-					"CL"
-			});
-			setSelected(Boolean.FALSE);
-			setCytoscape_alias_list(new String[]{"asma bronquiectasias"});
-			setCanonicalName("asma bronquiectasias");
-			setSUID("2");
-			setNodeType("RedWine");
-			setName("asma bronquiectasias");
-			setShared_name("asma bronquiectasias");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(4);
-			setNome("silicose");
-			setPalavras(new String[] {
-					"nods",
-					"nodulos",
-					"intersticiais",
-					"bandas parenquimatosas"
-			});
-            setSelected(Boolean.FALSE);
-            setCytoscape_alias_list(new String[]{"silicose"});
-            setCanonicalName("silicose");
-            setSUID("2");
-            setNodeType("RedWine");
-            setName("silicose");
-            setShared_name("silicose");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(5);
-			setNome("pneumocistose");
-			setPalavras(new String[] {
-					"cistos "
-			});
-			setSelected(Boolean.FALSE);
-			setCytoscape_alias_list(new String[]{"pneumocistose"});
-			setCanonicalName("pneumocistose");
-			setSUID("2");
-			setNodeType("RedWine");
-			setName("pneumocistose");
-			setShared_name("pneumocistose");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(6);
-			setNome("cancer");
-			setPalavras(new String[] {
-					"nodulo semisolido"
-			});
-			setSelected(Boolean.FALSE);
-			setCytoscape_alias_list(new String[]{"cancer"});
-			setCanonicalName("cancer");
-			setSUID("2");
-			setNodeType("RedWine");
-			setName("cancer");
-			setShared_name("cancer");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(7);
-			setNome("pneumonite actínica");
-			setPalavras(new String[] {
-					"micronodulos"
-			});
-			setSelected(Boolean.FALSE);
-			setCytoscape_alias_list(new String[]{"pneumonite actínica"});
-			setCanonicalName("pneumonite actínica");
-			setSUID("2");
-			setNodeType("RedWine");
-			setName("pneumonite actínica");
-			setShared_name("pneumonite actínica");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-		add(new DoencaDTO(){{
-			setId(8);
-			setNome("esclerodermia");
-			setPalavras(new String[] {
-					"vidro fosco"
-			});
-			setSelected(Boolean.FALSE);
-			setCytoscape_alias_list(new String[]{"esclerodermia"});
-			setCanonicalName("esclerodermia");
-			setSUID("2");
-			setNodeType("RedWine");
-			setName("esclerodermia");
-			setShared_name("esclerodermia");
-			setNodeTypeFormatted("RedWine");
-		}});
-
-	}};
+	List<DoencaDTO> doencas = Util.getDoencas();
 
 	@SuppressWarnings("rawtypes")
 	public List<LaudoDTO> searchLaudos(String search) {
@@ -213,6 +73,7 @@ public class SolrSearchEngine {
 
 		while(doencaDTO == null) {
 			DoencaDTO dto = doencas.get(count);
+			String teste = "break here";
 			if(dto.getId() == id)
 				doencaDTO = dto;
 			count++;

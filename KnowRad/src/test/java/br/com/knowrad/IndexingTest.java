@@ -1,6 +1,6 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.DoencaDTO;
+import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.patologia.PatologiaCaseDTO;
 import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.util.Util;
@@ -27,82 +27,7 @@ import java.util.List;
 
 public class IndexingTest {
 
-    List<DoencaDTO> doencas = new ArrayList<DoencaDTO>() {{
-        add(new DoencaDTO() {{
-            setId(1);
-            setNome("tuberculose");
-            setPalavras(new String[] {
-                    "escavação",
-                    "escavada",
-                    "nodulos",
-                    "intersticiais",
-                    "intersticial",
-					"sequelas atelectasias"
-            });
-        }});
-
-        add(new DoencaDTO(){{
-            setId(2);
-            setNome("asma bronquiectasias");
-            setPalavras(new String[] {
-                    "mosaico"
-            });
-        }});
-
-        add(new DoencaDTO(){{
-            setId(3);
-            setNome("PH");
-            setPalavras(new String[] {
-                    "mosaico",
-                    "consolidações",
-					"nods",
-					"CL"
-            });
-        }});
-
-		add(new DoencaDTO(){{
-			setId(4);
-			setNome("silicose");
-			setPalavras(new String[] {
-					"nods",
-					"nodulos",
-					"intersticiais",
-					"bandas parenquimatosas"
-			});
-		}});
-
-		add(new DoencaDTO(){{
-			setId(5);
-			setNome("pneumocistose");
-			setPalavras(new String[] {
-					"cistos "
-			});
-		}});
-
-		add(new DoencaDTO(){{
-			setId(6);
-			setNome("cancer");
-			setPalavras(new String[] {
-					"nodulo semisolido"
-			});
-		}});
-
-		add(new DoencaDTO(){{
-			setId(7);
-			setNome("pneumonite actínica");
-			setPalavras(new String[] {
-					"micronodulos"
-			});
-		}});
-
-		add(new DoencaDTO(){{
-			setId(8);
-			setNome("esclerodermia");
-			setPalavras(new String[] {
-					"vidro fosco"
-			});
-		}});
-    }};
+    List<DoencaDTO> doencas = Util.getDoencas();
 
 	//solr start
 	//solr create -c laudos
@@ -193,8 +118,18 @@ public class IndexingTest {
             for(String palavra : doenca.getPalavras()) {
 
                 if(texto.indexOf(Util.cleanText(palavra)) > -1) {
-                    System.out.println("ACHOU: " + doenca.getNome());
-                    list.add(doenca.getId());
+
+                    boolean achou = false;
+                    for(Long idEncontrado : list) {
+                        if(idEncontrado == doenca.getId()) {
+                            achou = true;
+                            break;
+                        }
+                    }
+                    if(!achou) {
+                        System.out.println("ACHOU: " + doenca.getNome());
+                        list.add(doenca.getId());
+                    }
                 }
 
             }
@@ -221,7 +156,9 @@ public class IndexingTest {
             JsonElement jelement = new JsonParser().parse(content);
 			JsonObject jobject = jelement.getAsJsonObject();
 			JsonArray jarray = jobject.getAsJsonArray("listLaudos");
-			
+
+			String nomePaciente = "PACIENTE";
+
 			for(int i = 0; i < jarray.size(); i++) {
 				
 				JsonObject item = jarray.get(i).getAsJsonObject();
@@ -229,7 +166,7 @@ public class IndexingTest {
 				if(item != null) {
 					LaudoDTO dto = new LaudoDTO();
 					dto.setIdPaciente(verifyLong(item.get("idpaciente")));
-					dto.setNomePaciente(verifyString(item.get("nomepaciente")));
+					dto.setNomePaciente(nomePaciente + i);
 					dto.setTitulo(verifyString(item.get("titulo")));
 					dto.setTexto(verifyString(item.get("texto")));
                     dto.setTextoLimpo(Util.cleanText(verifyString(item.get("texto"))));

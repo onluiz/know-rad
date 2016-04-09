@@ -1,5 +1,7 @@
 package br.com.knowrad.dto;
 
+import br.com.knowrad.dto.doenca.DoencaDTO;
+
 import java.io.Serializable;
 
 public class DoencaResponse implements Serializable {

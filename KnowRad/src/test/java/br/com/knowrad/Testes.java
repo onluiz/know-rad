@@ -1,6 +1,6 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.DoencaDTO;
+import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.util.Util;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,34 +11,34 @@ import java.util.List;
 public class Testes {
 
     List<DoencaDTO> doencas = new ArrayList<DoencaDTO>() {{
-        add(new DoencaDTO() {{
-            setId(1);
-            setNome("tuberculose");
-            setPalavras(new String[] {
-                    "escavação",
-                    "escavada",
-                    "nodulos",
-                    "intersticiais",
-                    "intersticial"
-            });
-        }});
-
-        add(new DoencaDTO(){{
-            setId(2);
-            setNome("asma bronquiectasias");
-            setPalavras(new String[] {
-                    "mosaico"
-            });
-        }});
-
-        add(new DoencaDTO(){{
-            setId(3);
-            setNome("PH");
-            setPalavras(new String[] {
-                    "mosaico",
-                    "consolidações"
-            });
-        }});
+//        add(new DoencaDTO() {{
+//            setId(1);
+//            setNome("tuberculose");
+//            setPalavras(new String[] {
+//                    "escavação",
+//                    "escavada",
+//                    "nodulos",
+//                    "intersticiais",
+//                    "intersticial"
+//            });
+//        }});
+//
+//        add(new DoencaDTO(){{
+//            setId(2);
+//            setNome("asma bronquiectasias");
+//            setPalavras(new String[] {
+//                    "mosaico"
+//            });
+//        }});
+//
+//        add(new DoencaDTO(){{
+//            setId(3);
+//            setNome("PH");
+//            setPalavras(new String[] {
+//                    "mosaico",
+//                    "consolidações"
+//            });
+//        }});
     }};
 
     void print(String v) {
