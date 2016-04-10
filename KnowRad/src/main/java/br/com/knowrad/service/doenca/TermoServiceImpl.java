@@ -48,6 +48,10 @@ public class TermoServiceImpl implements TermoService {
         return listDTO;
     }
 
+    public List<TermoDTO> findAllDTO() {
+        return dao.findAllDTO();
+    }
+
     TermoDTO entityToDTO(Termo termo) {
         TermoDTO dto = new TermoDTO();
         dto.setId(termo.getId());

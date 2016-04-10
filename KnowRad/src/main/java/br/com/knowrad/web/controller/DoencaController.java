@@ -4,6 +4,7 @@ import br.com.knowrad.dto.datatable.DatatableRequest;
 import br.com.knowrad.dto.datatable.DatatableResponse;
 import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.doenca.DoencaFilter;
+import br.com.knowrad.dto.doenca.DoencaResponseDTO;
 import br.com.knowrad.dto.doenca.TermoDTO;
 import br.com.knowrad.entity.doenca.Doenca;
 import br.com.knowrad.entity.doenca.Termo;
@@ -16,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.Serializable;
 import java.util.List;
 
 @Controller
@@ -120,13 +120,13 @@ public class DoencaController {
 
     @ResponseBody
     @RequestMapping(value = "/findDoencaResponseById", method = { RequestMethod.GET })
-    public DoencaResponse findDoencaResponseById(@RequestParam Long id){
+    public DoencaResponseDTO findDoencaResponseById(@RequestParam Long id){
         Doenca doenca = service.findById(id);
         DoencaDTO dto = new DoencaDTO();
         dto.setId(doenca.getId());
         dto.setNome(doenca.getNome());
 
-        DoencaResponse response = new DoencaResponse();
+        DoencaResponseDTO response = new DoencaResponseDTO();
         response.setDoencaDTO(dto);
         response.setListTermoDTO(termoService.findListDTOByIdDoenca(id));
 
@@ -139,28 +139,5 @@ public class DoencaController {
         return termoService.findListDTOByIdDoenca(id);
     }
 
-    class DoencaResponse implements Serializable {
-
-        private static final long serialVersionUID = 1L;
-
-        private DoencaDTO doencaDTO;
-        private List<TermoDTO> listTermoDTO;
-
-        public DoencaDTO getDoencaDTO() {
-            return doencaDTO;
-        }
-
-        public void setDoencaDTO(DoencaDTO doencaDTO) {
-            this.doencaDTO = doencaDTO;
-        }
-
-        public List<TermoDTO> getListTermoDTO() {
-            return listTermoDTO;
-        }
-
-        public void setListTermoDTO(List<TermoDTO> listTermoDTO) {
-            this.listTermoDTO = listTermoDTO;
-        }
-    }
 
 }

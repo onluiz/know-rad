@@ -12,4 +12,5 @@ public interface TermoService {
     Termo findById(final Long id);
     List<Termo> findListByIdDoenca(Long id);
     List<TermoDTO> findListDTOByIdDoenca(Long id);
+    List<TermoDTO> findAllDTO();
 }

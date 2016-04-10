@@ -29,7 +29,7 @@ node {
 }
  
 edge[interaction = "cc"] {
-	line-color: #FACD37;
+	line-color: #5f93ff;
 	opacity: 0.666;
 	z-index: 9;
 	width: 4;
@@ -53,6 +53,9 @@ edge[interaction = "cw"] {
 }
  
 node[NodeType = "RedWine"] {
+	width: 300;
+	height: 300;
+	font-size: 30;
 	background-color: #DE3128;
 	text-outline-color: #DE3128;
 }

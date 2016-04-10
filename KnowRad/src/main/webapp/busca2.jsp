@@ -15,7 +15,7 @@
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
     <link href="<c:url value='/assets/css/style.css' />" rel="stylesheet">
     <link href="<c:url value='/assets/css/jquery.qtip.min.css'/>" rel="stylesheet" type="text/css" />
-    <%--<link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />--%>
+    <link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />
 
     <script src="<c:url value='/assets/js/fastclick.min.js' />"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -33,7 +33,7 @@
     <script src="<c:url value='/assets/js/bootstrap.min.js'/>"></script>
     <script src="<c:url value='/assets/js/typeahead.bundle.js'/>"></script>
     <script src="<c:url value='/assets/js/handlebars2.min.js'/>"></script>
-    <%--<script src="<c:url value='/assets/js/jquery.gritter.min.js'/>"></script>--%>
+    <script src="<c:url value='/assets/js/jquery.gritter.min.js'/>"></script>
     <script src="<c:url value='/assets/js/demo.js' />"></script>
 
     <script>
@@ -99,6 +99,53 @@
 
                 });
 
+//                setId(2);
+//                setNome("PH");
+//                setPalavras(new ArrayList<String>() {{
+//                    add("mosaico");
+//                    add("consolidações");
+//                    add("mosaico e nods CL");
+//                    add("aprisionamento lobular");
+//                    add("PH crônica");
+//                    add("PH");
+//                }});
+//
+//                setSelected(Boolean.FALSE);
+//                setCytoscape_alias_list(new String[]{"PH"});
+//                setCanonicalName("PH");
+//                setSUID("2");
+//                setNodeType("RedWine");
+//                setName("PH");
+//                setShared_name("PH");
+//                setNodeTypeFormatted("RedWine");
+
+//                var blueNode = {
+//                    id: 10000,
+//                    selected: false,
+//                    cytoscape_alias_list: ["Obrigado!"],
+//                    canonicalName: "Obrigado!",
+//                    shared_name: "Obrigado!",
+//                    NodeTypeFormatted: "RedWine",
+//                    NodeType: "RedWine",
+//                    SUID: "10000",
+//                    nome: "Obrigado!",
+//                    name: "Obrigado!",
+//
+//                    position: {
+//                        x: getRandomArbitrary(0, 110000),
+//                        y: getRandomArbitrary(0, 110000)
+//                    },
+//
+//                    data: {
+//                        NodeType: "RedWine",
+//                        NodeTypeFormatted: "RedWine!",
+//                        Strength: "5",
+//                        Quality: "100"
+//                    }
+//                };
+//
+//                graphP.elements.nodes.push(blueNode);
+
                 data.listEdges.forEach(function(edgeResponse) {
 
                     graphP.elements.edges.push(edgeResponse);
@@ -130,6 +177,37 @@
                 sticky: true,
                 time: '',
                 class_name: 'gritter-light'
+            });
+        }
+
+        function indexar() {
+
+            $.gritter.add({
+                // (string | mandatory) the heading of the notification
+                title: 'Indexando laudos...',
+                // (string | mandatory) the text inside the notification
+                text: "Indexando laudos...",
+                sticky: true,
+                time: '',
+                class_name: 'gritter-light'
+//                                            class_name: 'gritter-light'
+            });
+
+            $.ajax({
+                type: "GET",
+                url: '<c:url value="/searchLaudos/indexar" />',
+                cache: false,
+            }).done(function (data) {
+                $.gritter.removeAll();
+
+                $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: 'Operação Concluída',
+                    // (string | mandatory) the text inside the notification
+                    text: "Laudos indexados.",
+                    time: '3000',
+//                                                class_name: 'gritter-light'
+                });
             });
         }
 
@@ -177,7 +255,11 @@
     <strong>Relacionamentos</strong>
     <%--<input id="white" type="checkbox" checked></input><label for="white">White wine</label><br />--%>
     <input id="red" type="checkbox" checked></input><label for="red">Doenças</label><br />
-    <a class="btn btn-info" onclick="showQuantitativeData();">Dados</a>
+    <a class="btn btn-info" href="#void" onclick="showQuantitativeData();">Dados</a>
+    <br><br>
+    <a class="btn btn-info" href="<c:url value='/doenca/' />">Cadastro</a>
+    <br><br>
+    <a href="#void" class="btn btn-info" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
     <%--<input id="cider" type="checkbox" checked></input><label for="cider">Cider</label>--%>
 </div>
 

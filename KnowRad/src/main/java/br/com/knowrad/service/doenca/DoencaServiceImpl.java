@@ -59,7 +59,7 @@ public class DoencaServiceImpl implements DoencaService {
     }
 
     public List<DoencaDTO> findAllDTO() {
-        List<Doenca> listDoenca = new ArrayList<Doenca>();
+        List<Doenca> listDoenca = findAll();
         List<DoencaDTO> listDTO = new ArrayList<DoencaDTO>();
 
         for(Doenca doenca : listDoenca)

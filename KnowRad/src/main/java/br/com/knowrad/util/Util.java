@@ -1,6 +1,7 @@
 package br.com.knowrad.util;
 
 import br.com.knowrad.dto.doenca.DoencaDTO;
+import com.google.gson.JsonElement;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -50,6 +51,28 @@ public class Util {
 		string = string.toLowerCase();
 
 		return string;
+	}
+
+	public static Long verifyLongJson(JsonElement jelement) {
+		if(jelement == null)
+			return new Long(0);
+
+		try {
+			return jelement.getAsLong();
+		} catch(UnsupportedOperationException e) {
+			return new Long(0);
+		}
+	}
+
+	public static String verifyStringJson(JsonElement jelement) {
+		if(jelement == null)
+			return "";
+
+		try {
+			return jelement.getAsString();
+		} catch(UnsupportedOperationException e) {
+			return "";
+		}
 	}
 
 	public static List<DoencaDTO> getDoencas() {

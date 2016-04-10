@@ -3,6 +3,7 @@ package br.com.knowrad.search;
 import br.com.knowrad.dto.*;
 import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.service.doenca.DoencaService;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
@@ -10,20 +11,31 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocumentList;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Service
+@Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 public class SolrSearchEngine {
+
+	@Autowired
+	private DoencaService doencaService;
 
 	private SolrClient solr = new SolrConnection().getSolrConnection();
 
-	List<DoencaDTO> doencas = Util.getDoencas();
+	List<DoencaDTO> doencas = new ArrayList<DoencaDTO>();
 
 	@SuppressWarnings("rawtypes")
 	public List<LaudoDTO> searchLaudos(String search) {
+
+		doencas = doencaService.findAllDTO();
 
 		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
 		
@@ -71,9 +83,8 @@ public class SolrSearchEngine {
 		DoencaDTO doencaDTO = null;
 		int count = 0;
 
-		while(doencaDTO == null) {
+		while(doencaDTO == null && count <= doencas.size()) {
 			DoencaDTO dto = doencas.get(count);
-			String teste = "break here";
 			if(dto.getId() == id)
 				doencaDTO = dto;
 			count++;
@@ -83,6 +94,8 @@ public class SolrSearchEngine {
 	}
 
 	public SearchResponse searchLaudos2(String search) {
+
+		doencas = doencaService.findAllDTO();
 
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
 		List<DoencaResponse> listDoenca = new ArrayList<DoencaResponse>();
@@ -131,54 +144,6 @@ public class SolrSearchEngine {
                 dto.setName(titulo);
                 dto.setShared_name(titulo);
 				dto.setNodeTypeFormatted("Cheese");
-//
-//				if(dto.getIdPaciente() > 0) {
-//
-//					PatientResponse patientResponse = null;
-//
-//					for(PatientResponse p : listPatient) {
-//						if(String.valueOf(dto.getIdPaciente()).equals(p.getData().getId())) {
-//							patientResponse = p;
-//							break;
-//						}
-//					}
-//
-////					if(patientResponse == null) {
-////						PatientDTO patientDTO = new PatientDTO();
-////						String idPaciente = String.valueOf(dto.getIdPaciente());
-////						patientDTO.setId(idPaciente);
-////						patientDTO.setSelected(Boolean.FALSE);
-////						patientDTO.setCytoscape_alias_list(new String[]{idPaciente});
-////						patientDTO.setCanonicalName("Pat: " + idPaciente);
-////						patientDTO.setSUID(idPaciente);
-////						patientDTO.setNodeType("Cheese"); //kkkkk
-////						patientDTO.setName(idPaciente);
-////						patientDTO.setShared_name(idPaciente);
-////						patientDTO.setNodeTypeFormatted("Cheese");
-////
-////						patientResponse = new PatientResponse();
-////						patientResponse.setData(patientDTO);
-////						patientResponse.setPosition(new Position(0.0, 0.0));
-////						listPatient.add(patientResponse);
-////					}
-//
-//					EdgeDTO edgeDTO = new EdgeDTO();
-//					edgeDTO.setSelected(Boolean.FALSE);
-//					edgeDTO.setSource(dto.getId());
-//					edgeDTO.setTarget(String.valueOf(dto.getIdPaciente()));
-//					edgeDTO.setCanonicalName(dto.getCanonicalName() + " " + dto.getIdPaciente());
-//					edgeDTO.setSUID(edgeDTO.getId());
-//					edgeDTO.setName(edgeDTO.getCanonicalName());
-//					edgeDTO.setInteraction("cc");
-//					edgeDTO.setShared_interaction("cc");
-//					edgeDTO.setShared_name(edgeDTO.getCanonicalName());
-//
-//					EdgeResponse edgeResponse = new EdgeResponse();
-//					edgeResponse.setData(edgeDTO);
-//					edgeResponse.setSelected(Boolean.FALSE);
-//
-//					listEdge.add(edgeResponse);
-//				}
 
 				/**
                  * FAZ ASSOCIAÇÃO DAS DOENÇAS

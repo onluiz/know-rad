@@ -25,6 +25,35 @@
 
         <script>
             var URL_BASE = "<c:url value='/' />";
+            function indexar() {
+
+                $.gritter.add({
+                    // (string | mandatory) the heading of the notification
+                    title: 'Indexando laudos...',
+                    // (string | mandatory) the text inside the notification
+                    text: "Indexando laudos...",
+                    sticky: true,
+                    time: '',
+//                                            class_name: 'gritter-light'
+                });
+
+                $.ajax({
+                    type: "GET",
+                    url: '<c:url value="/searchLaudos/indexar" />',
+                    cache: false,
+                }).done(function (data) {
+                    $.gritter.removeAll();
+
+                    $.gritter.add({
+                        // (string | mandatory) the heading of the notification
+                        title: 'Operação Concluída',
+                        // (string | mandatory) the text inside the notification
+                        text: "Laudos indexados.",
+                        time: '3000',
+//                                                class_name: 'gritter-light'
+                    });
+                });
+            }
         </script>
         <title>KnowRad</title>
         <decorator:head />
@@ -43,31 +72,13 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="<c:url value='/' />">KnowRad</a>
+                            <a class="navbar-brand" href="<c:url value='/' />">TCC do Luiz</a>
                         </div>
                         <div id="navbar" class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
-                            <li class="dropdown">
-                                <a href="http://getbootstrap.com/examples/theme/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Opções <span class="caret"></span></a>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-header">Principal</li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Busca</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Busca C/ Gráfos</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Dados estátisticos, relatórios, estudar por pentaho aqui</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li class="dropdown-header">Cadastros Gerais</li>
-                                    <li><a href="<c:url value='/patologia/' />">Cadastro/Lista de Patologias</a></li>
-                                    <li><a href="<c:url value='/caso/' />">Cadastro/Lista de Casos</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Cadastro/Lista de Palavras-chave</a></li>
-                                    <li><a href="http://getbootstrap.com/examples/theme/#">Lista de Modalidades</a></li>
-                                </ul>
-                            </li>
-                            </ul>
-                            <form class="navbar-form navbar-right">
-                                <div class="form-group">
-                                    <input type="text" placeholder="buscar..." class="form-control">
-                                </div>
-                                <button type="submit" class="btn btn-success">Buscar</button>
+                            <form class="navbar-form navbar-left">
+                                <a href="<c:url value='/busca2.jsp' />" class="btn btn-info" class="btn btn-success">Buscas</a>
+                                <a href="#void" class="btn btn-info" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
                             </form>
                         </div><!--/.navbar-collapse -->
                     </div>

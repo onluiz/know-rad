@@ -1,8 +1,7 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.doenca.DoencaDTO;
-import br.com.knowrad.dto.patologia.PatologiaCaseDTO;
-import br.com.knowrad.dto.patologia.PatologiaDTO;
+import br.com.knowrad.dto.doenca.TermoDTO;
+import br.com.knowrad.service.doenca.TermoService;
 import br.com.knowrad.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -19,15 +18,36 @@ import org.apache.solr.common.SolrDocumentList;
 import org.apache.solr.common.SolrInputDocument;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/coreContext.xml" })
+@TransactionConfiguration(defaultRollback = true)
 public class IndexingTest {
 
-    List<DoencaDTO> doencas = Util.getDoencas();
+//    List<DoencaDTO> doencas = Util.getDoencas();
+
+    @Autowired
+    private TermoService termoService;
+
+    List<TermoDTO> listTermoDTO = new ArrayList<TermoDTO>();
+
+    public IndexingTest() {
+
+        termoService.findAllDTO();
+
+        String teste = "";
+
+    }
 
 	//solr start
 	//solr create -c laudos
@@ -41,71 +61,71 @@ public class IndexingTest {
 	 * Realizar nova query e verificar se o JSON retornado está no formato correto.
 	 */
 
-	@Test
-	@Ignore
-	public void readAndIndexPatologies() {
-
-		ClassLoader classLoader = getClass().getClassLoader();
-		InputStream inputStream = classLoader.getResourceAsStream("casos-patologia.txt");
-		List<PatologiaCaseDTO> list = new ArrayList<PatologiaCaseDTO>();
-
-		try {
-
-			String content = IOUtils.toString(inputStream);
-			String contents[] = content.split("####INICIOLAUDO####");
-
-			for(int i = 0; i < contents.length; i++) {
-
-				String itens[] = contents[i].split("####SEPARADOR####");
-
-				PatologiaDTO patologia = new PatologiaDTO(Util.verifyString(itens[0]));
-				List<PatologiaDTO> listPatologias = new ArrayList<PatologiaDTO>();
-				listPatologias.add(patologia);
-
-				PatologiaCaseDTO casoPatologia = new PatologiaCaseDTO();
-				casoPatologia.setListPatologiaDTO(listPatologias);
-				casoPatologia.setTituloLaudo(Util.verifyString(itens[1]));
-				casoPatologia.setModalidadeLaudo("CT");
-				casoPatologia.setTextoLaudo(Util.verifyString(itens[2]).replaceAll("\\n", "<br>"));
-				list.add(casoPatologia);
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		/**
-		 * Indexa casos de patologias coletados do arquivo txt
-		 */
-		String urlString = "http://localhost:8983/solr/patologias";
-		SolrClient solr = new HttpSolrClient(urlString);
-
-		try {
-
-			for(PatologiaCaseDTO patologiaCaseDTO : list) {
-				SolrInputDocument document = new SolrInputDocument();
-				document.addField("patologias", patologiaCaseDTO.getListPatologiaDTO().get(0).toString());
-				document.addField("tituloLaudo", patologiaCaseDTO.getTituloLaudo());
-				document.addField("modalidadeLaudo", patologiaCaseDTO.getModalidadeLaudo());
-				document.addField("textoLaudo", patologiaCaseDTO.getTextoLaudo());
-				try {
-					solr.add(document);
-				} catch(RemoteSolrException e) {
-				}
-
-				System.out.println("NOVA PATOLOGIA INDEXADA: " + patologiaCaseDTO.getTituloLaudo());
-			}
-			solr.commit();
-			solr.close();
-			System.out.println("FIM DA INDEXAÇÃO");
-
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-	}
+//	@Test
+//	@Ignore
+//	public void readAndIndexPatologies() {
+//
+//		ClassLoader classLoader = getClass().getClassLoader();
+//		InputStream inputStream = classLoader.getResourceAsStream("casos-patologia.txt");
+//		List<PatologiaCaseDTO> list = new ArrayList<PatologiaCaseDTO>();
+//
+//		try {
+//
+//			String content = IOUtils.toString(inputStream);
+//			String contents[] = content.split("####INICIOLAUDO####");
+//
+//			for(int i = 0; i < contents.length; i++) {
+//
+//				String itens[] = contents[i].split("####SEPARADOR####");
+//
+//				PatologiaDTO patologia = new PatologiaDTO(Util.verifyString(itens[0]));
+//				List<PatologiaDTO> listPatologias = new ArrayList<PatologiaDTO>();
+//				listPatologias.add(patologia);
+//
+//				PatologiaCaseDTO casoPatologia = new PatologiaCaseDTO();
+//				casoPatologia.setListPatologiaDTO(listPatologias);
+//				casoPatologia.setTituloLaudo(Util.verifyString(itens[1]));
+//				casoPatologia.setModalidadeLaudo("CT");
+//				casoPatologia.setTextoLaudo(Util.verifyString(itens[2]).replaceAll("\\n", "<br>"));
+//				list.add(casoPatologia);
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		/**
+//		 * Indexa casos de patologias coletados do arquivo txt
+//		 */
+//		String urlString = "http://localhost:8983/solr/patologias";
+//		SolrClient solr = new HttpSolrClient(urlString);
+//
+//		try {
+//
+//			for(PatologiaCaseDTO patologiaCaseDTO : list) {
+//				SolrInputDocument document = new SolrInputDocument();
+//				document.addField("patologias", patologiaCaseDTO.getListPatologiaDTO().get(0).toString());
+//				document.addField("tituloLaudo", patologiaCaseDTO.getTituloLaudo());
+//				document.addField("modalidadeLaudo", patologiaCaseDTO.getModalidadeLaudo());
+//				document.addField("textoLaudo", patologiaCaseDTO.getTextoLaudo());
+//				try {
+//					solr.add(document);
+//				} catch(RemoteSolrException e) {
+//				}
+//
+//				System.out.println("NOVA PATOLOGIA INDEXADA: " + patologiaCaseDTO.getTituloLaudo());
+//			}
+//			solr.commit();
+//			solr.close();
+//			System.out.println("FIM DA INDEXAÇÃO");
+//
+//		} catch (SolrServerException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
     List<Long> procurarDoencas(String texto) {
 
@@ -113,28 +133,47 @@ public class IndexingTest {
 
         List<Long> list = new ArrayList<Long>();
 
-        for(DoencaDTO doenca : doencas) {
+        for(TermoDTO termoDTO : listTermoDTO) {
 
-            for(String palavra : doenca.getPalavras()) {
+            if(texto.indexOf(Util.cleanText(termoDTO.getNomeTermo())) > -1) {
 
-                if(texto.indexOf(Util.cleanText(palavra)) > -1) {
-
-                    boolean achou = false;
-                    for(Long idEncontrado : list) {
-                        if(idEncontrado == doenca.getId()) {
-                            achou = true;
-                            break;
-                        }
-                    }
-                    if(!achou) {
-                        System.out.println("ACHOU: " + doenca.getNome());
-                        list.add(doenca.getId());
+                boolean achou = false;
+                for(Long idEncontrado : list) {
+                    if(idEncontrado == termoDTO.getIdDoenca()) {
+                        achou = true;
+                        break;
                     }
                 }
-
+                if(!achou) {
+                    System.out.println("ACHOU: " + termoDTO.getNomeTermo());
+                    list.add(termoDTO.getIdDoenca());
+                }
             }
 
         }
+
+//        for(DoencaDTO doenca : doencas) {
+//
+//            for(String palavra : doenca.getPalavras()) {
+//
+//                if(texto.indexOf(Util.cleanText(palavra)) > -1) {
+//
+//                    boolean achou = false;
+//                    for(Long idEncontrado : list) {
+//                        if(idEncontrado == doenca.getId()) {
+//                            achou = true;
+//                            break;
+//                        }
+//                    }
+//                    if(!achou) {
+//                        System.out.println("ACHOU: " + doenca.getNome());
+//                        list.add(doenca.getId());
+//                    }
+//                }
+//
+//            }
+//
+//        }
 
         return list;
     }
@@ -191,6 +230,7 @@ public class IndexingTest {
 			
 			for(LaudoDTO laudoDTO : listLaudo) {
 				SolrInputDocument document = new SolrInputDocument();
+                document.addField("id", laudoDTO.getIdPaciente());
 				document.addField("id_paciente", laudoDTO.getIdPaciente());
 				document.addField("nome_paciente", laudoDTO.getNomePaciente());
 				document.addField("titulo", laudoDTO.getTitulo());
