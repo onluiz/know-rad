@@ -74,6 +74,16 @@ public class SolrIndexerEngine {
             e.printStackTrace();
         }
 
+        LaudoDTO dto = new LaudoDTO();
+        dto.setIdPaciente(new Long(10000));
+        dto.setNomePaciente("Obrigado!");
+        dto.setTitulo("Obrigado!");
+        dto.setTexto("Obrigado!");
+        dto.setTextoLimpo("Obrigado!");
+        dto.setModalidade("CT");
+        dto.setDoencas(procurarDoencas(dto.getTextoLimpo()));
+        listLaudo.add(dto);
+
         /**
          * Indexa laudos coletados do arquivo json
          */

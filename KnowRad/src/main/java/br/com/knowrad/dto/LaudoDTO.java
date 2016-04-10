@@ -1,5 +1,7 @@
 package br.com.knowrad.dto;
 
+import br.com.knowrad.dto.doenca.DoencaDTO;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -14,6 +16,7 @@ public class LaudoDTO implements Serializable {
     private String modalidade;
     private Long idPaciente;
     private List<Long> doencas;
+    private List<DoencaDTO> listDoencasDTO;
 
     public String getTitulo() {
         return titulo;
@@ -69,5 +72,13 @@ public class LaudoDTO implements Serializable {
 
     public void setDoencas(List<Long> doencas) {
         this.doencas = doencas;
+    }
+
+    public List<DoencaDTO> getListDoencasDTO() {
+        return listDoencasDTO;
+    }
+
+    public void setListDoencasDTO(List<DoencaDTO> listDoencasDTO) {
+        this.listDoencasDTO = listDoencasDTO;
     }
 }

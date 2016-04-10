@@ -32,6 +32,31 @@ public class SolrSearchEngine {
 
 	List<DoencaDTO> doencas = new ArrayList<DoencaDTO>();
 
+	public String searchLaudosById(String idSearch) {
+
+		doencas = doencaService.findAllDTO();
+
+		if(solr == null)
+			return "";
+
+		try {
+			SolrQuery query = new SolrQuery();
+			query.setQuery("id:" + idSearch);
+			QueryResponse response = solr.query(query);
+			SolrDocumentList list = response.getResults();
+			for(Map solrMap : list) {
+				return Util.verifyString(solrMap.get("texto"));
+			}
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "";
+
+	}
+
 	@SuppressWarnings("rawtypes")
 	public List<LaudoDTO> searchLaudos(String search) {
 
@@ -43,13 +68,13 @@ public class SolrSearchEngine {
 			return listLaudo;
 		
 		try {
-			
-			SolrQuery query = new SolrQuery();
 
+			SolrQuery query = new SolrQuery();
+			query.setRows(100000);
 			if(search == null || search.equals(""))
-                query.setQuery("*:*");
-            else
-                query.setQuery("_text_:" + search);
+				query.setQuery("*:*");
+			else
+				query.setQuery("texto_limpo:*" + Util.cleanText(search) + "*");
 			
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
@@ -58,12 +83,22 @@ public class SolrSearchEngine {
 			for(Map solrMap : list) {
 
 				LaudoDTO dto = new LaudoDTO();
-//				dto.setIdLaudo("laudo" + idLaudo);
-				dto.setIdPaciente(Util.verifyLong(solrMap.get("idPaciente")));
-				dto.setNomePaciente(Util.verifyString(solrMap.get("nomePaciente")));
+				dto.setId(Util.verifyString(solrMap.get("id")));
+				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
+				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
+				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+
+				if(dto.getDoencas().size() > 0) {
+					List<DoencaDTO> listDoencaDTO = new ArrayList<DoencaDTO>();
+					for(Long idDoenca : dto.getDoencas())
+						listDoencaDTO.add(findDoencaById(idDoenca));
+
+					dto.setListDoencasDTO(listDoencaDTO);
+				}
+
 				listLaudo.add(dto);
 
 				idLaudo++;
