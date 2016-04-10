@@ -41,6 +41,12 @@ public class SearchController {
         return solrSearch.searchLaudosById(id);
     }
 
+    @RequestMapping(value = "/search-dto-by-id", method = { RequestMethod.GET })
+    @ResponseBody
+    public LaudoDTO searchLaudoDTOById(@RequestParam String id) {
+        return solrSearch.searchLaudoDTOById(id);
+    }
+
     @ResponseBody
     @RequestMapping(value = "/indexar", method = { RequestMethod.GET })
     public void indexar() {

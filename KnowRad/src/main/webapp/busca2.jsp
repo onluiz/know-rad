@@ -16,6 +16,11 @@
     <link href="<c:url value='/assets/css/style.css' />" rel="stylesheet">
     <link href="<c:url value='/assets/css/jquery.qtip.min.css'/>" rel="stylesheet" type="text/css" />
     <link href="<c:url value='/assets/css/jquery.gritter.css'/>" rel="stylesheet" type="text/css" />
+    <style>
+        html, body {
+            overflow: hidden;
+        }
+    </style>
 
     <script src="<c:url value='/assets/js/fastclick.min.js' />"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
@@ -211,6 +216,33 @@
             });
         }
 
+        function searchLaudosById(id) {
+            $.ajax({
+                type: "GET",
+                url: '<c:url value="/searchLaudos/search-dto-by-id" />',
+                cache: false,
+                data: ({id: id})
+            }).done(function (data) {
+
+                var html = "";
+                html += "<div>";
+                html += "<div class=\"bs-callout bs-callout-danger\"> ";
+                html += "<b>Paciente: </b> " + data.nomePaciente;
+                html += "<br>"
+                html += "<b>ID: </b> " + data.id;
+                html += "<br>"
+                html += "<b>Título: </b> " + data.titulo;
+                html += "<br>";
+                html += "<b>Modalidade: </b> " + data.modalidade;
+                html += "<br>";
+                html += "</div>";
+
+                $("#div-dados-paciente").html(html);
+                $("#div-laudo").html(data.texto);
+                $("#modal-laudo").modal();
+            });
+        }
+
         $(function() {
             $.extend($.gritter.options, {
 //                position: 'bottom-left', // defaults to 'top-right' but can be 'bottom-left', 'bottom-right', 'top-left', 'top-right' (added in 1.7.1)
@@ -263,6 +295,25 @@
     <%--<input id="cider" type="checkbox" checked></input><label for="cider">Cider</label>--%>
 </div>
 
+
+<div class="modal fade" id="modal-laudo" tabindex="-1" role="dialog" aria-labelledby="modal-laudo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><span>Laudo</span></h4>
+            </div>
+            <div class="modal-body">
+                <div id="div-dados-paciente"></div>
+                <br>
+                <div id="div-laudo" style="height: 350px; border:1px solid black; overflow-y: auto;" class="form-control"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" onclick="$('#modal-laudo').modal('hide');">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
 <%--<a target="_blank" id="linkout" href="http://www.amazon.ca/Cheese-Connoisseurs-Guide-Worlds-Best/dp/1400050340/ref=sr_1_3?s=books&ie=UTF8&qid=1416109370&sr=1-3">Reference <i class="fa fa-external-link"></i></a>--%>
 </body>
 </html>

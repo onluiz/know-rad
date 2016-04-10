@@ -24,6 +24,8 @@
                 html += "<div>";
                 html += "<div class=\"bs-callout bs-callout-danger\"> ";
                 html += "<h4>" + dto.nomePaciente + "</h4>";
+                html += "<b>ID: </b> " + dto.id;
+                html += "<br>"
                 html += "<b>Título: </b> " + dto.titulo;
                 html += "<br>";
                 html += "<b>Modalidade: </b> " + dto.modalidade;

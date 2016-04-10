@@ -57,6 +57,38 @@ public class SolrSearchEngine {
 
 	}
 
+	public LaudoDTO searchLaudoDTOById(String idSearch) {
+
+		doencas = doencaService.findAllDTO();
+
+		if(solr == null)
+			return null;
+
+		try {
+			SolrQuery query = new SolrQuery();
+			query.setQuery("id:" + idSearch);
+			QueryResponse response = solr.query(query);
+			SolrDocumentList list = response.getResults();
+			for(Map solrMap : list) {
+				LaudoDTO dto = new LaudoDTO();
+				dto.setId(Util.verifyString(solrMap.get("id")));
+				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
+				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
+				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
+				dto.setTexto(Util.verifyString(solrMap.get("texto")));
+				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
+				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				return dto;
+			}
+		} catch (SolrServerException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
 	@SuppressWarnings("rawtypes")
 	public List<LaudoDTO> searchLaudos(String search) {
 
@@ -73,9 +105,14 @@ public class SolrSearchEngine {
 			query.setRows(100000);
 			if(search == null || search.equals(""))
 				query.setQuery("*:*");
-			else
-				query.setQuery("texto_limpo:*" + Util.cleanText(search) + "*");
-			
+			else {
+				StringBuilder stringQuery = new StringBuilder();
+				stringQuery.append("texto_limpo:*" + Util.cleanText(search) + "*");
+				stringQuery.append(" OR ");
+				stringQuery.append("id:" + Util.cleanText(search));
+				query.setQuery(stringQuery.toString());
+			}
+
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
 			Long idLaudo = new Long(0);
