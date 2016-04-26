@@ -37,12 +37,13 @@ edge[interaction = "cc"] {
  
 node[NodeType = "Cheese"],
 node[NodeType = "CheeseType"] {
-	background-color: #FACD37;
+	background-color: #595cfa;
 	text-outline-color: #FACD37;
-	width: mapData(Quality, 70, 100, 20, 50);
-	height: mapData(Quality, 70, 100, 20, 50);
+	width: 300;
+	height: 300;
+	font-size: 30;
 }
- 
+
 node[NodeType = "WhiteWine"] {
 	background-color: white;
 	text-outline-color: white;

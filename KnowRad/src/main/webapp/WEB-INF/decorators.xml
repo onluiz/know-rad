@@ -5,6 +5,7 @@
 	<excludes>
 		<pattern>/login*</pattern>
 		<pattern>/busca2*</pattern>
+		<pattern>*/busca2*</pattern>
 	</excludes>
 
 	<decorator name="default" page="/WEB-INF/jsp/decorators/default.jsp">

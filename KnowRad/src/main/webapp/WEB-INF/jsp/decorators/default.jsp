@@ -78,9 +78,9 @@
                             <ul class="nav navbar-nav">
                             <form class="navbar-form navbar-left">
                                 <a class="btn btn-info" href="<c:url value='/' />">Busca</a>
-                                <a href="<c:url value='/busca2.jsp' />" class="btn btn-info" class="btn btn-success">Gráfos</a>
+                                <a href="<c:url value='/searchLaudos/busca2' />" class="btn btn-info" class="btn btn-success">Gráfos</a>
                                 <a class="btn btn-info" href="<c:url value='/doenca/' />">Cadastro</a>
-                                <a href="#void" class="btn btn-info" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
+                                <ahref="#void" class="btn btn-info" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
                             </form>
                         </div><!--/.navbar-collapse -->
                     </div>

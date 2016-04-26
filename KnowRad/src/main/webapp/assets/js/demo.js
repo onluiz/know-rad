@@ -2,7 +2,7 @@
 This demo visualises wine and cheese pairings.
 */
 
-function initGraphs(graphP){
+function initGraphs(graphP, callback){
 
   var layoutPadding = 50;
   var layoutDuration = 500;
@@ -17,7 +17,7 @@ function initGraphs(graphP){
   //});
 
   var styleP = $.ajax({
-    url: 'assets/css/raw.css', // wine-and-cheese-style.cycss
+    url: '../assets/css/raw.css', // wine-and-cheese-style.cycss
     type: 'GET',
     dataType: 'text'
   });
@@ -174,46 +174,55 @@ function initGraphs(graphP){
   {
     name: 'search-dataset',
     source: function( query, cb ){
-      function matches( str, q ){
-        str = (str || '').toLowerCase();
-        q = (q || '').toLowerCase();
-        
-        return str.match( q );
-      }
-      
-      var fields = ['name', 'NodeType', 'Country', 'Type', 'Milk'];
-      
-      function anyFieldMatches( n ){
-        for( var i = 0; i < fields.length; i++ ){
-          var f = fields[i];
-          
-          if( matches( n.data(f), query ) ){
-            return true;
+
+      console.log(query);
+      console.log(cb);
+
+      search2(query, function() {
+
+        function matches( str, q ){
+          str = (str || '').toLowerCase();
+          q = (q || '').toLowerCase();
+
+          return str.match( q );
+        }
+
+        var fields = ['name', 'NodeType', 'Country', 'Type', 'Milk'];
+
+        function anyFieldMatches( n ){
+          for( var i = 0; i < fields.length; i++ ){
+            var f = fields[i];
+
+            if( matches( n.data(f), query ) ){
+              return true;
+            }
           }
+
+          return false;
         }
-        
-        return false;
-      }
-      
-      function getData(n){
-        var data = n.data();
-        
-        return data;
-      }
-      
-      function sortByName(n1, n2){
-        if( n1.data('name') < n2.data('name') ){
-          return -1;
-        } else if( n1.data('name') > n2.data('name') ){
-          return 1;
+
+        function getData(n){
+          var data = n.data();
+
+          return data;
         }
-        
-        return 0;
-      }
-      
-      var res = cy.nodes().stdFilter( anyFieldMatches ).sort( sortByName ).map( getData );
-      
-      cb( res );
+
+        function sortByName(n1, n2){
+          if( n1.data('name') < n2.data('name') ){
+            return -1;
+          } else if( n1.data('name') > n2.data('name') ){
+            return 1;
+          }
+
+          return 0;
+        }
+
+        var res = cy.nodes().stdFilter( anyFieldMatches ).sort( sortByName ).map( getData );
+
+        cb( res );
+
+      });
+
     },
     templates: {
       suggestion: infoTemplate
@@ -317,4 +326,6 @@ function initGraphs(graphP){
 
     content: $('#filters')
   });
+
+  callback();
 }

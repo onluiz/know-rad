@@ -31,12 +31,19 @@
                 html += "<b>Modalidade: </b> " + dto.modalidade;
                 html += "<br>";
                 html += "<a href=\"#void\" onclick=\"searchLaudosById('" + dto.id + "');\">ABRIR LAUDO</a>";
+                html += "<br>";
+                html += "<a href=\"#void\" onclick='openGraphs(" + dto.id + ");' target='_blank'>ABRIR GRÁFO</a>";
                 html += "</div>";
             });
 
             $("#div-resultado").html(html);
 
         });
+    }
+
+    function openGraphs(id) {
+        var url = '<c:url value="/searchLaudos/busca2?busca="/>' + id;
+        window.open(url, '_blank');
     }
 
     function searchLaudosById(id) {

@@ -36,6 +36,10 @@ public class Util {
 	
 	public static String verifyString(Object val) {
 		try {
+
+			if(val == null || val.toString().equals("null"))
+				return "";
+
 			return String.valueOf(val);
 		} catch(Exception e) {
 			return "";

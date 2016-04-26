@@ -42,130 +42,86 @@
     <script src="<c:url value='/assets/js/demo.js' />"></script>
 
     <script>
+        console.log('${teste}');
+
         var quantitativeData;
 
-        function search2() {
-            var search = $("#search").val();
+        function search2(searchQuery, callback) {
             $.ajax({
                 type: "GET",
                 url: '<c:url value="/searchLaudos/search" />',
                 cache: false,
-                data: ({search: search})
+                data: ({search: searchQuery})
             }).done(function (data) {
-
-                var graphP = {
-                    format_version: "1.0",
-                    generated_by: "cytoscape-3.2.0",
-                    target_cytoscapejs_version: "~2.1",
-                    data: {
-                        selected: true,
-                        __Annotations: [],
-                        shared_name: "WineCheeseNetwork",
-                        SUID: 52,
-                        name: "WineCheeseNetwork"
-
-                    },
-
-                    elements : {
-
-                        nodes: [],
-                        edges: []
-
-                    }
-                };
-
-                var getRandomArbitrary = function(min, max) {
-                    return Math.random() * (max - min) + min;
-                };
-
-                data.listLaudos.forEach(function(laudoResponse) {
-
-                    laudoResponse.position.x = getRandomArbitrary(6000, 100000);
-                    laudoResponse.position.y = getRandomArbitrary(6000, 100000);
-//                    laudoResponse.data.NodeType = "Cheese";
-
-
-                    graphP.elements.nodes.push(laudoResponse);
-
-                });
-
-                var xDoenca = 4000.0;
-
-                data.listDoencas.forEach(function(doencaResponse) {
-
-                    doencaResponse.position.x = getRandomArbitrary(0, 110000);
-                    doencaResponse.position.y = getRandomArbitrary(0, 110000);
-                    doencaResponse.data.NodeType = "RedWine";
-                    doencaResponse.data.NodeTypeFormatted = doencaResponse.canonicalName;
-                    doencaResponse.data.Strength = "5";
-                    doencaResponse.data.Quality = "100";
-
-                    graphP.elements.nodes.push(doencaResponse);
-
-                });
-
-//                setId(2);
-//                setNome("PH");
-//                setPalavras(new ArrayList<String>() {{
-//                    add("mosaico");
-//                    add("consolidações");
-//                    add("mosaico e nods CL");
-//                    add("aprisionamento lobular");
-//                    add("PH crônica");
-//                    add("PH");
-//                }});
-//
-//                setSelected(Boolean.FALSE);
-//                setCytoscape_alias_list(new String[]{"PH"});
-//                setCanonicalName("PH");
-//                setSUID("2");
-//                setNodeType("RedWine");
-//                setName("PH");
-//                setShared_name("PH");
-//                setNodeTypeFormatted("RedWine");
-
-//                var blueNode = {
-//                    id: 10000,
-//                    selected: false,
-//                    cytoscape_alias_list: ["Obrigado!"],
-//                    canonicalName: "Obrigado!",
-//                    shared_name: "Obrigado!",
-//                    NodeTypeFormatted: "RedWine",
-//                    NodeType: "RedWine",
-//                    SUID: "10000",
-//                    nome: "Obrigado!",
-//                    name: "Obrigado!",
-//
-//                    position: {
-//                        x: getRandomArbitrary(0, 110000),
-//                        y: getRandomArbitrary(0, 110000)
-//                    },
-//
-//                    data: {
-//                        NodeType: "RedWine",
-//                        NodeTypeFormatted: "RedWine!",
-//                        Strength: "5",
-//                        Quality: "100"
-//                    }
-//                };
-//
-//                graphP.elements.nodes.push(blueNode);
-
-                data.listEdges.forEach(function(edgeResponse) {
-
-                    graphP.elements.edges.push(edgeResponse);
-
-                });
-
-                quantitativeData = {
-                    qtdLaudos: data.listLaudos.length,
-                    qtdDoencas: data.listDoencas.length,
-                    qtdEdges: data.listEdges.length
-                };
-
-                initGraphs(graphP);
-
+                renderData(data, callback);
             });
+        }
+
+        function renderData(data, callback) {
+            var graphP = {
+                format_version: "1.0",
+                generated_by: "cytoscape-3.2.0",
+                target_cytoscapejs_version: "~2.1",
+                data: {
+                    selected: true,
+                    __Annotations: [],
+                    shared_name: "WineCheeseNetwork",
+                    SUID: 52,
+                    name: "WineCheeseNetwork"
+
+                },
+
+                elements : {
+
+                    nodes: [],
+                    edges: []
+
+                }
+            };
+
+            var getRandomArbitrary = function(min, max) {
+                return Math.random() * (max - min) + min;
+            };
+
+            data.listPacientes.forEach(function(pacienteResponse) {
+                pacienteResponse.position.x = getRandomArbitrary(6000, 100000);
+                pacienteResponse.position.y = getRandomArbitrary(6000, 100000);
+                pacienteResponse.data.NodeType = "Cheese";
+                pacienteResponse.data.Strength = "5";
+                pacienteResponse.data.Quality = "100";
+                graphP.elements.nodes.push(pacienteResponse);
+            });
+
+            data.listLaudos.forEach(function(laudoResponse) {
+                laudoResponse.position.x = getRandomArbitrary(6000, 100000);
+                laudoResponse.position.y = getRandomArbitrary(6000, 100000);
+                graphP.elements.nodes.push(laudoResponse);
+            });
+
+            var xDoenca = 4000.0;
+
+            data.listDoencas.forEach(function(doencaResponse) {
+                doencaResponse.position.x = getRandomArbitrary(0, 110000);
+                doencaResponse.position.y = getRandomArbitrary(0, 110000);
+                doencaResponse.data.NodeType = "RedWine";
+                doencaResponse.data.NodeTypeFormatted = doencaResponse.canonicalName;
+                doencaResponse.data.Strength = "5";
+                doencaResponse.data.Quality = "100";
+                graphP.elements.nodes.push(doencaResponse);
+            });
+
+            data.listEdges.forEach(function(edgeResponse) {
+                graphP.elements.edges.push(edgeResponse);
+            });
+
+            quantitativeData = {
+                qtdPacientes: data.listPacientes.length,
+                qtdLaudos: data.listLaudos.length,
+                qtdDoencas: data.listDoencas.length,
+                qtdEdges: data.listEdges.length
+            };
+
+            initGraphs(graphP, callback);
         }
 
         function showQuantitativeData() {
@@ -173,6 +129,7 @@
             var text = "Quantidade de Laudos: " + quantitativeData.qtdLaudos + "<br><br>";
             text += "Quantidade de Doenças: " + quantitativeData.qtdDoencas + "<br><br>";
             text += "Quantidade de Relacionamentos: " + quantitativeData.qtdEdges + "<br>";
+            text += "Quantidade de Pacientes: " + quantitativeData.qtdPacientes + "<br>";
 
             $.gritter.add({
                 // (string | mandatory) the heading of the notification
@@ -251,7 +208,7 @@
                 time: 6000 // hang on the screen for...
             });
 
-            search2();
+            search2("", function(){});
         });
 
     </script>
@@ -264,9 +221,12 @@
 
 <div id="search-wrapper">
     <input type="text" class="form-control" id="search" autofocus placeholder="Search">
+    <button class="btn btn-success">Buscar</button>
 </div>
 
 <div id="info">
+
+
 </div>
 
 

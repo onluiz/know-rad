@@ -29,6 +29,8 @@ public class LaudoDTO implements Serializable {
     private String shared_name;
     private String NodeTypeFormatted;
 
+    private String tipo = "LAUDO";
+
     public String getId() {
         return id;
     }
@@ -155,5 +157,13 @@ public class LaudoDTO implements Serializable {
 
     public void setListDoencasDTO(List<DoencaDTO> listDoencasDTO) {
         this.listDoencasDTO = listDoencasDTO;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }

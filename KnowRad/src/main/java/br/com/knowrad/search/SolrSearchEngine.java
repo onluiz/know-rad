@@ -3,6 +3,7 @@ package br.com.knowrad.search;
 import br.com.knowrad.dto.*;
 import br.com.knowrad.dto.doenca.DoencaDTO;
 import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.service.PacienteService;
 import br.com.knowrad.service.doenca.DoencaService;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
@@ -27,6 +28,9 @@ public class SolrSearchEngine {
 
 	@Autowired
 	private DoencaService doencaService;
+
+	@Autowired
+	private PacienteService pacienteService;
 
 	private SolrClient solr = new SolrConnection().getSolrConnection();
 
@@ -171,6 +175,7 @@ public class SolrSearchEngine {
 
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
 		List<DoencaResponse> listDoenca = new ArrayList<DoencaResponse>();
+		List<PacienteResponse> listPaciente = new ArrayList<PacienteResponse>();
 		List<EdgeResponse> listEdge = new ArrayList<EdgeResponse>();
 //		List<PatientResponse> listPatient = new ArrayList<PatientResponse>();
 
@@ -183,8 +188,13 @@ public class SolrSearchEngine {
 			query.setRows(100000);
 			if(search == null || search.equals(""))
 				query.setQuery("*:*");
-			else
-				query.setQuery("texto_limpo:*" + Util.cleanText(search) + "*");
+			else {
+				StringBuilder stringQuery = new StringBuilder();
+				stringQuery.append("texto_limpo:*" + Util.cleanText(search) + "*");
+				stringQuery.append(" OR ");
+				stringQuery.append("id:" + Util.cleanText(search));
+				query.setQuery(stringQuery.toString());
+			}
 
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
@@ -196,32 +206,57 @@ public class SolrSearchEngine {
 			Double yDoenca = 4324.1015625;
 
 			for(Map solrMap : list) {
-				LaudoDTO dto = new LaudoDTO();
-				dto.setId(Util.verifyString(solrMap.get("id")));
-				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
-				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
-				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
-				dto.setTexto(Util.verifyString(solrMap.get("texto")));
-				dto.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
-				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				LaudoDTO laudoDTO = new LaudoDTO();
+				laudoDTO.setId(Util.verifyString(solrMap.get("id")));
+				laudoDTO.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
+				laudoDTO.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
+				laudoDTO.setTitulo(Util.verifyString(solrMap.get("titulo")));
+				laudoDTO.setTexto(Util.verifyString(solrMap.get("texto")));
+				laudoDTO.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
+				laudoDTO.setModalidade(Util.verifyString(solrMap.get("modalidade")));
+				laudoDTO.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
 
                 //referentes a tela
-                String titulo = dto.getTitulo();
-                dto.setSelected(Boolean.FALSE);
-                dto.setCytoscape_alias_list(new String[]{titulo});
-                dto.setCanonicalName(titulo);
-                dto.setSUID(dto.getId());
-                dto.setNodeType("Cheese"); //kkkkk
-                dto.setName(titulo);
-                dto.setShared_name(titulo);
-				dto.setNodeTypeFormatted("Cheese");
+                String titulo = laudoDTO.getTitulo();
+				laudoDTO.setSelected(Boolean.FALSE);
+				laudoDTO.setCytoscape_alias_list(new String[]{titulo});
+				laudoDTO.setCanonicalName(titulo);
+				laudoDTO.setSUID(laudoDTO.getId());
+				laudoDTO.setNodeType("Cheese");
+				laudoDTO.setName(titulo);
+				laudoDTO.setShared_name(titulo);
+				laudoDTO.setNodeTypeFormatted("Cheese");
+
+				PacienteDTO pacienteDTO = pacienteService.findDTOById(laudoDTO.getIdPaciente());
+
+				PacienteResponse pacienteResponse = new PacienteResponse();
+				pacienteResponse.setData(pacienteDTO);
+				pacienteResponse.setPosition(new Position(100.0, 100.0));
+				pacienteResponse.setSelected(Boolean.FALSE);
+				listPaciente.add(pacienteResponse);
+
+				EdgeDTO edgePacienteDTO = new EdgeDTO();
+				edgePacienteDTO.setSource(laudoDTO.getId());
+				edgePacienteDTO.setTarget(Util.verifyString(pacienteDTO.getId()));
+				edgePacienteDTO.setSelected(Boolean.FALSE);
+				edgePacienteDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + pacienteDTO.getCanonicalName());
+				edgePacienteDTO.setSUID(edgePacienteDTO.getId());
+				edgePacienteDTO.setName(edgePacienteDTO.getCanonicalName());
+				edgePacienteDTO.setInteraction("cc");
+				edgePacienteDTO.setShared_interaction("cc");
+				edgePacienteDTO.setShared_name(edgePacienteDTO.getCanonicalName());
+
+				EdgeResponse edgePacienteResponse = new EdgeResponse();
+				edgePacienteResponse.setData(edgePacienteDTO);
+				edgePacienteResponse.setSelected(Boolean.FALSE);
+
+				listEdge.add(edgePacienteResponse);
 
 				/**
                  * FAZ ASSOCIAÇÃO DAS DOENÇAS
                  */
-				if(dto.getDoencas().size() > 0) {
-					for(Long id : dto.getDoencas()) {
+				if(laudoDTO.getDoencas().size() > 0) {
+					for(Long id : laudoDTO.getDoencas()) {
 						DoencaDTO doencaDTO = findDoencaById(id);
 
 						boolean contains = Boolean.FALSE;
@@ -245,9 +280,9 @@ public class SolrSearchEngine {
 
 						EdgeDTO edgeDTO = new EdgeDTO();
 						edgeDTO.setSelected(Boolean.FALSE);
-						edgeDTO.setSource(dto.getId());
+						edgeDTO.setSource(laudoDTO.getId());
 						edgeDTO.setTarget(String.valueOf(doencaDTO.getId()));
-						edgeDTO.setCanonicalName(dto.getCanonicalName() + " " + doencaDTO.getCanonicalName());
+						edgeDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + doencaDTO.getCanonicalName());
 						edgeDTO.setSUID(edgeDTO.getId());
 						edgeDTO.setName(edgeDTO.getCanonicalName());
 						edgeDTO.setInteraction("cc");
@@ -266,7 +301,7 @@ public class SolrSearchEngine {
                 y += 100.0;
 
                 LaudoResponse laudoResponse = new LaudoResponse();
-                laudoResponse.setData(dto);
+                laudoResponse.setData(laudoDTO);
                 laudoResponse.setPosition(new Position(x, y));
                 laudoResponse.setSelected(Boolean.FALSE);
 				listLaudo.add(laudoResponse);
@@ -276,7 +311,7 @@ public class SolrSearchEngine {
 			searchResponse.setListDoencas(listDoenca);
 			searchResponse.setListEdges(listEdge);
 			searchResponse.setListLaudos(listLaudo);
-//			searchResponse.setListPatient(listPatient);
+			searchResponse.setListPacientes(listPaciente);
 
 			return searchResponse;
 

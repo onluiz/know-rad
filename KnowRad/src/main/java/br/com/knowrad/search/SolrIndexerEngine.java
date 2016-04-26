@@ -2,6 +2,10 @@ package br.com.knowrad.search;
 
 import br.com.knowrad.dto.doenca.TermoDTO;
 import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.entity.FakeNames;
+import br.com.knowrad.entity.Paciente;
+import br.com.knowrad.service.FakeNamesService;
+import br.com.knowrad.service.PacienteService;
 import br.com.knowrad.service.doenca.TermoService;
 import br.com.knowrad.util.Util;
 import com.google.gson.JsonArray;
@@ -30,11 +34,19 @@ public class SolrIndexerEngine {
     @Autowired
     private TermoService termoService;
 
+    @Autowired
+    private PacienteService pacienteService;
+
+    @Autowired
+    private FakeNamesService fakeNamesService;
+
     List<TermoDTO> listTermoDTO;
+    List<FakeNames> listFakeNames;
 
     public void indexar() {
 
         listTermoDTO = termoService.findAllDTO();
+        listFakeNames = fakeNamesService.findAll();
         /**
          * Realiza a leitura de um arquivo JSON com os modelos de laudo
          */
@@ -74,16 +86,6 @@ public class SolrIndexerEngine {
             e.printStackTrace();
         }
 
-        LaudoDTO dto = new LaudoDTO();
-        dto.setIdPaciente(new Long(10000));
-        dto.setNomePaciente("Obrigado!");
-        dto.setTitulo("Obrigado!");
-        dto.setTexto("Obrigado!");
-        dto.setTextoLimpo("Obrigado!");
-        dto.setModalidade("CT");
-        dto.setDoencas(procurarDoencas(dto.getTextoLimpo()));
-        listLaudo.add(dto);
-
         /**
          * Indexa laudos coletados do arquivo json
          */
@@ -93,10 +95,12 @@ public class SolrIndexerEngine {
         try {
 
             for(LaudoDTO laudoDTO : listLaudo) {
+                Paciente paciente = managePaciente(Util.verifyString(laudoDTO.getIdPaciente()));
+
                 SolrInputDocument document = new SolrInputDocument();
                 document.addField("id", laudoDTO.getIdPaciente());
-                document.addField("id_paciente", laudoDTO.getIdPaciente());
-                document.addField("nome_paciente", laudoDTO.getNomePaciente());
+                document.addField("id_paciente", paciente.getId());
+                document.addField("nome_paciente", paciente.getNome());
                 document.addField("titulo", laudoDTO.getTitulo());
                 document.addField("texto", laudoDTO.getTexto());
                 document.addField("texto_limpo", laudoDTO.getTextoLimpo());
@@ -118,6 +122,42 @@ public class SolrIndexerEngine {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    Paciente managePaciente(String patId) {
+        Paciente paciente = pacienteService.findByPatId(patId);
+        if(paciente == null) {
+            paciente = new Paciente();
+            paciente.setPatId(patId);
+            paciente.setNome(findOne().getNome());
+            pacienteService.persist(paciente);
+
+            System.out.println("NOVO PACIENTE ADICIONADO: " + paciente.getNome());
+        }
+        else {
+            System.out.println("NOVO PACIENTE ENCONTRADO: " + paciente.getNome());
+        }
+        return paciente;
+    }
+
+    FakeNames findOne() {
+        FakeNames fakeNames = null;
+        boolean finish = Boolean.FALSE;
+        int count = 0;
+
+        while(!finish) {
+
+            fakeNames = listFakeNames.get(count);
+            if(!fakeNames.getUsed()) {
+                fakeNames.setUsed(Boolean.TRUE);
+                fakeNamesService.merge(fakeNames);
+                finish = Boolean.TRUE;
+            }
+
+            count++;
+        }
+
+        return fakeNames;
     }
 
     List<Long> procurarDoencas(String texto) {
