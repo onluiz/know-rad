@@ -1,7 +1,7 @@
-package br.com.knowrad.dao.doenca;
+package br.com.knowrad.dao.patologia;
 
-import br.com.knowrad.dto.doenca.TermoDTO;
-import br.com.knowrad.entity.doenca.Termo;
+import br.com.knowrad.dto.patologia.TermoDTO;
+import br.com.knowrad.entity.patologia.Termo;
 
 import java.util.List;
 
@@ -10,6 +10,6 @@ public interface TermoDAO {
     void merge(Termo termo);
     void remove(final Long id);
     Termo findById(final Long id);
-    List<Termo> findListByIdDoenca(Long id);
+    List<Termo> findListByIdPatologia(Long id);
     List<TermoDTO> findAllDTO();
 }

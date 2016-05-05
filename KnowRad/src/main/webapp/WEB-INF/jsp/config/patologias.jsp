@@ -14,11 +14,12 @@
     <script type="text/javascript" src="<c:url value='/assets/js/jquery.dataTables.min.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/jquery.dataTables.bootstrap.js' />"></script>
     <script type="text/javascript" src="<c:url value='/assets/js/chosen.jquery.min.js' />"></script>
+    <%--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>--%>
 
     <!-- Service -->
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/patologia-service.js' />"></script>
-    <script type="text/javascript" src="<c:url value='/assets/js/knowrad/study/modalidade-service.js' />"></script>
-    <script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/caso-service.js' />"></script>
+    <%--<script type="text/javascript" src="<c:url value='/assets/js/knowrad/study/modalidade-service.js' />"></script>--%>
+    <%--<script type="text/javascript" src="<c:url value='/assets/js/knowrad/patologia/caso-service.js' />"></script>--%>
 
     <!-- Controller -->
     <script type="text/javascript" src="<c:url value='/assets/js/knowrad/controller/config/patologias-controller.js' />"></script>
@@ -31,10 +32,9 @@
 </head>
 <body>
 <div class="row">
-    <h3>Patologias Cadastrados</h3>
+    <h3>Patologias</h3>
 
-    <a href="#void" class="btn btn-info" onclick="UIPatologiasController.openModalPatologia();">Nova Patologia</a>
-    <a href="#void" class="btn btn-info">Palavras-chave</a>
+    <a href="#void" class="btn btn-info" onclick="UIPatologiasController.openModal();">Nova</a>
 
     <br>
     <br>
@@ -42,7 +42,7 @@
     <table class="table table-striped table-bordered table-hover" id="table_report">
         <thead>
         <tr>
-            <th>Descrição</th>
+            <th>Nome</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -54,119 +54,44 @@
     </table>
 </div>
 
-
-<!-- Modal das Modalidades -->
-<div class="modal fade" id="modal-modalidade" tabindex="-1" role="dialog" aria-labelledby="modal-modalidade">
+<!-- Modal de novo Caso -->
+<div class="modal fade" id="modal-edicao" tabindex="-1" role="dialog" aria-labelledby="modal-edicao">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><span>Modalidades</span></h4>
+                <h4 class="modal-title"><span>Cadastrar/Editar Patologias</span></h4>
             </div>
             <div class="modal-body">
-                <input id="id-caso-modal-modalidade" name="id-caso-modal-modalidade" type="hidden">
-                Adicionar Modalidades:
-                <select id="search-modalidades" name="search-modalidades" class="chzn-select chosen-select" style="width: 100px;">
-                    <option value="0">Nenhum registro filtrado.</option>
-                </select>
+                <input type="hidden" id="id-edicao" name="id-edicao" value="0">
+
+                <label for="nome-edicao">Nome:</label>
+                <input id="nome-edicao" name="nome-edicao" type="text" class="form-control">
 
                 <br>
-                <br>
 
-                <a href="#void" class="btn btn-info" onclick="UICasosController.saveCasoModalidade();">Adicionar</a>
+                <div id="termos">
+                    <label for="novo-termo">Novo Termo:</label>
+                    <input id="novo-termo" name="novo-termo" type="text" class="form-control">
+                    <a class="btn btn-info" href="#void" onclick="UIPatologiasController.saveTermo();">Salvar Termo</a>
 
-                <br>
-                <br>
+                    <style>
+                        #list-termos {
+                            /*float:left;*/
+                            /*width:1000px;*/
+                            overflow-y: auto;
+                            height: 200px;
+                        }
+                    </style>
 
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Título</th>
-                        <th>Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody id="table-modalidades-body">
-                    <tr>
-                        <td>CT</td>
-                        <td>
-                            <a href="#void" class="btn btn-xs btn-danger" title="Remover"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal das Patologias -->
-<div class="modal fade" id="modal-patologia-old" tabindex="-1" role="dialog" aria-labelledby="modal-patologia-old">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><span>Patologias</span></h4>
-            </div>
-            <div class="modal-body">
-                <input id="id-caso-modal-patologia-old" name="id-caso-modal-patologia-old" type="hidden">
-                Adicionar Modalidades:
-                <select id="search-patologias" name="search-patologias" class="chzn-select chosen-select" style="width: 100px;">
-                    <option value="0">Nenhum registro filtrado.</option>
-                </select>
-
-                <br>
-                <br>
-
-                <a href="#void" class="btn btn-info" onclick="UICasosController.savePatologiaCaso();">Adicionar</a>
-
-                <br>
-                <br>
-
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Ações</th>
-                    </tr>
-                    </thead>
-                    <tbody id="table-patologias-body">
-                    <tr>
-                        <td>CT</td>
-                        <td>
-                            <a href="#void" class="btn btn-xs btn-danger" title="Remover"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de nova Patologia -->
-<div class="modal fade" id="modal-patologia" tabindex="-1" role="dialog" aria-labelledby="modal-patologia">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><span>Nova Patologia</span></h4>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="id-patologia-edicao" name="id-patologia-edicao">
-
-                <label for="patologia-descricao">Descrição:</label>
-                <input id="patologia-descricao" name="patologia-descricao" type="text" class="form-control">
+                    <div id="list-termos">
+                    </div>
+                </div>
 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" onclick="UIPatologiasController.saveOrUpdate();">Salvar</button>
-                <button type="button" class="btn btn-default" onclick="UIPatologiasController.closeModalPatologia();">Cancelar</button>
+                <button type="button" class="btn btn-default" onclick="UIPatologiasController.closeModal();">Cancelar</button>
             </div>
         </div>
     </div>

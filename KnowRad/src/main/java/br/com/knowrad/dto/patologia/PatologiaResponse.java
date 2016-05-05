@@ -1,22 +1,27 @@
-package br.com.knowrad.dto;
+package br.com.knowrad.dto.patologia;
+
+import br.com.knowrad.dto.Position;
 
 import java.io.Serializable;
 
-public class PatientResponse implements Serializable {
+public class PatologiaResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private PatientDTO data;
+    private PatologiaDTO data;
 
     private Position position;
 
     private Boolean selected;
 
-    public PatientDTO getData() {
+    public PatologiaResponse() {
+    }
+
+    public PatologiaDTO getData() {
         return data;
     }
 
-    public void setData(PatientDTO data) {
+    public void setData(PatologiaDTO data) {
         this.data = data;
     }
 

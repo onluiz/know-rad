@@ -1,8 +1,8 @@
-package br.com.knowrad.service.doenca;
+package br.com.knowrad.service.patologia;
 
-import br.com.knowrad.dao.doenca.TermoDAO;
-import br.com.knowrad.dto.doenca.TermoDTO;
-import br.com.knowrad.entity.doenca.Termo;
+import br.com.knowrad.dao.patologia.TermoDAO;
+import br.com.knowrad.dto.patologia.TermoDTO;
+import br.com.knowrad.entity.patologia.Termo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,12 +34,12 @@ public class TermoServiceImpl implements TermoService {
         return dao.findById(id);
     }
 
-    public List<Termo> findListByIdDoenca(Long id) {
-        return dao.findListByIdDoenca(id);
+    public List<Termo> findListByIdPatologia(Long id) {
+        return dao.findListByIdPatologia(id);
     }
 
-    public List<TermoDTO> findListDTOByIdDoenca(Long id) {
-        List<Termo> list = findListByIdDoenca(id);
+    public List<TermoDTO> findListDTOByIdPatologia(Long id) {
+        List<Termo> list = findListByIdPatologia(id);
         List<TermoDTO> listDTO = new ArrayList<TermoDTO>();
 
         for(Termo termo : list)

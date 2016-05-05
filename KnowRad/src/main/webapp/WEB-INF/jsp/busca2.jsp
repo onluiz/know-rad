@@ -96,16 +96,14 @@
                 graphP.elements.nodes.push(laudoResponse);
             });
 
-            var xDoenca = 4000.0;
-
-            data.listDoencas.forEach(function(doencaResponse) {
-                doencaResponse.position.x = getRandomArbitrary(0, 110000);
-                doencaResponse.position.y = getRandomArbitrary(0, 110000);
-                doencaResponse.data.NodeType = "RedWine";
-                doencaResponse.data.NodeTypeFormatted = doencaResponse.canonicalName;
-                doencaResponse.data.Strength = "5";
-                doencaResponse.data.Quality = "100";
-                graphP.elements.nodes.push(doencaResponse);
+            data.listPatologias.forEach(function(patologiaResponse) {
+                patologiaResponse.position.x = getRandomArbitrary(0, 110000);
+                patologiaResponse.position.y = getRandomArbitrary(0, 110000);
+                patologiaResponse.data.NodeType = "RedWine";
+                patologiaResponse.data.NodeTypeFormatted = patologiaResponse.canonicalName;
+                patologiaResponse.data.Strength = "5";
+                patologiaResponse.data.Quality = "100";
+                graphP.elements.nodes.push(patologiaResponse);
             });
 
             data.listEdges.forEach(function(edgeResponse) {
@@ -115,7 +113,7 @@
             quantitativeData = {
                 qtdPacientes: data.listPacientes.length,
                 qtdLaudos: data.listLaudos.length,
-                qtdDoencas: data.listDoencas.length,
+                qtdPatologias: data.listPatologias.length,
                 qtdEdges: data.listEdges.length
             };
 
@@ -125,14 +123,12 @@
         function showQuantitativeData() {
 
             var text = "Quantidade de Laudos: " + quantitativeData.qtdLaudos + "<br><br>";
-            text += "Quantidade de Doenças: " + quantitativeData.qtdDoencas + "<br><br>";
+            text += "Quantidade de Patologias: " + quantitativeData.qtdPatologias + "<br><br>";
             text += "Quantidade de Relacionamentos: " + quantitativeData.qtdEdges + "<br>";
             text += "Quantidade de Pacientes: " + quantitativeData.qtdPacientes + "<br>";
 
             $.gritter.add({
-                // (string | mandatory) the heading of the notification
                 title: 'Dados',
-                // (string | mandatory) the text inside the notification
                 text: text,
                 sticky: true,
                 time: '',
@@ -246,10 +242,10 @@
 
     <strong>Relacionamentos</strong>
     <%--<input id="white" type="checkbox" checked></input><label for="white">White wine</label><br />--%>
-    <input id="red" type="checkbox" checked></input><label for="red">Doenças</label><br />
+    <input id="red" type="checkbox" checked></input><label for="red">Patologias</label><br />
     <a class="btn btn-info" href="#void" onclick="showQuantitativeData();">Dados</a>
     <br><br>
-    <a class="btn btn-info" href="<c:url value='/doenca/' />">Cadastro</a>
+    <a class="btn btn-info" href="<c:url value='/patologia/' />">Cadastro</a>
     <br><br>
     <a class="btn btn-info" href="<c:url value='/' />">Busca</a>
     <br><br>

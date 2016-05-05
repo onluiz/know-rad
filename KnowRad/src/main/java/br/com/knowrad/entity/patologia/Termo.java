@@ -1,4 +1,4 @@
-package br.com.knowrad.entity.doenca;
+package br.com.knowrad.entity.patologia;
 
 import org.hibernate.annotations.Index;
 
@@ -14,7 +14,7 @@ public class Termo implements Serializable {
     private Long id;
     private String nomeTermo;
 
-    private Doenca doenca;
+    private Patologia patologia;
 
     @Id
     @SequenceGenerator(allocationSize=1, name="termo_seq", sequenceName="termo_sequence")
@@ -38,14 +38,14 @@ public class Termo implements Serializable {
         this.nomeTermo = nomeTermo;
     }
 
-    @Index(name="indx_id_doenca_termo")
+    @Index(name="indx_id_patologia_termo")
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_doenca")
-    public Doenca getDoenca() {
-        return doenca;
+    @JoinColumn(name = "id_patologia")
+    public Patologia getPatologia() {
+        return patologia;
     }
 
-    public void setDoenca(Doenca doenca) {
-        this.doenca = doenca;
+    public void setPatologia(Patologia patologia) {
+        this.patologia = patologia;
     }
 }

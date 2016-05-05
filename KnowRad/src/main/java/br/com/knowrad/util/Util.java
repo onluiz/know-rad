@@ -1,6 +1,6 @@
 package br.com.knowrad.util;
 
-import br.com.knowrad.dto.doenca.DoencaDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import com.google.gson.JsonElement;
 
 import java.text.Normalizer;
@@ -79,9 +79,9 @@ public class Util {
 		}
 	}
 
-	public static List<DoencaDTO> getDoencas() {
-		return new ArrayList<DoencaDTO>() {{
-			add(new DoencaDTO() {{
+	public static List<PatologiaDTO> getDoencas() {
+		return new ArrayList<PatologiaDTO>() {{
+			add(new PatologiaDTO() {{
 				setId(1);
 				setNome("Tuberculose");
 				setPalavras(new ArrayList<String>() {{
@@ -107,7 +107,7 @@ public class Util {
 				setNodeTypeFormatted("RedWine");
 			}});
 
-//        add(new DoencaDTO(){{
+//        add(new PatologiaDTO(){{
 //            setId(2);
 //            setNome("asma bronquiectasias");
 //            setPalavras(new String[] {
@@ -115,7 +115,7 @@ public class Util {
 //            });
 //        }});
 //
-			add(new DoencaDTO(){{
+			add(new PatologiaDTO(){{
 				setId(2);
 				setNome("PH");
 				setPalavras(new ArrayList<String>() {{
@@ -137,7 +137,7 @@ public class Util {
 				setNodeTypeFormatted("RedWine");
 			}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(4);
 //			setNome("silicose");
 //			setPalavras(new String[] {
@@ -148,7 +148,7 @@ public class Util {
 //			});
 //		}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(5);
 //			setNome("pneumocistose");
 //			setPalavras(new String[] {
@@ -156,7 +156,7 @@ public class Util {
 //			});
 //		}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(6);
 //			setNome("cancer");
 //			setPalavras(new String[] {
@@ -164,7 +164,7 @@ public class Util {
 //			});
 //		}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(7);
 //			setNome("pneumonite actínica");
 //			setPalavras(new String[] {
@@ -172,7 +172,7 @@ public class Util {
 //			});
 //		}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(8);
 //			setNome("esclerodermia");
 //			setPalavras(new String[] {

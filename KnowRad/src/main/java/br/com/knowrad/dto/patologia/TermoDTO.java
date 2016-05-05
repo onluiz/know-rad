@@ -1,4 +1,4 @@
-package br.com.knowrad.dto.doenca;
+package br.com.knowrad.dto.patologia;
 
 import java.io.Serializable;
 
@@ -8,7 +8,7 @@ public class TermoDTO implements Serializable {
 
     private Long id;
     private String nomeTermo;
-    private Long idDoenca;
+    private Long idPatologia;
 
     public Long getId() {
         return id;
@@ -26,11 +26,11 @@ public class TermoDTO implements Serializable {
         this.nomeTermo = nomeTermo;
     }
 
-    public Long getIdDoenca() {
-        return idDoenca;
+    public Long getIdPatologia() {
+        return idPatologia;
     }
 
-    public void setIdDoenca(Long idDoenca) {
-        this.idDoenca = idDoenca;
+    public void setIdPatologia(Long idPatologia) {
+        this.idPatologia = idPatologia;
     }
 }

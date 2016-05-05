@@ -1,7 +1,5 @@
 package br.com.knowrad.dto;
 
-import br.com.knowrad.dto.patologia.LaudoDTO;
-
 import java.io.Serializable;
 
 public class LaudoResponse implements Serializable {

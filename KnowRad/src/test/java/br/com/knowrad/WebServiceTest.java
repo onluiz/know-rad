@@ -1,9 +1,9 @@
 package br.com.knowrad;
 
 import br.com.knowrad.dto.EdgeDTO;
+import br.com.knowrad.dto.LaudoDTO;
 import br.com.knowrad.dto.SearchResponse;
-import br.com.knowrad.dto.doenca.DoencaDTO;
-import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -21,8 +21,8 @@ import java.util.Map;
 
 public class WebServiceTest {
 
-	List<DoencaDTO> doencas = new ArrayList<DoencaDTO>() {{
-		add(new DoencaDTO() {{
+	List<PatologiaDTO> doencas = new ArrayList<PatologiaDTO>() {{
+		add(new PatologiaDTO() {{
 			setId(1);
 			setNome("tuberculose");
 //			setPalavras(new String[] {
@@ -34,7 +34,7 @@ public class WebServiceTest {
 //			});
 		}});
 
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(2);
 //			setNome("asma bronquiectasias");
 //			setPalavras(new String[] {
@@ -42,7 +42,7 @@ public class WebServiceTest {
 //			});
 //		}});
 //
-//		add(new DoencaDTO(){{
+//		add(new PatologiaDTO(){{
 //			setId(3);
 //			setNome("PH");
 //			setPalavras(new String[] {
@@ -53,18 +53,18 @@ public class WebServiceTest {
 
 	}};
 
-	DoencaDTO findDoencaById(Long id) {
-		DoencaDTO doencaDTO = null;
+	PatologiaDTO findDoencaById(Long id) {
+		PatologiaDTO patologiaDTO = null;
 		int count = 0;
 
-		while(doencaDTO == null) {
-			DoencaDTO dto = doencas.get(count);
+		while(patologiaDTO == null) {
+			PatologiaDTO dto = doencas.get(count);
 			if(dto.getId() == id)
-				doencaDTO = dto;
+				patologiaDTO = dto;
 			count++;
 		}
 
-		return doencaDTO;
+		return patologiaDTO;
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class WebServiceTest {
 		query.setQuery("texto_limpo:*" + Util.cleanText(search) + "*");
 
 		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
-		List<DoencaDTO> listDoenca = new ArrayList<DoencaDTO>();
+		List<PatologiaDTO> listDoenca = new ArrayList<PatologiaDTO>();
 		List<EdgeDTO> listEdge = new ArrayList<EdgeDTO>();
 
 		try {
@@ -105,15 +105,15 @@ public class WebServiceTest {
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				dto.setPatologias(Util.objectToArrayListLong(solrMap.get("doencas")));
 
-				if(dto.getDoencas().size() > 0) {
-					for(Long id : dto.getDoencas()) {
-						DoencaDTO doencaDTO = findDoencaById(id);
-						if(!listDoenca.contains(doencaDTO)) {
-							listDoenca.add(doencaDTO);
+				if(dto.getPatologias().size() > 0) {
+					for(Long id : dto.getPatologias()) {
+						PatologiaDTO patologiaDTO = findDoencaById(id);
+						if(!listDoenca.contains(patologiaDTO)) {
+							listDoenca.add(patologiaDTO);
 						}
-//						listEdge.add(new EdgeDTO(doencaDTO.getId(), dto.getId()));
+//						listEdge.add(new EdgeDTO(patologiaDTO.getId(), dto.getId()));
 					}
 				}
 

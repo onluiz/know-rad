@@ -1,7 +1,7 @@
 package br.com.knowrad;
 
-import br.com.knowrad.dto.doenca.TermoDTO;
-import br.com.knowrad.service.doenca.TermoService;
+import br.com.knowrad.dto.patologia.TermoDTO;
+import br.com.knowrad.service.patologia.TermoService;
 import br.com.knowrad.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,7 +34,7 @@ import java.util.List;
 @TransactionConfiguration(defaultRollback = true)
 public class IndexingTest {
 
-//    List<DoencaDTO> doencas = Util.getDoencas();
+//    List<PatologiaDTO> doencas = Util.getDoencas();
 
     @Autowired
     private TermoService termoService;
@@ -139,35 +139,35 @@ public class IndexingTest {
 
                 boolean achou = false;
                 for(Long idEncontrado : list) {
-                    if(idEncontrado == termoDTO.getIdDoenca()) {
+                    if(idEncontrado == termoDTO.getIdPatologia()) {
                         achou = true;
                         break;
                     }
                 }
                 if(!achou) {
                     System.out.println("ACHOU: " + termoDTO.getNomeTermo());
-                    list.add(termoDTO.getIdDoenca());
+                    list.add(termoDTO.getIdPatologia());
                 }
             }
 
         }
 
-//        for(DoencaDTO doenca : doencas) {
+//        for(PatologiaDTO patologia : doencas) {
 //
-//            for(String palavra : doenca.getPalavras()) {
+//            for(String palavra : patologia.getPalavras()) {
 //
 //                if(texto.indexOf(Util.cleanText(palavra)) > -1) {
 //
 //                    boolean achou = false;
 //                    for(Long idEncontrado : list) {
-//                        if(idEncontrado == doenca.getId()) {
+//                        if(idEncontrado == patologia.getId()) {
 //                            achou = true;
 //                            break;
 //                        }
 //                    }
 //                    if(!achou) {
-//                        System.out.println("ACHOU: " + doenca.getNome());
-//                        list.add(doenca.getId());
+//                        System.out.println("ACHOU: " + patologia.getNome());
+//                        list.add(patologia.getId());
 //                    }
 //                }
 //

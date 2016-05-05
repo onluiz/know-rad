@@ -1,7 +1,7 @@
 package br.com.knowrad.web.controller;
 
+import br.com.knowrad.dto.LaudoDTO;
 import br.com.knowrad.dto.SearchResponse;
-import br.com.knowrad.dto.patologia.LaudoDTO;
 import br.com.knowrad.search.SolrIndexerEngine;
 import br.com.knowrad.search.SolrSearchEngine;
 import br.com.knowrad.util.Util;

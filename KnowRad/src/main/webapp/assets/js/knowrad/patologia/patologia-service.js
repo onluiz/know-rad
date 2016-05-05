@@ -4,32 +4,48 @@ var PatologiaService = {
 
     service: new AbstractService("patologia/"),
 
-    remove: function(idPatologia, callback) {
-        this.service.doGET("remove", ({"idPatologia": idPatologia}), callback);
+    remove: function(id, callback) {
+        this.service.doGET("remove", ({"id": id}), callback);
     },
 
     /**
      * FINDS
      */
 
-    findDTOById: function(idPatologia, callback) {
-        this.service.doGET("findDTOById", ({"idPatologia": idPatologia}), callback);
+    findDTOById: function(id, callback) {
+        this.service.doGET("findDTOById", ({"id": id}), callback);
+    },
+
+    findPatologiaResponseById: function(id, callback) {
+        this.service.doGET("findPatologiaResponseById", ({"id": id}), callback);
     },
 
     /**
      * SAVES AND UPDATES
      */
 
-    save: function(patologiaDTO, callback) {
-        this.service.doPOST("save", JSON.stringify(patologiaDTO), callback);
+    save: function(dto, callback) {
+        this.service.doPOST("save", JSON.stringify(dto), callback);
     },
 
     update: function(patologiaDTO, callback) {
         this.service.doPOST("update", JSON.stringify(patologiaDTO), callback);
     },
 
-    search: function(searchText, limit, callback) {
-        this.service.doGET("search", ({searchText: searchText, limit: limit}), callback);
+    saveTermo: function(dto, callback) {
+        this.service.doPOST("saveTermo", JSON.stringify(dto), callback);
+    },
+
+    updateTermo: function(dto, callback) {
+        this.service.doPOST("updateTermo", JSON.stringify(dto), callback);
+    },
+
+    removeTermo: function(id, callback) {
+        this.service.doGET("removeTermo", ({"id": id}), callback);
+    },
+
+    findListDTOByIdPatologia: function(id, callback) {
+        this.service.doGET("findListDTOByIdPatologia", ({"id": id}), callback);
     }
 
 };

@@ -1,10 +1,10 @@
 package br.com.knowrad.search;
 
 import br.com.knowrad.dto.*;
-import br.com.knowrad.dto.doenca.DoencaDTO;
-import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.dto.patologia.PatologiaDTO;
+import br.com.knowrad.dto.patologia.PatologiaResponse;
 import br.com.knowrad.service.PacienteService;
-import br.com.knowrad.service.doenca.DoencaService;
+import br.com.knowrad.service.patologia.PatologiaService;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
 import org.apache.solr.client.solrj.SolrClient;
@@ -27,18 +27,18 @@ import java.util.Map;
 public class SolrSearchEngine {
 
 	@Autowired
-	private DoencaService doencaService;
+	private PatologiaService patologiaService;
 
 	@Autowired
 	private PacienteService pacienteService;
 
 	private SolrClient solr = new SolrConnection().getSolrConnection();
 
-	List<DoencaDTO> doencas = new ArrayList<DoencaDTO>();
+	List<PatologiaDTO> patologias = new ArrayList<PatologiaDTO>();
 
 	public String searchLaudosById(String idSearch) {
 
-		doencas = doencaService.findAllDTO();
+		patologias = patologiaService.findAllDTO();
 
 		if(solr == null)
 			return "";
@@ -63,7 +63,7 @@ public class SolrSearchEngine {
 
 	public LaudoDTO searchLaudoDTOById(String idSearch) {
 
-		doencas = doencaService.findAllDTO();
+		patologias = patologiaService.findAllDTO();
 
 		if(solr == null)
 			return null;
@@ -81,7 +81,7 @@ public class SolrSearchEngine {
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				dto.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
 				return dto;
 			}
 		} catch (SolrServerException e) {
@@ -96,7 +96,7 @@ public class SolrSearchEngine {
 	@SuppressWarnings("rawtypes")
 	public List<LaudoDTO> searchLaudos(String search) {
 
-		doencas = doencaService.findAllDTO();
+		patologias = patologiaService.findAllDTO();
 
 		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
 		
@@ -130,14 +130,14 @@ public class SolrSearchEngine {
 				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				dto.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				dto.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
 
-				if(dto.getDoencas().size() > 0) {
-					List<DoencaDTO> listDoencaDTO = new ArrayList<DoencaDTO>();
-					for(Long idDoenca : dto.getDoencas())
-						listDoencaDTO.add(findDoencaById(idDoenca));
+				if(dto.getPatologias().size() > 0) {
+					List<PatologiaDTO> listPatologiaDTO = new ArrayList<PatologiaDTO>();
+					for(Long idPatologia : dto.getPatologias())
+						listPatologiaDTO.add(findPatologiaById(idPatologia));
 
-					dto.setListDoencasDTO(listDoencaDTO);
+					dto.setListPatologiasDTO(listPatologiaDTO);
 				}
 
 				listLaudo.add(dto);
@@ -155,26 +155,26 @@ public class SolrSearchEngine {
 		
 	}
 
-	DoencaDTO findDoencaById(Long id) {
-		DoencaDTO doencaDTO = null;
+	PatologiaDTO findPatologiaById(Long id) {
+		PatologiaDTO patologiaDTO = null;
 		int count = 0;
 
-		while(doencaDTO == null && count <= doencas.size()) {
-			DoencaDTO dto = doencas.get(count);
+		while(patologiaDTO == null && count <= patologias.size()) {
+			PatologiaDTO dto = patologias.get(count);
 			if(dto.getId() == id)
-				doencaDTO = dto;
+				patologiaDTO = dto;
 			count++;
 		}
 
-		return doencaDTO;
+		return patologiaDTO;
 	}
 
 	public SearchResponse searchLaudos2(String search) {
 
-		doencas = doencaService.findAllDTO();
+		patologias = patologiaService.findAllDTO();
 
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
-		List<DoencaResponse> listDoenca = new ArrayList<DoencaResponse>();
+		List<PatologiaResponse> listPatologia = new ArrayList<PatologiaResponse>();
 		List<PacienteResponse> listPaciente = new ArrayList<PacienteResponse>();
 		List<EdgeResponse> listEdge = new ArrayList<EdgeResponse>();
 //		List<PatientResponse> listPatient = new ArrayList<PatientResponse>();
@@ -202,8 +202,8 @@ public class SolrSearchEngine {
             Double x = 4491.77880859375;
             Double y = 4647.23974609375;
 
-			Double xDoenca = 1391.1080322265625;
-			Double yDoenca = 4324.1015625;
+			Double xPatologia = 1391.1080322265625;
+			Double yPatologia = 4324.1015625;
 
 			for(Map solrMap : list) {
 				LaudoDTO laudoDTO = new LaudoDTO();
@@ -214,7 +214,7 @@ public class SolrSearchEngine {
 				laudoDTO.setTexto(Util.verifyString(solrMap.get("texto")));
 				laudoDTO.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
 				laudoDTO.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				laudoDTO.setDoencas(Util.objectToArrayListLong(solrMap.get("doencas")));
+				laudoDTO.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
 
                 //referentes a tela
                 String titulo = laudoDTO.getTitulo();
@@ -255,34 +255,34 @@ public class SolrSearchEngine {
 				/**
                  * FAZ ASSOCIAÇÃO DAS DOENÇAS
                  */
-				if(laudoDTO.getDoencas().size() > 0) {
-					for(Long id : laudoDTO.getDoencas()) {
-						DoencaDTO doencaDTO = findDoencaById(id);
+				if(laudoDTO.getPatologias().size() > 0) {
+					for(Long id : laudoDTO.getPatologias()) {
+						PatologiaDTO patologiaDTO = findPatologiaById(id);
 
 						boolean contains = Boolean.FALSE;
-						for(DoencaResponse d : listDoenca) {
-							if(d.getData().getId() == doencaDTO.getId()) {
+						for(PatologiaResponse d : listPatologia) {
+							if(d.getData().getId() == patologiaDTO.getId()) {
 								contains = Boolean.TRUE;
 								break;
 							}
 						}
 
 						if(!contains) {
-							xDoenca += 100.0;
-							yDoenca += 100.0;
+							xPatologia += 100.0;
+							yPatologia += 100.0;
 
-							DoencaResponse doencaResponse = new DoencaResponse();
-							doencaResponse.setData(doencaDTO);
-							doencaResponse.setPosition(new Position(xDoenca, yDoenca));
-							doencaResponse.setSelected(Boolean.FALSE);
-							listDoenca.add(doencaResponse);
+							PatologiaResponse patologiaResponse = new PatologiaResponse();
+							patologiaResponse.setData(patologiaDTO);
+							patologiaResponse.setPosition(new Position(xPatologia, yPatologia));
+							patologiaResponse.setSelected(Boolean.FALSE);
+							listPatologia.add(patologiaResponse);
 						}
 
 						EdgeDTO edgeDTO = new EdgeDTO();
 						edgeDTO.setSelected(Boolean.FALSE);
 						edgeDTO.setSource(laudoDTO.getId());
-						edgeDTO.setTarget(String.valueOf(doencaDTO.getId()));
-						edgeDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + doencaDTO.getCanonicalName());
+						edgeDTO.setTarget(String.valueOf(patologiaDTO.getId()));
+						edgeDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + patologiaDTO.getCanonicalName());
 						edgeDTO.setSUID(edgeDTO.getId());
 						edgeDTO.setName(edgeDTO.getCanonicalName());
 						edgeDTO.setInteraction("cc");
@@ -308,7 +308,7 @@ public class SolrSearchEngine {
 			}
 
 			SearchResponse searchResponse = new SearchResponse();
-			searchResponse.setListDoencas(listDoenca);
+			searchResponse.setListPatologias(listPatologia);
 			searchResponse.setListEdges(listEdge);
 			searchResponse.setListLaudos(listLaudo);
 			searchResponse.setListPacientes(listPaciente);

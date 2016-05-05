@@ -1,21 +1,21 @@
-package br.com.knowrad.dto.doenca;
+package br.com.knowrad.dto.patologia;
 
 import java.io.Serializable;
 import java.util.List;
 
-public class DoencaResponseDTO implements Serializable {
+public class PatologiaResponseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private DoencaDTO doencaDTO;
+    private PatologiaDTO patologiaDTO;
     private List<TermoDTO> listTermoDTO;
 
-    public DoencaDTO getDoencaDTO() {
-        return doencaDTO;
+    public PatologiaDTO getPatologiaDTO() {
+        return patologiaDTO;
     }
 
-    public void setDoencaDTO(DoencaDTO doencaDTO) {
-        this.doencaDTO = doencaDTO;
+    public void setPatologiaDTO(PatologiaDTO patologiaDTO) {
+        this.patologiaDTO = patologiaDTO;
     }
 
     public List<TermoDTO> getListTermoDTO() {

@@ -1,12 +1,12 @@
 package br.com.knowrad.search;
 
-import br.com.knowrad.dto.doenca.TermoDTO;
-import br.com.knowrad.dto.patologia.LaudoDTO;
+import br.com.knowrad.dto.LaudoDTO;
+import br.com.knowrad.dto.patologia.TermoDTO;
 import br.com.knowrad.entity.FakeNames;
 import br.com.knowrad.entity.Paciente;
 import br.com.knowrad.service.FakeNamesService;
 import br.com.knowrad.service.PacienteService;
-import br.com.knowrad.service.doenca.TermoService;
+import br.com.knowrad.service.patologia.TermoService;
 import br.com.knowrad.util.Util;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -76,7 +76,7 @@ public class SolrIndexerEngine {
                     dto.setTexto(Util.verifyStringJson(item.get("texto")));
                     dto.setTextoLimpo(Util.cleanText(Util.verifyStringJson(item.get("texto"))));
                     dto.setModalidade(Util.verifyStringJson(item.get("modalidade")));
-                    dto.setDoencas(procurarDoencas(dto.getTextoLimpo()));
+                    dto.setPatologias(procurarPatologias(dto.getTextoLimpo()));
                     listLaudo.add(dto);
                 }
 
@@ -105,7 +105,7 @@ public class SolrIndexerEngine {
                 document.addField("texto", laudoDTO.getTexto());
                 document.addField("texto_limpo", laudoDTO.getTextoLimpo());
                 document.addField("modalidade", laudoDTO.getModalidade());
-                document.addField("doencas", laudoDTO.getDoencas());
+                document.addField("patologias", laudoDTO.getPatologias());
                 try {
                     solr.add(document);
                 } catch(HttpSolrClient.RemoteSolrException e) {
@@ -160,7 +160,7 @@ public class SolrIndexerEngine {
         return fakeNames;
     }
 
-    List<Long> procurarDoencas(String texto) {
+    List<Long> procurarPatologias(String texto) {
 
         texto = Util.cleanText(texto);
 
@@ -172,14 +172,14 @@ public class SolrIndexerEngine {
 
                 boolean achou = false;
                 for (Long idEncontrado : list) {
-                    if (idEncontrado == termoDTO.getIdDoenca()) {
+                    if (idEncontrado == termoDTO.getIdPatologia()) {
                         achou = true;
                         break;
                     }
                 }
                 if (!achou) {
                     System.out.println("ACHOU: " + termoDTO.getNomeTermo());
-                    list.add(termoDTO.getIdDoenca());
+                    list.add(termoDTO.getIdPatologia());
                 }
             }
 

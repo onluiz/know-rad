@@ -1,5 +1,7 @@
 package br.com.knowrad.dto;
 
+import br.com.knowrad.dto.patologia.PatologiaResponse;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -7,17 +9,17 @@ public class SearchResponse implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private List<DoencaResponse> listDoencas;
+    private List<PatologiaResponse> listPatologias;
     private List<LaudoResponse> listLaudos; //cada item desse representa um NODE de laudo
     private List<PacienteResponse> listPacientes;
     private List<EdgeResponse> listEdges;
 
-    public List<DoencaResponse> getListDoencas() {
-        return listDoencas;
+    public List<PatologiaResponse> getListPatologias() {
+        return listPatologias;
     }
 
-    public void setListDoencas(List<DoencaResponse> listDoencas) {
-        this.listDoencas = listDoencas;
+    public void setListPatologias(List<PatologiaResponse> listPatologias) {
+        this.listPatologias = listPatologias;
     }
 
     public List<LaudoResponse> getListLaudos() {
