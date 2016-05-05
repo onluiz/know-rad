@@ -32,7 +32,7 @@
 </head>
 <body>
 <div class="row">
-    <h3>Doenças</h3>
+    <h3>Patologias</h3>
 
     <a href="#void" class="btn btn-info" onclick="UIDoencasController.openModal();">Nova</a>
 
@@ -60,7 +60,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title"><span>Cadastrar/Editar Doenças</span></h4>
+                <h4 class="modal-title"><span>Cadastrar/Editar Patologias</span></h4>
             </div>
             <div class="modal-body">
                 <input type="hidden" id="id-edicao" name="id-edicao" value="0">

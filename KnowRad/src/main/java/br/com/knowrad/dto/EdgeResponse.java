@@ -1,7 +1,5 @@
 package br.com.knowrad.dto;
 
-import com.sun.javafx.geom.Edge;
-
 import java.io.Serializable;
 
 public class EdgeResponse implements Serializable {
