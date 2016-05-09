@@ -8,4 +8,5 @@ public interface FakeNamesDAO {
     void persist(FakeNames fakeNames);
     void merge(FakeNames fakeNames);
     List<FakeNames> findAll();
+    FakeNames findOneNotUsed();
 }

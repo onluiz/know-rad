@@ -18,4 +18,7 @@ public interface PatologiaService {
     DatatableResponse<PatologiaDTO> findListDatatableByFilter(DatatableRequest datatableRequest, PatologiaFilter filter);
     List<PatologiaDTO> findAllDTO();
     List<String> getTermosByIdPatologia(Long id);
+    PatologiaDTO findDTOById(Long idPatologia);
+    List<PatologiaDTO> findByIds(List<Long> ids);
+    List<PatologiaDTO> getStaticList();
 }

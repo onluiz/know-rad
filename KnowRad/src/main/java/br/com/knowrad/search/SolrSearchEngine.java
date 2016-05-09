@@ -1,12 +1,11 @@
 package br.com.knowrad.search;
 
 import br.com.knowrad.dto.*;
-import br.com.knowrad.dto.patologia.PatologiaDTO;
 import br.com.knowrad.dto.patologia.PatologiaResponse;
-import br.com.knowrad.service.PacienteService;
 import br.com.knowrad.service.patologia.PatologiaService;
 import br.com.knowrad.util.SolrConnection;
 import br.com.knowrad.util.Util;
+import br.com.knowrad.util.UtilGraph;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -17,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,51 +30,34 @@ public class SolrSearchEngine {
 	private PatologiaService patologiaService;
 
 	@Autowired
-	private PacienteService pacienteService;
+	private UtilGraph utilGraph;
 
-	private SolrClient solr = new SolrConnection().getSolrConnection();
+	private static SolrClient solr;
 
-	List<PatologiaDTO> patologias = new ArrayList<PatologiaDTO>();
+	@PostConstruct
+	public void init() {
+		solr = new SolrConnection().getSolrConnection();
+	}
 
-	public String searchLaudosById(String idSearch) {
-
-		patologias = patologiaService.findAllDTO();
-
-		if(solr == null)
-			return "";
-
-		try {
-			SolrQuery query = new SolrQuery();
-			query.setQuery("id:" + idSearch);
-			QueryResponse response = solr.query(query);
-			SolrDocumentList list = response.getResults();
-			for(Map solrMap : list) {
-				return Util.verifyString(solrMap.get("texto"));
-			}
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return "";
-
+	public String searchLaudoContentById(String idSearch) {
+		String texto = "";
+		LaudoDTO laudoDTO = searchLaudoDTOById(idSearch);
+		if(laudoDTO != null)
+			texto = laudoDTO.getTexto();
+		return texto;
 	}
 
 	public LaudoDTO searchLaudoDTOById(String idSearch) {
-
-		patologias = patologiaService.findAllDTO();
-
-		if(solr == null)
-			return null;
-
+		LaudoDTO dto = null;
 		try {
 			SolrQuery query = new SolrQuery();
+			query.setRows(1);
 			query.setQuery("id:" + idSearch);
 			QueryResponse response = solr.query(query);
 			SolrDocumentList list = response.getResults();
+
 			for(Map solrMap : list) {
-				LaudoDTO dto = new LaudoDTO();
+				dto = new LaudoDTO();
 				dto.setId(Util.verifyString(solrMap.get("id")));
 				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
 				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
@@ -82,247 +65,96 @@ public class SolrSearchEngine {
 				dto.setTexto(Util.verifyString(solrMap.get("texto")));
 				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
 				dto.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
-				return dto;
 			}
 		} catch (SolrServerException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		return null;
+		return dto;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public List<LaudoDTO> searchLaudos(String search) {
-
-		patologias = patologiaService.findAllDTO();
-
-		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
-		
-		if(solr == null)
-			return listLaudo;
-		
+	public SolrDocumentList searchInIndex(String search) {
+		SolrDocumentList result = null;
 		try {
-
 			SolrQuery query = new SolrQuery();
-			query.setRows(100000);
+			query.setRows(1000);
 			if(search == null || search.equals(""))
 				query.setQuery("*:*");
 			else {
 				StringBuilder stringQuery = new StringBuilder();
 				stringQuery.append("texto_limpo:*" + Util.cleanText(search) + "*");
 				stringQuery.append(" OR ");
-				stringQuery.append("id:" + Util.cleanText(search));
+				stringQuery.append("pat_id:" + Util.verifyLong(search));
+				stringQuery.append(" sort = data_exame desc ");
 				query.setQuery(stringQuery.toString());
 			}
-
 			QueryResponse response = solr.query(query);
-			SolrDocumentList list = response.getResults();
-			Long idLaudo = new Long(0);
-			
-			for(Map solrMap : list) {
-
-				LaudoDTO dto = new LaudoDTO();
-				dto.setId(Util.verifyString(solrMap.get("id")));
-				dto.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
-				dto.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
-				dto.setTitulo(Util.verifyString(solrMap.get("titulo")));
-				dto.setTexto(Util.verifyString(solrMap.get("texto")));
-				dto.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				dto.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
-
-				if(dto.getPatologias().size() > 0) {
-					List<PatologiaDTO> listPatologiaDTO = new ArrayList<PatologiaDTO>();
-					for(Long idPatologia : dto.getPatologias())
-						listPatologiaDTO.add(findPatologiaById(idPatologia));
-
-					dto.setListPatologiasDTO(listPatologiaDTO);
-				}
-
-				listLaudo.add(dto);
-
-				idLaudo++;
-			}
-			
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+			result = response.getResults();
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		return result;
+	}
+
+	public List<LaudoDTO> searchLaudos(String search) {
+		List<LaudoDTO> listLaudo = new ArrayList<LaudoDTO>();
+		SolrDocumentList list = searchInIndex(search);
+		for(Map solrMap : list) {
+			LaudoDTO laudoDTO = new LaudoDTO();
+			laudoDTO.setId(Util.verifyString(solrMap.get("id")));
+			laudoDTO.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
+			laudoDTO.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
+			laudoDTO.setIdadePaciente(Util.verifyInteger(solrMap.get("idade_paciente")));
+			laudoDTO.setDataExame(Util.verifyString(solrMap.get("data_exame_format")));
+			laudoDTO.setTitulo(Util.verifyString(solrMap.get("titulo")));
+			laudoDTO.setTexto(Util.verifyString(solrMap.get("texto")));
+			laudoDTO.setModalidade(Util.verifyString(solrMap.get("modalidade")));
+			laudoDTO.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
+			laudoDTO.setListPatologiasDTO(patologiaService.findByIds(laudoDTO.getPatologias()));
+			listLaudo.add(laudoDTO);
+		}
 		return listLaudo;
-		
 	}
 
-	PatologiaDTO findPatologiaById(Long id) {
-		PatologiaDTO patologiaDTO = null;
-		int count = 0;
-
-		while(patologiaDTO == null && count <= patologias.size()) {
-			PatologiaDTO dto = patologias.get(count);
-			if(dto.getId() == id)
-				patologiaDTO = dto;
-			count++;
-		}
-
-		return patologiaDTO;
-	}
-
-	public SearchResponse searchLaudos2(String search) {
-
-		patologias = patologiaService.findAllDTO();
-
+	public SearchResponse searchLaudosGraph(String search) {
 		List<LaudoResponse> listLaudo = new ArrayList<LaudoResponse>();
-		List<PatologiaResponse> listPatologia = new ArrayList<PatologiaResponse>();
+		List<PatologiaResponse> listPatologia = utilGraph.getListPatologiaResponse();
 		List<PacienteResponse> listPaciente = new ArrayList<PacienteResponse>();
 		List<EdgeResponse> listEdge = new ArrayList<EdgeResponse>();
-//		List<PatientResponse> listPatient = new ArrayList<PatientResponse>();
+		SolrDocumentList list = searchInIndex(search);
 
-		if(solr == null)
-			return null;
+		for(Map solrMap : list) {
+			LaudoDTO laudoDTO = new LaudoDTO();
+			laudoDTO.setId(Util.verifyString(solrMap.get("id")));
+			laudoDTO.setPatId(Util.verifyString(solrMap.get("pat_id")));
+			laudoDTO.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
+			laudoDTO.setIdadePaciente(Util.verifyInteger(solrMap.get("idade_paciente")));
+			laudoDTO.setDataExame(Util.verifyString(solrMap.get("data_exame_format")));
+			laudoDTO.setTitulo(Util.verifyString(solrMap.get("titulo")));
+			laudoDTO.setTexto(Util.verifyString(solrMap.get("texto")));
+			laudoDTO.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
+			laudoDTO.setModalidade(Util.verifyString(solrMap.get("modalidade")));
+			laudoDTO.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
 
-		try {
-
-			SolrQuery query = new SolrQuery();
-			query.setRows(100000);
-			if(search == null || search.equals(""))
-				query.setQuery("*:*");
-			else {
-				StringBuilder stringQuery = new StringBuilder();
-				stringQuery.append("texto_limpo:*" + Util.cleanText(search) + "*");
-				stringQuery.append(" OR ");
-				stringQuery.append("id:" + Util.cleanText(search));
-				query.setQuery(stringQuery.toString());
+			for(Long idPatologia : laudoDTO.getPatologias()) {
+				listEdge.add(utilGraph.getEdgeResponse(laudoDTO.getId(), idPatologia));
 			}
+			PacienteResponse pacienteResponse = utilGraph.updateListPacienteResponse(listPaciente, laudoDTO.getPatId());
+			listEdge.add(utilGraph.getEdgeResponse(laudoDTO.getId(), laudoDTO.getPatId()));
 
-			QueryResponse response = solr.query(query);
-			SolrDocumentList list = response.getResults();
-
-            Double x = 4491.77880859375;
-            Double y = 4647.23974609375;
-
-			Double xPatologia = 1391.1080322265625;
-			Double yPatologia = 4324.1015625;
-
-			for(Map solrMap : list) {
-				LaudoDTO laudoDTO = new LaudoDTO();
-				laudoDTO.setId(Util.verifyString(solrMap.get("id")));
-				laudoDTO.setIdPaciente(Util.verifyLong(solrMap.get("id_paciente")));
-				laudoDTO.setNomePaciente(Util.verifyString(solrMap.get("nome_paciente")));
-				laudoDTO.setTitulo(Util.verifyString(solrMap.get("titulo")));
-				laudoDTO.setTexto(Util.verifyString(solrMap.get("texto")));
-				laudoDTO.setTextoLimpo(Util.verifyString(solrMap.get("texto_limpo")));
-				laudoDTO.setModalidade(Util.verifyString(solrMap.get("modalidade")));
-				laudoDTO.setPatologias(Util.objectToArrayListLong(solrMap.get("patologias")));
-
-                //referentes a tela
-                String titulo = laudoDTO.getTitulo();
-				laudoDTO.setSelected(Boolean.FALSE);
-				laudoDTO.setCytoscape_alias_list(new String[]{titulo});
-				laudoDTO.setCanonicalName(titulo);
-				laudoDTO.setSUID(laudoDTO.getId());
-				laudoDTO.setNodeType("Cheese");
-				laudoDTO.setName(titulo);
-				laudoDTO.setShared_name(titulo);
-				laudoDTO.setNodeTypeFormatted("Cheese");
-
-				PacienteDTO pacienteDTO = pacienteService.findDTOById(laudoDTO.getIdPaciente());
-
-				PacienteResponse pacienteResponse = new PacienteResponse();
-				pacienteResponse.setData(pacienteDTO);
-				pacienteResponse.setPosition(new Position(100.0, 100.0));
-				pacienteResponse.setSelected(Boolean.FALSE);
-				listPaciente.add(pacienteResponse);
-
-				EdgeDTO edgePacienteDTO = new EdgeDTO();
-				edgePacienteDTO.setSource(laudoDTO.getId());
-				edgePacienteDTO.setTarget(Util.verifyString(pacienteDTO.getId()));
-				edgePacienteDTO.setSelected(Boolean.FALSE);
-				edgePacienteDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + pacienteDTO.getCanonicalName());
-				edgePacienteDTO.setSUID(edgePacienteDTO.getId());
-				edgePacienteDTO.setName(edgePacienteDTO.getCanonicalName());
-				edgePacienteDTO.setInteraction("cc");
-				edgePacienteDTO.setShared_interaction("cc");
-				edgePacienteDTO.setShared_name(edgePacienteDTO.getCanonicalName());
-
-				EdgeResponse edgePacienteResponse = new EdgeResponse();
-				edgePacienteResponse.setData(edgePacienteDTO);
-				edgePacienteResponse.setSelected(Boolean.FALSE);
-
-				listEdge.add(edgePacienteResponse);
-
-				/**
-                 * FAZ ASSOCIAÇÃO DAS DOENÇAS
-                 */
-				if(laudoDTO.getPatologias().size() > 0) {
-					for(Long id : laudoDTO.getPatologias()) {
-						PatologiaDTO patologiaDTO = findPatologiaById(id);
-
-						boolean contains = Boolean.FALSE;
-						for(PatologiaResponse d : listPatologia) {
-							if(d.getData().getId() == patologiaDTO.getId()) {
-								contains = Boolean.TRUE;
-								break;
-							}
-						}
-
-						if(!contains) {
-							xPatologia += 100.0;
-							yPatologia += 100.0;
-
-							PatologiaResponse patologiaResponse = new PatologiaResponse();
-							patologiaResponse.setData(patologiaDTO);
-							patologiaResponse.setPosition(new Position(xPatologia, yPatologia));
-							patologiaResponse.setSelected(Boolean.FALSE);
-							listPatologia.add(patologiaResponse);
-						}
-
-						EdgeDTO edgeDTO = new EdgeDTO();
-						edgeDTO.setSelected(Boolean.FALSE);
-						edgeDTO.setSource(laudoDTO.getId());
-						edgeDTO.setTarget(String.valueOf(patologiaDTO.getId()));
-						edgeDTO.setCanonicalName(laudoDTO.getCanonicalName() + " " + patologiaDTO.getCanonicalName());
-						edgeDTO.setSUID(edgeDTO.getId());
-						edgeDTO.setName(edgeDTO.getCanonicalName());
-						edgeDTO.setInteraction("cc");
-						edgeDTO.setShared_interaction("cc");
-						edgeDTO.setShared_name(edgeDTO.getCanonicalName());
-
-						EdgeResponse edgeResponse = new EdgeResponse();
-						edgeResponse.setData(edgeDTO);
-						edgeResponse.setSelected(Boolean.FALSE);
-
-						listEdge.add(edgeResponse);
-					}
-				}
-
-                x += 100.0;
-                y += 100.0;
-
-                LaudoResponse laudoResponse = new LaudoResponse();
-                laudoResponse.setData(laudoDTO);
-                laudoResponse.setPosition(new Position(x, y));
-                laudoResponse.setSelected(Boolean.FALSE);
-				listLaudo.add(laudoResponse);
-			}
-
-			SearchResponse searchResponse = new SearchResponse();
-			searchResponse.setListPatologias(listPatologia);
-			searchResponse.setListEdges(listEdge);
-			searchResponse.setListLaudos(listLaudo);
-			searchResponse.setListPacientes(listPaciente);
-
-			return searchResponse;
-
-		} catch (SolrServerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+			LaudoResponse laudoResponse = utilGraph.getLaudoResponse(laudoDTO);
+			laudoResponse.getPosition().setX(pacienteResponse.getPosition().getX());
+			laudoResponse.getPosition().setY(pacienteResponse.getPosition().getY());
+			listLaudo.add(laudoResponse);
 		}
 
-		return null;
-
+		SearchResponse searchResponse = new SearchResponse();
+		searchResponse.setListPatologias(listPatologia);
+		searchResponse.setListEdges(listEdge);
+		searchResponse.setListLaudos(listLaudo);
+		searchResponse.setListPacientes(listPaciente);
+		return searchResponse;
 	}
 	
 }

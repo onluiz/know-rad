@@ -8,6 +8,7 @@ public class PacienteDTO implements Serializable {
 
     private Long id;
     private String nome;
+    private String patId;
 
     private Boolean selected;
     private String[] cytoscape_alias_list;
@@ -32,6 +33,14 @@ public class PacienteDTO implements Serializable {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public String getPatId() {
+        return patId;
+    }
+
+    public void setPatId(String patId) {
+        this.patId = patId;
     }
 
     public Boolean getSelected() {

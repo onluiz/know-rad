@@ -10,6 +10,14 @@ public class EdgeResponse implements Serializable {
 
     private  Boolean selected;
 
+    public EdgeResponse() {
+    }
+
+    public EdgeResponse(EdgeDTO data, Boolean selected) {
+        this.data = data;
+        this.selected = selected;
+    }
+
     public EdgeDTO getData() {
         return data;
     }

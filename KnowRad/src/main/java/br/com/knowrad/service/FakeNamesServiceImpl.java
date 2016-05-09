@@ -13,6 +13,8 @@ import java.util.List;
 @Transactional(readOnly = false, propagation = Propagation.REQUIRED, rollbackFor = { Exception.class })
 public class FakeNamesServiceImpl implements FakeNamesService {
 
+    private static final String NAME_PATTERN = "PATIENT";
+
     @Autowired
     private FakeNamesDAO dao;
 
@@ -26,5 +28,13 @@ public class FakeNamesServiceImpl implements FakeNamesService {
 
     public List<FakeNames> findAll() {
         return dao.findAll();
+    }
+
+    public FakeNames findOneNotUsed() {
+        return dao.findOneNotUsed();
+    }
+
+    public String namePattern() {
+        return NAME_PATTERN;
     }
 }

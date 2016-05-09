@@ -32,7 +32,7 @@
                 html += "<br>";
                 html += "<a href=\"#void\" onclick=\"searchLaudosById('" + dto.id + "');\">ABRIR LAUDO</a>";
                 html += "<br>";
-                html += "<a href=\"#void\" onclick='openGraphs(" + dto.id + ");' target='_blank'>ABRIR GRÁFO</a>";
+                html += "<a href=\"#void\" onclick='openGraphs(" + dto.idPaciente + ");'>ABRIR GRÁFO</a>";
                 html += "</div>";
             });
 

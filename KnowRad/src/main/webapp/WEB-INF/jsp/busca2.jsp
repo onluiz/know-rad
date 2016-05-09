@@ -9,7 +9,7 @@
     <meta charset=utf-8 />
     <meta name="viewport" content="user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, minimal-ui">
 
-    <title>busca2</title>
+    <title>TCC do Luiz</title>
     <link href="<c:url value='/assets/css/font-awesome.min.css' />" rel="stylesheet" />
     <link rel="stylesheet" href="<c:url value='/assets/css/bootstrap.min.css' />">
     <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">-->
@@ -82,17 +82,36 @@
             };
 
             data.listPacientes.forEach(function(pacienteResponse) {
-                pacienteResponse.position.x = getRandomArbitrary(6000, 100000);
-                pacienteResponse.position.y = getRandomArbitrary(6000, 100000);
-                pacienteResponse.data.NodeType = "Cheese";
-                pacienteResponse.data.Strength = "5";
-                pacienteResponse.data.Quality = "100";
+//                pacienteResponse.position.x = getRandomArbitrary(6000, 100000);
+//                pacienteResponse.position.y = getRandomArbitrary(6000, 100000);
+                pacienteResponse.data.NodeType = "Cider";
+//                pacienteResponse.data.Strength = "5";
+//                pacienteResponse.data.Quality = "100";
                 graphP.elements.nodes.push(pacienteResponse);
             });
 
+            var laudoTemp = {
+                patId: "",
+                lastYMax: "",
+                lastYMin: ""
+            } ;
+
+            var currentPatId;
+            var nextY = 0;
+
             data.listLaudos.forEach(function(laudoResponse) {
-                laudoResponse.position.x = getRandomArbitrary(6000, 100000);
-                laudoResponse.position.y = getRandomArbitrary(6000, 100000);
+                if(laudoResponse.data.patId != currentPatId) {
+                    currentPatId = laudoResponse.data.patId;
+                    nextY = laudoResponse.position.y - 200
+                }
+                else {
+                    nextY += 200;
+                }
+
+                laudoResponse.position.x += 200;
+                laudoResponse.position.y = nextY;
+                laudoResponse.data.name = laudoResponse.data.dataExame + "  "  + laudoResponse.data.name;
+                laudoResponse.data.NodeType = "WhiteWine";
                 graphP.elements.nodes.push(laudoResponse);
             });
 

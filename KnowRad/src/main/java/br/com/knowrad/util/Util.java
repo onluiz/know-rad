@@ -4,7 +4,10 @@ import br.com.knowrad.dto.patologia.PatologiaDTO;
 import com.google.gson.JsonElement;
 
 import java.text.Normalizer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class Util {
@@ -31,6 +34,14 @@ public class Util {
 			return Long.valueOf(String.valueOf(val));
 		} catch(Exception e) {
 			return new Long(0);
+		}
+	}
+
+	public static Integer verifyInteger(Object val) {
+		try {
+			return Integer.valueOf(String.valueOf(val));
+		} catch(Exception e) {
+			return 0;
 		}
 	}
 	
@@ -77,6 +88,39 @@ public class Util {
 		} catch(UnsupportedOperationException e) {
 			return "";
 		}
+	}
+
+	public static String formatDate(final Date date, final String mask) {
+		try {
+			return verifyString(new SimpleDateFormat(mask).format(date));
+		} catch(Exception e) {
+			return "";
+		}
+	}
+
+	public static Date stringToDate(final String date, final String mask) {
+		try {
+			return new SimpleDateFormat(mask).parse(verifyString(date));
+		} catch(Exception e) {
+			return null;
+		}
+	}
+
+	public static Integer calcIdade(Date dataNascimento) {
+		try {
+			Integer anoPatient = getYear(dataNascimento);
+			Integer anoAtual = getYear(new Date());
+			return anoAtual - anoPatient;
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
+	public static int getYear(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		int year = calendar.get(Calendar.YEAR);
+		return year;
 	}
 
 	public static List<PatologiaDTO> getDoencas() {

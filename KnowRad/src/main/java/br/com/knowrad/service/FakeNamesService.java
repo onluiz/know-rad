@@ -8,4 +8,6 @@ public interface FakeNamesService {
     void persist(FakeNames fakeNames);
     void merge(FakeNames fakeNames);
     List<FakeNames> findAll();
+    FakeNames findOneNotUsed();
+    String namePattern();
 }

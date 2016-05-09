@@ -35,6 +35,7 @@ function initGraphs(graphP, callback){
   Promise.all([ graphP, styleP ]).then(initCy);
 
   function highlight( node ){
+
     var nhood = node.closedNeighborhood();
 
     cy.batch(function(){
@@ -174,9 +175,6 @@ function initGraphs(graphP, callback){
   {
     name: 'search-dataset',
     source: function( query, cb ){
-
-      console.log(query);
-      console.log(cb);
 
       search2(query, function() {
 

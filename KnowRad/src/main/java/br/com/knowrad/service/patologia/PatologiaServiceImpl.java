@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,16 +27,30 @@ public class PatologiaServiceImpl implements PatologiaService {
     @Autowired
     private TermoService termoService;
 
+    public static List<PatologiaDTO> listPatologiasDTO;
+
+    @PostConstruct
+    public void init() {
+        refreshList();
+    }
+
+    private void refreshList() {
+        listPatologiasDTO = findAllDTO();
+    }
+
     public void persist(Patologia c) {
         dao.persist(c);
+        refreshList();
     }
 
     public void merge(Patologia c) {
         dao.merge(c);
+        refreshList();
     }
 
     public void remove(Long id) {
         dao.remove(id);
+        refreshList();
     }
 
     public void removeFull(Long id) {
@@ -66,6 +81,30 @@ public class PatologiaServiceImpl implements PatologiaService {
             listDTO.add(entityToDTO(patologia));
 
         return listDTO;
+    }
+
+    public PatologiaDTO findDTOById(Long idPatologia) {
+        PatologiaDTO patologiaDTO = null;
+        int count = 0;
+
+        while(patologiaDTO == null && count <= this.listPatologiasDTO.size() - 1) {
+            PatologiaDTO dto = this.listPatologiasDTO.get(count);
+            if(dto.getId() == idPatologia)
+                patologiaDTO = dto;
+            count++;
+        }
+        return patologiaDTO;
+    }
+
+    public List<PatologiaDTO> findByIds(List<Long> ids) {
+        List<PatologiaDTO> list = new ArrayList<PatologiaDTO>();
+        for(Long idPatologia : ids)
+            list.add(findDTOById(idPatologia));
+        return list;
+    }
+
+    public List<PatologiaDTO> getStaticList() {
+        return this.listPatologiasDTO;
     }
 
     PatologiaDTO entityToDTO(Patologia patologia) {

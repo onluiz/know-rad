@@ -55,7 +55,7 @@
                 });
             }
         </script>
-        <title>KnowRad</title>
+        <title>TCC do Luiz</title>
         <decorator:head />
     </head>
 
@@ -76,12 +76,14 @@
                         </div>
                         <div id="navbar" class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
-                            <form class="navbar-form navbar-left">
-                                <a class="btn btn-info" href="<c:url value='/' />">Busca</a>
-                                <a href="<c:url value='/searchLaudos/busca2' />" class="btn btn-info" class="btn btn-success">Gráfos</a>
-                                <a class="btn btn-info" href="<c:url value='/patologia/' />">Patologias</a>
-                                <ahref="#void" class="btn btn-info" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
-                            </form>
+                                <form class="navbar-form navbar-left">
+                                    <a class="btn btn-info" href="<c:url value='/' />">Busca</a>
+                                    <a href="<c:url value='/searchLaudos/busca2' />" class="btn btn-info" class="btn btn-success">Graphs</a>
+                                    <a class="btn btn-info" href="<c:url value='/patologia/' />">Patologias</a>
+                                    <a href="#void" class="btn btn-info" onclick="indexar();">Atualizar Índice</a>
+                                    <a href="http://localhost:8983/solr" target="_blank" class="btn btn-info">Solr</a>
+                                </form>
+                            </ul>
                         </div><!--/.navbar-collapse -->
                     </div>
                 </nav>

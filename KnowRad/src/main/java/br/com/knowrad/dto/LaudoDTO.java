@@ -3,6 +3,7 @@ package br.com.knowrad.dto;
 import br.com.knowrad.dto.patologia.PatologiaDTO;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class LaudoDTO implements Serializable {
@@ -14,10 +15,14 @@ public class LaudoDTO implements Serializable {
 	private String texto;
 	private String textoLimpo;
 	private String nomePaciente;
+    private Integer idadePaciente;
 	private String modalidade;
 	private Long idPaciente;
+    private String patId;
 	private List<Long> patologias;
     private List<PatologiaDTO> listPatologiasDTO;
+    private Date studyDate;
+    private String dataExame;
 
     //atributos utilizados pela tela
     private Boolean selected;
@@ -66,7 +71,16 @@ public class LaudoDTO implements Serializable {
 	public void setNomePaciente(String nomePaciente) {
 		this.nomePaciente = nomePaciente;
 	}
-	public Long getIdPaciente() {
+
+    public Integer getIdadePaciente() {
+        return idadePaciente;
+    }
+
+    public void setIdadePaciente(Integer idadePaciente) {
+        this.idadePaciente = idadePaciente;
+    }
+
+    public Long getIdPaciente() {
 		return idPaciente;
 	}
 	public void setIdPaciente(Long idPaciente) {
@@ -165,5 +179,29 @@ public class LaudoDTO implements Serializable {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public String getPatId() {
+        return patId;
+    }
+
+    public void setPatId(String patId) {
+        this.patId = patId;
+    }
+
+    public Date getStudyDate() {
+        return studyDate;
+    }
+
+    public void setStudyDate(Date studyDate) {
+        this.studyDate = studyDate;
+    }
+
+    public String getDataExame() {
+        return dataExame;
+    }
+
+    public void setDataExame(String dataExame) {
+        this.dataExame = dataExame;
     }
 }

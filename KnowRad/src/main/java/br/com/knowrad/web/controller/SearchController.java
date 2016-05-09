@@ -38,7 +38,7 @@ public class SearchController {
 	@RequestMapping(value = "/search", method = { RequestMethod.GET })
     @ResponseBody
     public SearchResponse search(@RequestParam String search) {
-        return solrSearch.searchLaudos2(search);
+        return solrSearch.searchLaudosGraph(search);
     }
 
     @RequestMapping(value = "/normal-search", method = { RequestMethod.GET })
@@ -50,7 +50,7 @@ public class SearchController {
     @RequestMapping(value = "/search-by-id", method = { RequestMethod.GET })
     @ResponseBody
     public String searchById(@RequestParam String id) {
-        return solrSearch.searchLaudosById(id);
+        return solrSearch.searchLaudoContentById(id);
     }
 
     @RequestMapping(value = "/search-dto-by-id", method = { RequestMethod.GET })
